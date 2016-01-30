@@ -4,12 +4,13 @@ using System.Collections;
 using System.Collections.Generic;
 using GGJ16;
 using GGJ16.Pooling;
-using UI;
 
 [System.Serializable]
-public class ScoreUpdateEvent : UnityEvent<string, string>
-{    
-}
+public class ScoreUpdateEvent : UnityEvent<string, string> {}
+[System.Serializable]
+public class ChangeScreenEvent : UnityEvent<string> {}
+[System.Serializable]
+public class UpdateTimeEvent : UnityEvent<float> {}
 
 public class Boss : Singleton<Boss>
 {
@@ -32,6 +33,9 @@ public class Boss : Singleton<Boss>
 
 	public Canvas startGameCanvas;
 	public UnityEngine.UI.Button startGameButton;
+    public UpdateTimeEvent UpdateTime = new UpdateTimeEvent();
+
+    private float time;
 
 	void Awake()
 	{
@@ -40,8 +44,9 @@ public class Boss : Singleton<Boss>
 
 	public void Update()
 	{
-        ScoreUpdate.Invoke("team0", "hello");
         startGameButton.enabled = ( IsSettingUp && users.Count > 0 );
+        time += Time.deltaTime;
+        UpdateTime.Invoke(time);
 	}
 
 	public void AddKeyboardPlayer()
@@ -57,6 +62,7 @@ public class Boss : Singleton<Boss>
 			users.Add(user);
 		}
 	}
+    
 	public void AddJoystickPlayer(int index)
 	{
 		string prefix = "Joy"+index;
@@ -119,6 +125,7 @@ public class Boss : Singleton<Boss>
 	void StartGame()
 	{
 		startGameCanvas.gameObject.SetActive(false);
+        time = 0f;
 		for(int i=0; i<users.Count; ++i)
 		{
 			GameObject go = new GameObject();
