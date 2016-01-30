@@ -1,5 +1,4 @@
 using UnityEngine;
-using GGJ16;
 
 namespace UI
 {

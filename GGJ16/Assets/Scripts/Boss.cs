@@ -2,8 +2,7 @@ using UnityEngine;
 using UnityEngine.Events;
 using System.Collections;
 using System.Collections.Generic;
-using GGJ16;
-using GGJ16.Pooling;
+using Pooling;
 
 [System.Serializable]
 public class ScoreUpdateEvent : UnityEvent<string, string> {}

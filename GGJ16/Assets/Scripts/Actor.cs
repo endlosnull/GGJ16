@@ -2,10 +2,10 @@ using UnityEngine;
 
 public class Actor : MonoBehaviour
 {
-
 	public ActorController controller;
 	public Engine engine;
 	public Body body;
+	public MecanimAnimator animator;
 
 	public void Update()
 	{
@@ -14,7 +14,7 @@ public class Actor : MonoBehaviour
 
 	public void DoActionAlpha()
 	{
-		GGJ16.ActionSequencer sequencer = GetComponent<GGJ16.ActionSequencer>();
+		ActionSequencer sequencer = GetComponent<ActionSequencer>();
 		sequencer.RunSequence(sequencer.sequences[0]);
 	}
 
