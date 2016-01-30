@@ -5,19 +5,19 @@ public class PhysicsObj
 {
     private const float gravity = 8;
 
-    private const float arenaWidth = 4;
-    private const float arenaDepth = 4;
-    private const float arenaHeight = 4;
+    private const float arenaWidth = 8;
+    private const float arenaDepth = 8;
+    private const float arenaHeight = 8;
     private Vector3 arenaMin = new Vector3(-arenaWidth / 2, 0, -arenaDepth / 2);
     private Vector3 arenaMax = new Vector3(arenaWidth / 2, arenaHeight, arenaDepth / 2);
 
     public Vector3 position = Vector3.zero;
 
     public Vector3 velocity = Vector3.zero;
-    public float drag = 0.5f;
-    public float fullStop = 0.7f;
+    public float drag = 1.7f;
+    public float fullStop = 2.0f;
 
-    public float inputPower = 4;
+    public float inputPower = 2;
 
     public float halfObjSize = 1;
 
@@ -36,11 +36,10 @@ public class PhysicsObj
         moveDelta += input * this.inputPower * Time.deltaTime;
         moveDelta += this.velocity * Time.deltaTime;
 
-        Vector3 oldPosition = this.position;
         this.position += moveDelta;
 
         // Stay in bounds
-        TestBoundsCollision(oldPosition, moveDelta);
+        DoMove(moveDelta);
 
         // Apply drag
         if (this.position.y == 0)
@@ -54,23 +53,23 @@ public class PhysicsObj
         this.velocity.y -= gravity * Time.deltaTime;
     }
 
-    private void TestBoundsCollision(Vector3 oldPosition, Vector3 moveDelta)
+    private void DoMove(Vector3 moveDelta)
     {
         for (int dim = 0; dim < 3; dim++)
         {
             if (this.position[dim] < this.arenaMin[dim])
             {
                 this.velocity[dim] = 0; // no bounce currently
-                this.position = oldPosition + moveDelta * (moveDelta[dim] / (this.position[dim] - this.arenaMin[dim]));
                 this.position[dim] = this.arenaMin[dim];
-                moveDelta[dim] = 0;
             }
             else if (this.position[dim] > this.arenaMax[dim])
             {
                 this.velocity[dim] = 0; // no bounce currently
-                this.position = oldPosition + moveDelta * (moveDelta[dim] / (this.position[dim] - this.arenaMax[dim]));
                 this.position[dim] = this.arenaMax[dim];
-                moveDelta[dim] = 0;
+            }
+            else
+            {
+                this.position[dim] += moveDelta[dim];
             }
         }
     }
