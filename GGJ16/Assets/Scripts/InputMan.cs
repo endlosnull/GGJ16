@@ -37,7 +37,7 @@ public class InputMan : Singleton<InputMan>
 		        }
 				if (Input.GetKey(KeyCode.E))
 				{
-					GGJ16.ActionSequencer sequencer = actor.GetComponentInChildren<GGJ16.ActionSequencer>();
+					GGJ16.ActionSequencer sequencer = actor.GetComponent<GGJ16.ActionSequencer>();
 					sequencer.RunSequence(sequencer.sequences[0]);
 				}
 

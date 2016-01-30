@@ -3,20 +3,28 @@ using System.Collections;
 
 namespace GGJ16
 {
-	public class GameAction : MonoBehaviour
+	public class GameAction
 	{
 		public GameObject source;
 		public GameObject target;
 		public float duration;
 
 		protected bool active;
-		protected float startTime;
+		protected float time;
 
-		public float ElapsedTime
+		public bool IsActive
 		{
 			get
 			{
-				return Time.time - startTime;
+				return active;
+			}
+		}
+
+		public bool IsDone
+		{
+			get
+			{
+				return time >= duration;
 			}
 		}
 
@@ -27,14 +35,24 @@ namespace GGJ16
 				return false;
 			}
 
-			startTime = Time.time;
-			active = true;
 			return true;
 		}
 
-		public virtual void Stop()
+		protected virtual void OnInvokeStart()
+		{
+			active = true;
+			time = 0f;
+		}
+
+		protected virtual void OnInvokeEnd()
 		{
 			active = false;
+		}
+
+		public virtual bool OnTick(float deltaTime)
+		{
+			time += deltaTime;
+			return time >= duration;
 		}
 	}
 }

@@ -9,12 +9,6 @@ namespace GGJ16
 
 		ActorController controller;
 
-		public SideDash()
-		{
-			force = 2f;
-			duration = 2f;
-		}
-
 		public override bool Invoke()
 		{
 			if (!base.Invoke())
@@ -22,31 +16,37 @@ namespace GGJ16
 				return false;
 			}
 
-			if (source == null)
-			{
-				active = false;
-				return false;
-			}
-
-			controller = source.GetComponent<ActorController>();
+			OnInvokeStart();
 
 			return true;
 		}
 
-		void Update()
+		protected override void OnInvokeStart()
+		{
+			base.OnInvokeStart();
+
+			controller = source.GetComponent<ActorController>();
+            controller.engine.physics.velocity += Vector3.right * force;
+        }
+
+        protected override void OnInvokeEnd()
+		{
+			base.OnInvokeEnd();
+		}
+
+		public override bool OnTick(float deltaTime)
 		{
 			if (!active)
 			{
-				return;
+				return false;
 			}
 
-			if (ElapsedTime >= duration)
+			if (base.OnTick(deltaTime))
 			{
-				Stop();
-				return;
+				OnInvokeEnd();
+				return true;
 			}
-
-			controller.IndirectMove(0f, force);
+			return false;
 		}
 	}
 }
