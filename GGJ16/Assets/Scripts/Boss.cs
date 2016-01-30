@@ -128,24 +128,24 @@ public class Boss : Singleton<Boss>
         time = 0f;
 		for(int i=0; i<users.Count; ++i)
 		{
-			GameObject go = new GameObject();
+			GameObject go = GameObjectFactory.Instance.Spawn("p-Actor", null, Vector3.zero, Quaternion.identity) ;
 			go.name = "hero"+i;
-			Actor actor = go.AddComponent<Actor>();
+			Actor actor = go.GetComponent<Actor>();
+			actor.engine = go.GetComponent<Engine>();
 			actor.controller = go.AddComponent<ActorController>();
-			actor.engine = go.AddComponent<Engine>();
-			GameObject torsoObject = GameObject.CreatePrimitive(PrimitiveType.Sphere);
-			GameObject headObject = GameObject.CreatePrimitive(PrimitiveType.Sphere);
-			torsoObject.transform.parent = actor.transform;
-			headObject.transform.parent = actor.transform;
-			headObject.transform.localPosition = Vector3.up*0.5f;
-			actor.body = torsoObject.AddComponent<Body>();
+			GameObject bodyObject = GameObjectFactory.Instance.Spawn("p-ActorBodyOne", null, Vector3.zero, Quaternion.identity) ;
+			bodyObject.transform.parent = actor.transform;
+			actor.body = bodyObject.AddComponent<Body>();
+			GameObject attachObject = GameObjectFactory.Instance.Spawn("p-AttachHeaddressBird", null, Vector3.zero, Quaternion.identity) ;
+			attachObject.transform.parent = bodyObject.transform;
+			attachObject.transform.localPosition = Vector3.up*0.65f;
+			actor.body.attachments.Add(attachObject);
 			users[i].controlledActor = actor;
 			go.AddComponent<ActionSequencer>();
 			go.BroadcastMessage("OnSpawn", SendMessageOptions.DontRequireReceiver);
 		}
 
-		GameObject fieldObject = GameObjectFactory.Instance.Spawn("ProtoField", null, Vector3.zero, Quaternion.identity) ;
-		Debug.Log("fieldObject"+fieldObject);
+		GameObject fieldObject = GameObjectFactory.Instance.Spawn("p-Field", null, Vector3.zero, Quaternion.identity) ;
 		Field field = fieldObject.GetComponent<Field>();
 		field.BeginRound();
 		
