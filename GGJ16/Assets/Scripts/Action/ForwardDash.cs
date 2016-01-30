@@ -9,12 +9,6 @@ namespace GGJ16
 
 		ActorController controller;
 
-		public ForwardDash()
-		{
-			force = 1f;
-			duration = 1f;
-		}
-
 		public override bool Invoke()
 		{
 			if (!base.Invoke())
@@ -24,29 +18,41 @@ namespace GGJ16
 
 			if (source == null)
 			{
-				active = false;
 				return false;
 			}
 
-			controller = source.GetComponent<ActorController>();
+			OnInvokeStart();
 
 			return true;
 		}
 
-		void Update()
+		protected override void OnInvokeStart()
+		{
+			base.OnInvokeStart();
+
+			controller = source.GetComponent<ActorController>();
+		}
+
+		protected override void OnInvokeEnd()
+		{
+			base.OnInvokeEnd();
+		}
+
+		public override bool OnTick(float deltaTime)
 		{
 			if (!active)
 			{
-				return;
-			}
-
-			if (ElapsedTime >= duration)
-			{
-				Stop();
-				return;
+				return false;
 			}
 
 			controller.IndirectMove(force, 0f);
+
+			if (base.OnTick(deltaTime))
+			{
+				OnInvokeEnd();
+				return true;
+			}
+			return false;
 		}
 	}
 }
