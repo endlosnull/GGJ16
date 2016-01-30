@@ -143,5 +143,11 @@ public class Boss : Singleton<Boss>
 			go.AddComponent<ActionSequencer>();
 			go.BroadcastMessage("OnSpawn", SendMessageOptions.DontRequireReceiver);
 		}
+
+		GameObject fieldObject = GameObjectFactory.Instance.Spawn("ProtoField", null, Vector3.zero, Quaternion.identity) ;
+		Debug.Log("fieldObject"+fieldObject);
+		Field field = fieldObject.GetComponent<Field>();
+		field.BeginRound();
+		
 	}
 }
