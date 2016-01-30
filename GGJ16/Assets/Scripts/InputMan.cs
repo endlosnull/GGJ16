@@ -47,6 +47,4 @@ public class InputMan : Singleton<InputMan>
 		    }
 	    }
 	}
-
-
 }
