@@ -3,7 +3,6 @@ using UnityEngine;
 public class ActorController : MonoBehaviour
 {
 
-	Vector2 inputMove = Vector2.zero;
 	bool inputLastAlpha = false;
 	bool inputAlpha = false;
 	public bool InputAlpha { 
@@ -46,6 +45,14 @@ public class ActorController : MonoBehaviour
 	public void InputTick(float deltaTime)
 	{
 		engine.Tick(deltaTime);
+		if( inputAlpha && !inputLastAlpha )
+		{
+			actor.DoActionAlpha();
+		}
+		if( inputBravo && !inputLastBravo )
+		{
+			actor.DoActionBravo();
+		}
 	}
 
 
