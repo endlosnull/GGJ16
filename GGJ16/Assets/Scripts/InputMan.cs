@@ -64,6 +64,7 @@ public class InputMan : MonoBehaviour
 			Actor actor = go.AddComponent<Actor>();
 			actor.controller = go.AddComponent<ActorController>();
 			actor.engine = go.AddComponent<Engine>();
+			actor.ui = go.AddComponent<Score>();
 			GameObject bodyObject = GameObject.CreatePrimitive(PrimitiveType.Sphere);
 			bodyObject.transform.parent = actor.transform;
 			actor.body = bodyObject.AddComponent<Body>();
@@ -72,5 +73,4 @@ public class InputMan : MonoBehaviour
 
 		}
 	}
-
 }
