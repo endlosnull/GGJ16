@@ -12,8 +12,8 @@ public class Actor : MonoBehaviour
     
     public void Update()
 	{
-
-	}
+		this.transform.rotation = Quaternion.LookRotation(directionVector, Vector3.up);
+ 	}
 
 	public void DoActionAlpha()
 	{
