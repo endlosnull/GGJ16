@@ -34,12 +34,13 @@ public class Boss : Singleton<Boss>
 	public Canvas startGameCanvas;
 	public UnityEngine.UI.Button startGameButton;
     public UpdateTimeEvent UpdateTime = new UpdateTimeEvent();
+	public ChangeScreenEvent ChangeScreen = new ChangeScreenEvent();
 
     private float time;
 
 	void Awake()
 	{
-
+		ChangeScreen.Invoke("SelectTeam");
 	}
 
 	public void Update()
@@ -76,6 +77,7 @@ public class Boss : Singleton<Boss>
 			users.Add(user);
 		}
 	}
+
 	public void AddRemote(int index)
 	{
 		string prefix = "Rmt"+index;
@@ -89,7 +91,6 @@ public class Boss : Singleton<Boss>
 			users.Add(user);
 		}
 	}
-
 
 	public void ChangeStateInt(int nextStateIdx)
 	{
@@ -106,9 +107,11 @@ public class Boss : Singleton<Boss>
 		switch(state)
 		{
 			case State.SettingUp:
+				ChangeScreen.Invoke("SelectTeam");
 				StartSetup();
 				break;
 			case State.InGame:
+				ChangeScreen.Invoke("Play");
 				StartGame();
 				break;
 			default:
@@ -124,7 +127,6 @@ public class Boss : Singleton<Boss>
 
 	void StartGame()
 	{
-		startGameCanvas.gameObject.SetActive(false);
         time = 0f;
 		for(int i=0; i<users.Count; ++i)
 		{
