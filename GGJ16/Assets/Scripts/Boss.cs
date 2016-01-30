@@ -1,9 +1,7 @@
 using UnityEngine;
 using UnityEngine.Events;
-using System.Collections;
 using System.Collections.Generic;
 using GGJ16;
-using GGJ16.Pooling;
 
 [System.Serializable]
 public class ScoreUpdateEvent : UnityEvent<string, string> {}
@@ -16,7 +14,7 @@ public class Boss : Singleton<Boss>
 {
     public ScoreUpdateEvent ScoreUpdate = new ScoreUpdateEvent();
     public UpdateTimeEvent UpdateTime = new UpdateTimeEvent();
-        private float time;
+    private float time;
 	public List<User> users  = new List<User>();
     public int[] Scores = new int[] {0, 0};
 

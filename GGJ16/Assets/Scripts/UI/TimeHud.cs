@@ -15,6 +15,6 @@ public class TimeHud : MonoBehaviour {
     
     public void UpdateTime(float time)
     {
-        GetComponent<Text>().text = Mathf.Floor(time / 1000f) + "";
+        GetComponent<Text>().text = Mathf.Floor(time) + "";
     }
 }
