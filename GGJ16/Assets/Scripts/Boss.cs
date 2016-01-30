@@ -50,7 +50,7 @@ public class Boss : Singleton<Boss>
 			headObject.transform.localPosition = Vector3.up*0.5f;
 			actor.body = torsoObject.AddComponent<Body>();
 			users[i].controlledActor = actor;
-			GameObjectFactory.Instance.Spawn("ActionSequencer", go.transform, Vector3.zero, Quaternion.identity);
+			go.AddComponent<ActionSequencer>();
 			go.BroadcastMessage("OnSpawn", SendMessageOptions.DontRequireReceiver);
 
 		}
