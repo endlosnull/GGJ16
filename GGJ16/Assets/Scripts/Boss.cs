@@ -4,18 +4,22 @@ using System.Collections;
 using System.Collections.Generic;
 using GGJ16;
 using GGJ16.Pooling;
-using UI;
 
 [System.Serializable]
-public class ScoreUpdateEvent : UnityEvent<string, string>
-{    
-}
+public class ScoreUpdateEvent : UnityEvent<string, string> {}
+[System.Serializable]
+public class ChangeScreenEvent : UnityEvent<string> {}
+[System.Serializable]
+public class UpdateTimeEvent : UnityEvent<float> {}
 
 public class Boss : Singleton<Boss>
 {
     public ScoreUpdateEvent ScoreUpdate = new ScoreUpdateEvent();
+    public UpdateTimeEvent UpdateTime = new UpdateTimeEvent();
 	public List<User> users;
     public int[] Scores = new int[] {0, 0};
+
+    private float time;
 
 	void Awake()
 	{
@@ -23,7 +27,8 @@ public class Boss : Singleton<Boss>
 
 	public void Update()
 	{
-        ScoreUpdate.Invoke("team0", "hello");
+        time += Time.deltaTime;
+        UpdateTime.Invoke(time);
 	}
 
 	public void SetupGame(int players)
@@ -38,9 +43,15 @@ public class Boss : Singleton<Boss>
 		}
 		StartGame();
 	}
+    
+    public void ChooseTeam()
+    {
+        
+    }
 
 	public void StartGame()
 	{
+        time = 0f;
 		InputMan.Instance.splashCanvas.gameObject.SetActive(false);
 		for(int i=0; i<users.Count; ++i)
 		{
