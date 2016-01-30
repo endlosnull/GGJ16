@@ -31,7 +31,7 @@ namespace GGJ16
 			base.OnInvokeStart();
 
 			controller = source.GetComponent<ActorController>();
-            controller.engine.Turn(angleDegrees);
+            controller.actor.Turn(angleDegrees);
         }
 
         protected override void OnInvokeEnd()

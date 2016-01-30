@@ -6,7 +6,6 @@ namespace GGJ16
 	public class ForwardDash : GameAction
 	{
 		public float force;
-        private bool dashed = false;
 
         ActorController controller;
 
@@ -32,7 +31,7 @@ namespace GGJ16
 			base.OnInvokeStart();
 
 			controller = source.GetComponent<ActorController>();
-            controller.engine.physics.velocity += controller.engine.Forward * force;
+            controller.actor.physics.velocity += controller.actor.Forward * force;
         }
 
         protected override void OnInvokeEnd()

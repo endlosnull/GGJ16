@@ -31,7 +31,7 @@ namespace GGJ16
 			base.OnInvokeStart();
 
 			controller = source.GetComponent<ActorController>();
-            controller.engine.physics.velocity += Vector3.up * force;
+            controller.actor.physics.velocity += Vector3.up * force;
         }
 
         protected override void OnInvokeEnd()

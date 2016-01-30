@@ -132,7 +132,6 @@ public class Boss : Singleton<Boss>
 			go.name = "hero"+i;
 			Actor actor = go.AddComponent<Actor>();
 			actor.controller = go.AddComponent<ActorController>();
-			actor.engine = go.AddComponent<Engine>();
 			GameObject torsoObject = GameObject.CreatePrimitive(PrimitiveType.Sphere);
 			GameObject headObject = GameObject.CreatePrimitive(PrimitiveType.Sphere);
 			torsoObject.transform.parent = actor.transform;
