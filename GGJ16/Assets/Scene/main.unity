@@ -248,12 +248,12 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 437234815}
-        m_MethodName: SetupGame
+        m_MethodName: ChangeStateInt
         m_Mode: 3
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 1
+          m_IntArgument: 3
           m_FloatArgument: 0
           m_StringArgument: 
           m_BoolArgument: 0
@@ -497,7 +497,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b16099dcb78f57c439b6068d74f14a91, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  ScoreUpdate:
+    m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: ScoreUpdateEvent, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+      PublicKeyToken=null
   users: []
+  Scores: 0000000000000000
+  state: 0
 --- !u!4 &437234816
 Transform:
   m_ObjectHideFlags: 0
@@ -759,7 +766,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Start with 1 Player
+  m_Text: Start Game
 --- !u!222 &1207597474
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -794,10 +801,10 @@ MonoBehaviour:
   m_Script: {fileID: 1077351063, guid: f5f67c52d1564df4a8936ccd202a3bd8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_HorizontalAxis: Horizontal
-  m_VerticalAxis: Vertical
-  m_SubmitButton: Submit
-  m_CancelButton: Cancel
+  m_HorizontalAxis: AnyHorizontal
+  m_VerticalAxis: AnyVertical
+  m_SubmitButton: AnySubmit
+  m_CancelButton: AnyCancel
   m_InputActionsPerSecond: 10
   m_RepeatDelay: 0.5
   m_ForceModuleActive: 0

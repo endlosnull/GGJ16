@@ -14,34 +14,111 @@ public class ScoreUpdateEvent : UnityEvent<string, string>
 public class Boss : Singleton<Boss>
 {
     public ScoreUpdateEvent ScoreUpdate = new ScoreUpdateEvent();
-	public List<User> users;
+	public List<User> users  = new List<User>();
     public int[] Scores = new int[] {0, 0};
+
+    [System.Serializable]
+	public enum State
+	{
+		SettingUp,
+		PreGame,
+		Loadout,
+		InGame
+	}
+
+	public State state = State.SettingUp;
+	public bool IsSettingUp{ get { return state == State.SettingUp; } }
+	public bool IsInGame{ get { return state == State.InGame; } }
+
+	public Canvas startGameCanvas;
+	public UnityEngine.UI.Button startGameButton;
 
 	void Awake()
 	{
+
 	}
 
 	public void Update()
 	{
         ScoreUpdate.Invoke("team0", "hello");
+        startGameButton.enabled = ( IsSettingUp && users.Count > 0 );
 	}
 
-	public void SetupGame(int players)
+	public void AddKeyboardPlayer()
 	{
-		users.Clear();
-		for(int i=0; i<players; ++i)
+		string prefix = "Key";
+		User existingUser = users.Find(x=>x.inputPrefix==prefix);
+		if( existingUser == null )
 		{
 			GameObject go = new GameObject();
-			go.name = "user"+i;
+			go.name = "user"+users.Count;
 			User user = go.AddComponent<User>();
+			user.inputPrefix = prefix;
 			users.Add(user);
 		}
-		StartGame();
+	}
+	public void AddJoystickPlayer(int index)
+	{
+		string prefix = "Joy"+index;
+		User existingUser = users.Find(x=>x.inputPrefix==prefix);
+		if( existingUser == null )
+		{
+			GameObject go = new GameObject();
+			go.name = "user"+users.Count;
+			User user = go.AddComponent<User>();
+			user.inputPrefix = prefix;
+			users.Add(user);
+		}
+	}
+	public void AddRemote(int index)
+	{
+		string prefix = "Rmt"+index;
+		User existingUser = users.Find(x=>x.inputPrefix==prefix);
+		if( existingUser == null )
+		{
+			GameObject go = new GameObject();
+			go.name = "user"+users.Count;
+			User user = go.AddComponent<User>();
+			user.inputPrefix = prefix;
+			users.Add(user);
+		}
 	}
 
-	public void StartGame()
+
+	public void ChangeStateInt(int nextStateIdx)
 	{
-		InputMan.Instance.splashCanvas.gameObject.SetActive(false);
+		ChangeState((State)nextStateIdx);
+	}
+
+	void ChangeState(State nextState)
+	{
+		if( state == nextState )
+		{
+			return;
+		}
+		state = nextState;
+		switch(state)
+		{
+			case State.SettingUp:
+				StartSetup();
+				break;
+			case State.InGame:
+				StartGame();
+				break;
+			default:
+				break;
+		}
+	}
+
+	public void StartSetup()
+	{
+		users.Clear();
+	}
+
+
+	void StartGame()
+	{
+		startGameCanvas.gameObject.SetActive(false);
 		for(int i=0; i<users.Count; ++i)
 		{
 			GameObject go = new GameObject();

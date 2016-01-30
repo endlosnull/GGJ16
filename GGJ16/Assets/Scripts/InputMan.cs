@@ -7,42 +7,78 @@ public class InputMan : Singleton<InputMan>
 {
 	public Canvas splashCanvas;
 
+	private System.Text.StringBuilder sb = new System.Text.StringBuilder();
+
 
 	public void Update()
 	{
-		float deltaTime = Time.deltaTime;
+		if( Boss.Instance.IsSettingUp )
+		{
+			if( Input.GetButton("KeyBtn0") )
+			{
+				Boss.Instance.AddKeyboardPlayer();
+			}
+			if( Input.GetButton("Joy1Btn0") )
+			{
+				Boss.Instance.AddJoystickPlayer(1);
+			}
+			if( Input.GetButton("Joy2Btn0") )
+			{
+				Boss.Instance.AddJoystickPlayer(2);
+			}
+			if( Input.GetButton("Joy3Btn0") )
+			{
+				Boss.Instance.AddJoystickPlayer(3);
+			}
+			if( Input.GetButton("Joy4Btn0") )
+			{
+				Boss.Instance.AddJoystickPlayer(4);
+			}
+		}
+
+		if( Boss.Instance.IsInGame )
+		{
+			GameInput(Time.deltaTime);
+			
+		}
+	}
+
+
+	void GameInput(float deltaTime)
+	{
 		List<User> users = Boss.Instance.users;
 		if( users.Count > 0 )
 		{
+			string inputPrefix = users[0].inputPrefix;
 			Actor actor = users[0].controlledActor;
 			if( actor != null )
 			{
 				ActorController controller = actor.controller;
 				controller.InputClear();
-				if (Input.GetKey(KeyCode.W))
-		        {
-		        	controller.InputMove(0,1f);	
-		        }
-		        if (Input.GetKey(KeyCode.A))
-		        {
-		        	controller.InputMove(-1f,0);	
-		        }
-		        if (Input.GetKey(KeyCode.D))
-		        {
-		        	controller.InputMove(1f,0);	
-		        }
-		        if (Input.GetKey(KeyCode.S))
-		        {
-		        	controller.InputMove(0,-1f);	
-		        }
-				if (Input.GetKey(KeyCode.E))
-				{
-					GGJ16.ActionSequencer sequencer = actor.GetComponent<GGJ16.ActionSequencer>();
-					sequencer.RunSequence(sequencer.sequences[0]);
-				}
+				sb.Length = 0;
+				sb.Append(inputPrefix);
+				sb.Append("Horizontal");
+				float hAxis = Input.GetAxis(sb.ToString());
+				sb.Length = 0;
+				controller.InputMove(hAxis,0f);	
+		        sb.Append(inputPrefix);
+				sb.Append("Vertical");
+				float vAxis = Input.GetAxis(sb.ToString());
+				sb.Length = 0;
+				controller.InputMove(0f,vAxis);	
+		        
+		        sb.Append(inputPrefix);
+				sb.Append("Btn0");
+				bool btnAlpha = Input.GetButton(sb.ToString());
+				sb.Length = 0;
+				controller.InputAlpha = btnAlpha;
 
-				controller.InputAlpha = Input.GetKey(KeyCode.Space);
-				controller.InputBravo = Input.GetKey(KeyCode.LeftControl);
+				sb.Append(inputPrefix);
+				sb.Append("Btn1");
+				bool btnBravo = Input.GetButton(sb.ToString());
+				sb.Length = 0;
+				controller.InputBravo = btnBravo;
+
 		        controller.InputTick(deltaTime);
 		    }
 	    }
