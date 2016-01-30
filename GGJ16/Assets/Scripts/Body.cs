@@ -1,11 +1,11 @@
 using UnityEngine;
-using GGJ16;
+using System.Collections.Generic;
 
 public class Body : MonoBehaviour
 {
 
-	public Body body;
 	public Renderer torsoRenderer;
+	public List<GameObject> attachments = new List<GameObject>();
 	public Color defaultColor = Color.white;
 	Timer colorTimer;
 	

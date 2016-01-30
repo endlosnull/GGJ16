@@ -1,7 +1,7 @@
 using UnityEngine;
-using GGJ16.Pooling;
+using Pooling;
 
-public class Field : GGJ16.Singleton<Field>
+public class Field : Singleton<Field>
 {
 
 
@@ -12,11 +12,11 @@ public class Field : GGJ16.Singleton<Field>
 
 	public void BeginRound()
 	{
-		GameObject goalObject = GameObjectFactory.Instance.Spawn("ProtoGoal", null, Vector3.right*7f, Quaternion.identity) ;
+		GameObject goalObject = GameObjectFactory.Instance.Spawn("p-Goal", null, Vector3.right*7f, Quaternion.identity) ;
 		goalObject.name = "Goal";
 		goal = goalObject.GetComponent<Goal>();
 
-		GameObject ballObject = GameObjectFactory.Instance.Spawn("ProtoBall", null, Vector3.up*3f, Quaternion.identity) ;
+		GameObject ballObject = GameObjectFactory.Instance.Spawn("p-Ball", null, Vector3.up*3f, Quaternion.identity) ;
 		ballObject.name = "Ball";
 		ball = ballObject.GetComponent<Ball>();
 	}

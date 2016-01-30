@@ -2,9 +2,9 @@ using UnityEngine;
 
 public class Actor : MonoBehaviour
 {
-
 	public ActorController controller;
 	public Body body;
+	public MecanimAnimator animator;
 
     public PhysicsObj physics = new PhysicsObj();
     public Vector2 inputForce = Vector2.zero;
@@ -17,7 +17,7 @@ public class Actor : MonoBehaviour
 
 	public void DoActionAlpha()
 	{
-		GGJ16.ActionSequencer sequencer = GetComponent<GGJ16.ActionSequencer>();
+		ActionSequencer sequencer = GetComponent<ActionSequencer>();
 		sequencer.RunSequence(sequencer.sequences[0]);
 	}
 

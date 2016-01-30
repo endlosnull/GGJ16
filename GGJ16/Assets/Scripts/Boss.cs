@@ -2,8 +2,7 @@ using UnityEngine;
 using UnityEngine.Events;
 using System.Collections;
 using System.Collections.Generic;
-using GGJ16;
-using GGJ16.Pooling;
+using Pooling;
 
 [System.Serializable]
 public class ScoreUpdateEvent : UnityEvent<string, string> {}
@@ -34,12 +33,13 @@ public class Boss : Singleton<Boss>
 	public Canvas startGameCanvas;
 	public UnityEngine.UI.Button startGameButton;
     public UpdateTimeEvent UpdateTime = new UpdateTimeEvent();
+	public ChangeScreenEvent ChangeScreen = new ChangeScreenEvent();
 
     private float time;
 
 	void Awake()
 	{
-
+		ChangeScreen.Invoke("SelectTeam");
 	}
 
 	public void Update()
@@ -76,6 +76,7 @@ public class Boss : Singleton<Boss>
 			users.Add(user);
 		}
 	}
+
 	public void AddRemote(int index)
 	{
 		string prefix = "Rmt"+index;
@@ -89,7 +90,6 @@ public class Boss : Singleton<Boss>
 			users.Add(user);
 		}
 	}
-
 
 	public void ChangeStateInt(int nextStateIdx)
 	{
@@ -106,9 +106,11 @@ public class Boss : Singleton<Boss>
 		switch(state)
 		{
 			case State.SettingUp:
+				ChangeScreen.Invoke("SelectTeam");
 				StartSetup();
 				break;
 			case State.InGame:
+				ChangeScreen.Invoke("Play");
 				StartGame();
 				break;
 			default:
@@ -124,27 +126,26 @@ public class Boss : Singleton<Boss>
 
 	void StartGame()
 	{
-		startGameCanvas.gameObject.SetActive(false);
         time = 0f;
 		for(int i=0; i<users.Count; ++i)
 		{
-			GameObject go = new GameObject();
+			GameObject go = GameObjectFactory.Instance.Spawn("p-Actor", null, Vector3.zero, Quaternion.identity) ;
 			go.name = "hero"+i;
-			Actor actor = go.AddComponent<Actor>();
+			Actor actor = go.GetComponent<Actor>();
 			actor.controller = go.AddComponent<ActorController>();
-			GameObject torsoObject = GameObject.CreatePrimitive(PrimitiveType.Sphere);
-			GameObject headObject = GameObject.CreatePrimitive(PrimitiveType.Sphere);
-			torsoObject.transform.parent = actor.transform;
-			headObject.transform.parent = actor.transform;
-			headObject.transform.localPosition = Vector3.up*0.5f;
-			actor.body = torsoObject.AddComponent<Body>();
+			GameObject bodyObject = GameObjectFactory.Instance.Spawn("p-ActorBodyOne", null, Vector3.zero, Quaternion.identity) ;
+			bodyObject.transform.parent = actor.transform;
+			actor.body = bodyObject.AddComponent<Body>();
+			GameObject attachObject = GameObjectFactory.Instance.Spawn("p-AttachHeaddressBird", null, Vector3.zero, Quaternion.identity) ;
+			attachObject.transform.parent = bodyObject.transform;
+			attachObject.transform.localPosition = Vector3.up*0.65f;
+			actor.body.attachments.Add(attachObject);
 			users[i].controlledActor = actor;
 			go.AddComponent<ActionSequencer>();
 			go.BroadcastMessage("OnSpawn", SendMessageOptions.DontRequireReceiver);
 		}
 
-		GameObject fieldObject = GameObjectFactory.Instance.Spawn("ProtoField", null, Vector3.zero, Quaternion.identity) ;
-		Debug.Log("fieldObject"+fieldObject);
+		GameObject fieldObject = GameObjectFactory.Instance.Spawn("p-Field", null, Vector3.zero, Quaternion.identity) ;
 		Field field = fieldObject.GetComponent<Field>();
 		field.BeginRound();
 		
