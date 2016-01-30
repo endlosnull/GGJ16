@@ -19,7 +19,7 @@ namespace GGJ16
 					instance = (T)FindObjectOfType(typeof(T));
 					if (instance == null)
 					{
-						GameObject go = new GameObject(typeof(T).ToString() + " - Singleton");
+						GameObject go = new GameObject(typeof(T).Name + " - Singleton");
 						DontDestroyOnLoad(go);
 						instance = go.AddComponent<T>();
 					}

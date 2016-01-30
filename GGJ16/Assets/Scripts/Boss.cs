@@ -2,6 +2,7 @@ using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
 using GGJ16;
+using GGJ16.Pooling;
 
 public class Boss : Singleton<Boss>
 {
@@ -48,7 +49,8 @@ public class Boss : Singleton<Boss>
 			headObject.transform.parent = actor.transform;
 			headObject.transform.localPosition = Vector3.up*0.5f;
 			actor.body = torsoObject.AddComponent<Body>();
-			users[i].controlledActor = actor;	
+			users[i].controlledActor = actor;
+			GameObjectFactory.Instance.Spawn("ActionSequencer", go.transform, Vector3.zero, Quaternion.identity);
 			go.BroadcastMessage("OnSpawn", SendMessageOptions.DontRequireReceiver);
 
 		}
