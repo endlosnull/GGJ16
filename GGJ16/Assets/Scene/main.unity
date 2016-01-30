@@ -160,7 +160,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 437234814}
+      - m_Target: {fileID: 437234815}
         m_MethodName: SetupGame
         m_Mode: 3
         m_Arguments:
@@ -296,7 +296,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   splashCanvas: {fileID: 542893072}
-  users: []
 --- !u!114 &437234815
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -308,6 +307,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b16099dcb78f57c439b6068d74f14a91, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  users: []
 --- !u!4 &437234816
 Transform:
   m_ObjectHideFlags: 0
