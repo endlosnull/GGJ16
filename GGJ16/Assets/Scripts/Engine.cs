@@ -7,8 +7,6 @@ public class Engine : MonoBehaviour
 	public Vector2 inputForce = Vector2.zero;
 	public Vector2 indirectForce = Vector2.zero;
 
-    public UnityEvent ScoreUpdate = new UnityEvent();
-
 	public void Tick(float deltaTime)
 	{
 	}

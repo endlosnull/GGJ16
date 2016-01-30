@@ -1,14 +1,21 @@
 using UnityEngine;
+using UnityEngine.Events;
 using System.Collections;
 using System.Collections.Generic;
 using GGJ16;
 using GGJ16.Pooling;
+using UI;
+
+[System.Serializable]
+public class ScoreUpdateEvent : UnityEvent<string, string>
+{    
+}
 
 public class Boss : Singleton<Boss>
 {
-
-
+    public ScoreUpdateEvent ScoreUpdate = new ScoreUpdateEvent();
 	public List<User> users;
+    public int[] Scores = new int[] {0, 0};
 
 	void Awake()
 	{
@@ -16,9 +23,8 @@ public class Boss : Singleton<Boss>
 
 	public void Update()
 	{
-
+        ScoreUpdate.Invoke("team0", "hello");
 	}
-
 
 	public void SetupGame(int players)
 	{
@@ -52,7 +58,6 @@ public class Boss : Singleton<Boss>
 			users[i].controlledActor = actor;
 			GameObjectFactory.Instance.Spawn("ActionSequencer", go.transform, Vector3.zero, Quaternion.identity);
 			go.BroadcastMessage("OnSpawn", SendMessageOptions.DontRequireReceiver);
-
 		}
 	}
 }
