@@ -35,6 +35,11 @@ public class InputMan : Singleton<InputMan>
 		        {
 		        	controller.InputMove(0,-1f);	
 		        }
+				if (Input.GetKey(KeyCode.E))
+				{
+					GGJ16.ActionSequencer sequencer = actor.GetComponentInChildren<GGJ16.ActionSequencer>();
+					sequencer.RunSequence(sequencer.sequences[0]);
+				}
 
 				controller.InputAlpha = Input.GetKey(KeyCode.Space);
 				controller.InputBravo = Input.GetKey(KeyCode.LeftControl);

@@ -7,6 +7,7 @@ namespace GGJ16
 	{
 		public class GameObjectFactory : Singleton<GameObjectFactory>
 		{
+			readonly string RESOURCES_PREFIX = "Prefabs/";
 			readonly Vector3 VECTOR3_ZERO = Vector3.zero;
 			readonly Quaternion QUATERNION_IDENTITY = Quaternion.identity;
 
@@ -49,8 +50,24 @@ namespace GGJ16
 				t.parent = parent;
 				t.position = position;
 				t.rotation = rotation;
-				go.BroadcastMessage("OnSpawn", SendMessageOptions.DontRequireReceiver);
+				go.BroadcastMessage("OnObjectFactorySpawn", SendMessageOptions.DontRequireReceiver);
 				return go;
+			}
+
+			public GameObject Spawn(string prefabName)
+			{
+				return Spawn(prefabName, null, VECTOR3_ZERO, QUATERNION_IDENTITY);
+			}
+
+			public GameObject Spawn(string prefabName, Transform parent, Vector3 position, Quaternion rotation)
+			{
+				GameObject prefab = Resources.Load(RESOURCES_PREFIX + prefabName) as GameObject;
+				if (prefab == null)
+				{
+					return null;
+				}
+
+				return Spawn(prefab, parent, position, rotation);
 			}
 
 			public void Despawn(GameObject go)
@@ -61,7 +78,7 @@ namespace GGJ16
 				{
 					if (pools.TryGetValue(meta.prefab, out pool))
 					{
-						go.BroadcastMessage("OnDespawn", SendMessageOptions.DontRequireReceiver);
+						go.BroadcastMessage("OnObjectFactoryDespawn", SendMessageOptions.DontRequireReceiver);
 						go.transform.parent = thisTransform;
 						go.SetActive(false);
 						pool.Despawn(go);
