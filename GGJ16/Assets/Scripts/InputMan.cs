@@ -1,15 +1,17 @@
 using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
+using GGJ16;
 
-public class InputMan : MonoBehaviour
+public class InputMan : Singleton<InputMan>
 {
 	public Canvas splashCanvas;
-	public List<User> users;
+
 
 	public void Update()
 	{
 		float deltaTime = Time.deltaTime;
+		List<User> users = Boss.Instance.users;
 		if( users.Count > 0 )
 		{
 			Actor actor = users[0].controlledActor;
@@ -33,44 +35,16 @@ public class InputMan : MonoBehaviour
 		        {
 		        	controller.InputMove(0,-1f);	
 		        }
+				if (Input.GetKey(KeyCode.E))
+				{
+					GGJ16.ActionSequencer sequencer = actor.GetComponentInChildren<GGJ16.ActionSequencer>();
+					sequencer.RunSequence(sequencer.sequences[0]);
+				}
 
 				controller.InputAlpha = Input.GetKey(KeyCode.Space);
 				controller.InputBravo = Input.GetKey(KeyCode.LeftControl);
 		        controller.InputTick(deltaTime);
 		    }
 	    }
-	}
-
-	public void SetupGame(int players)
-	{
-		users.Clear();
-		for(int i=0; i<players; ++i)
-		{
-			GameObject go = new GameObject();
-			go.name = "user"+i;
-			User user = go.AddComponent<User>();
-			users.Add(user);
-		}
-		StartGame();
-	}
-
-	public void StartGame()
-	{
-		splashCanvas.enabled = false;
-		for(int i=0; i<users.Count; ++i)
-		{
-			GameObject go = new GameObject();
-			go.name = "hero"+i;
-			Actor actor = go.AddComponent<Actor>();
-			actor.controller = go.AddComponent<ActorController>();
-			actor.engine = go.AddComponent<Engine>();
-			actor.ui = go.AddComponent<Score>();
-			GameObject bodyObject = GameObject.CreatePrimitive(PrimitiveType.Sphere);
-			bodyObject.transform.parent = actor.transform;
-			actor.body = bodyObject.AddComponent<Body>();
-			users[i].controlledActor = actor;	
-			go.BroadcastMessage("OnSpawn", SendMessageOptions.DontRequireReceiver);
-
-		}
 	}
 }

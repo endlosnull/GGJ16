@@ -3,25 +3,25 @@ using UnityEngine.Events;
 
 public class Engine : MonoBehaviour
 {
-	public UnityEvent ScoreUpdate = new UnityEvent();
-	public int[] Scores = new int[]{0, 0};
-
-	Vector2 acceleration = Vector2.zero;
-
-	public float inputSpeed = 1f;
+    public PhysicsObj physics = new PhysicsObj();
 	public Vector2 inputForce = Vector2.zero;
-	
+	public Vector2 indirectForce = Vector2.zero;
+
+    public UnityEvent ScoreUpdate = new UnityEvent();
+
 	public void Tick(float deltaTime)
 	{
-
-		acceleration += inputForce.normalized*inputSpeed*deltaTime;
-		Vector3 deltaPosition = new Vector3(acceleration.x, 0, acceleration.y);
-		this.transform.position = this.transform.position + deltaPosition;
-
-		this.Scores[0]++;
-		this.Scores[1]++;
-		ScoreUpdate.Invoke();
-		
-		acceleration = Vector2.zero;
 	}
+
+    public void FixedUpdate()
+    {
+        this.physics.velocity += new Vector3(this.indirectForce.x, 0, this.indirectForce.y);
+        this.indirectForce = Vector2.zero;
+
+        this.physics.FixedUpdate(new Vector3(inputForce.normalized.x, 0, inputForce.normalized.y));
+        this.transform.position = this.physics.position;
+
+        //DashCard dc = new DashCard();
+        //dc.FixedUpdate(this);
+    }
 }
