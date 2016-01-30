@@ -26,9 +26,10 @@ namespace GGJ16
 			base.OnInvokeStart();
 
 			controller = source.GetComponent<ActorController>();
-		}
+            controller.engine.physics.velocity += Vector3.right * force;
+        }
 
-		protected override void OnInvokeEnd()
+        protected override void OnInvokeEnd()
 		{
 			base.OnInvokeEnd();
 		}
@@ -39,8 +40,6 @@ namespace GGJ16
 			{
 				return false;
 			}
-
-			controller.IndirectMove(0f, force);
 
 			if (base.OnTick(deltaTime))
 			{

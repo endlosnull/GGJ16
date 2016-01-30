@@ -3,6 +3,8 @@ using System.Collections;
 
 public class PhysicsObj
 {
+    private const float gravity = 8;
+
     private const float arenaWidth = 4;
     private const float arenaDepth = 4;
     private const float arenaHeight = 4;
@@ -13,8 +15,9 @@ public class PhysicsObj
 
     public Vector3 velocity = Vector3.zero;
     public float drag = 0.5f;
+    public float fullStop = 0.7f;
 
-    public float inputPower = 2;
+    public float inputPower = 4;
 
     public float halfObjSize = 1;
 
@@ -30,7 +33,7 @@ public class PhysicsObj
         Vector3 moveDelta = Vector3.zero;
         
         // Build moveDelta
-        moveDelta += input * Time.deltaTime;
+        moveDelta += input * this.inputPower * Time.deltaTime;
         moveDelta += this.velocity * Time.deltaTime;
 
         Vector3 oldPosition = this.position;
@@ -40,8 +43,16 @@ public class PhysicsObj
         TestBoundsCollision(oldPosition, moveDelta);
 
         // Apply drag
-        this.velocity *= Time.deltaTime * (1 - drag);
-	}
+        if (this.position.y == 0)
+        {
+            this.velocity -= this.velocity * Time.deltaTime * drag;
+            if (this.velocity.sqrMagnitude < fullStop * fullStop)
+                this.velocity = Vector3.zero;
+        }
+
+        // Apply gravity
+        this.velocity.y -= gravity * Time.deltaTime;
+    }
 
     private void TestBoundsCollision(Vector3 oldPosition, Vector3 moveDelta)
     {

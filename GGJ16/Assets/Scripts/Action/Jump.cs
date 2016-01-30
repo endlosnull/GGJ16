@@ -3,12 +3,11 @@ using System.Collections;
 
 namespace GGJ16
 {
-	public class ForwardDash : GameAction
+	public class Jump : GameAction
 	{
 		public float force;
-        private bool dashed = false;
 
-        ActorController controller;
+		ActorController controller;
 
 		public override bool Invoke()
 		{
@@ -32,7 +31,7 @@ namespace GGJ16
 			base.OnInvokeStart();
 
 			controller = source.GetComponent<ActorController>();
-            controller.engine.physics.velocity += Vector3.forward * force;
+            controller.engine.physics.velocity += Vector3.up * force;
         }
 
         protected override void OnInvokeEnd()

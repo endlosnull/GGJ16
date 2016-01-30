@@ -54,10 +54,4 @@ public class ActorController : MonoBehaviour
 			actor.DoActionBravo();
 		}
 	}
-
-	public void IndirectMove(float x, float y)
-	{
-		engine.indirectForce.x += x;
-		engine.indirectForce.y += y;
-	}
 }
