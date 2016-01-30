@@ -31,6 +31,11 @@ public class Engine : MonoBehaviour
 	{
 	}
 
+    public void Turn(float angleDegrees)
+    {
+        this.directionVector = Quaternion.AngleAxis(angleDegrees, Vector3.up) * this.directionVector;
+    }
+
     public void FixedUpdate()
     {
         if (inputForce.sqrMagnitude > 0)

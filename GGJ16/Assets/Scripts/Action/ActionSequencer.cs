@@ -25,17 +25,29 @@ namespace GGJ16
             forwardDash.duration = 0.2f;
             sequence.actions.Add(forwardDash);
 
-            Jump jump = new Jump();
-            jump.source = gameObject;
-            jump.force = 2f;
-            jump.duration = 0.5f;
-            sequence.actions.Add(jump);
+            //Jump jump = new Jump();
+            //jump.source = gameObject;
+            //jump.force = 2f;
+            //jump.duration = 0.5f;
+            //sequence.actions.Add(jump);
 
-            SideDash sideDash = new SideDash();
-            sideDash.source = gameObject;
-            sideDash.force = 3f;
-            sideDash.duration = 0.2f;
-            sequence.actions.Add(sideDash);
+            Turn turn = new Turn();
+            turn.source = gameObject;
+            turn.angleDegrees = 180;
+            turn.duration = 0.2f;
+            sequence.actions.Add(turn);
+
+            ForwardDash forwardDash2 = new ForwardDash();
+            forwardDash2.source = gameObject;
+            forwardDash2.force = 3f;
+            forwardDash2.duration = 0.2f;
+            sequence.actions.Add(forwardDash2);
+
+            //SideDash sideDash = new SideDash();
+            //sideDash.source = gameObject;
+            //sideDash.force = 3f;
+            //sideDash.duration = 0.2f;
+            //sequence.actions.Add(sideDash);
 
             //ForwardDash forwardDash2 = new ForwardDash();
             //forwardDash2.source = gameObject;
