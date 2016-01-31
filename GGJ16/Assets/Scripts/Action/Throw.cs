@@ -8,23 +8,6 @@ public class Throw : GameAction
 
     ActorController controller;
 
-	public override bool Invoke()
-	{
-		if (!base.Invoke())
-		{
-			return false;
-		}
-
-		if (source == null)
-		{
-			return false;
-		}
-
-		OnInvokeStart();
-
-		return true;
-	}
-
 	protected override void OnInvokeStart()
 	{
 		base.OnInvokeStart();
@@ -47,20 +30,5 @@ public class Throw : GameAction
 			ball.physics.velocity += controller.actor.Forward * forceForward;
 			ball.physics.velocity += Vector3.up * forceUp;
 		}
-	}
-
-	public override bool OnTick(float deltaTime)
-	{
-		if (!active)
-		{
-			return false;
-		}
-
-		if (base.OnTick(deltaTime))
-		{
-			OnInvokeEnd();
-			return true;
-		}
-		return false;
 	}
 }

@@ -1,13 +1,16 @@
 using UnityEngine;
+using System.Collections.Generic;
 
 public class Actor : MonoBehaviour
 {
+    public ActionSequencer sequencer;
 	public ActorController controller;
 	public ActorBody body;
     public Ball ownedBall;
     public Boss boss;
 
     public Team team;
+    public int positionIndex; // position 0 is forward, 3 is defense, or whatever
     
     public PhysicsObj physics = new PhysicsObj();
     public Vector2 inputForce = Vector2.zero;
@@ -15,6 +18,8 @@ public class Actor : MonoBehaviour
 
     private const float possessionDelayTime = 0.5f;
     private float possessionDelay = 0;
+
+	public List<GameAction> statusEffects = new List<GameAction>();
 
     public virtual void OnSpawn()
     {
@@ -25,12 +30,25 @@ public class Actor : MonoBehaviour
     public void Update()
 	{
 		this.transform.rotation = Quaternion.LookRotation(directionVector, Vector3.up);
+
+		float deltaTime = Time.deltaTime;
+		for (int i = statusEffects.Count - 1; i >= 0; --i)
+		{
+			if (statusEffects[i].OnTick(deltaTime))
+			{
+				statusEffects.RemoveAt(i);
+			}
+		}
  	}
 
 	public void DoActionAlpha()
 	{
-		ActionSequencer sequencer = GetComponent<ActionSequencer>();
+		
 		sequencer.RunSequence(sequencer.sequences[0]);
+		LockInput effect = new LockInput();
+		effect.duration = sequencer.sequences[0].TotalDuration;
+		effect.target = gameObject;
+		AddStatusEffect(effect);
 
 		body.SetShadowColor(Color.blue, 1f);
 	}
@@ -160,5 +178,9 @@ public class Actor : MonoBehaviour
 		body.SetAnimatorHold(false);
     }
 
-
+	public void AddStatusEffect(GameAction effect)
+	{
+		effect.Invoke();
+		statusEffects.Add(effect);
+	}
 }

@@ -171,7 +171,7 @@ public class Boss : Singleton<Boss>
 			//fix this to get the team
 			Team team = teams[0];
 
-			Vector3 startPos = GetHomePos(team.teamIndex, team.actors.Count);
+			Vector3 startPos = team.GetHomePos(team.actors.Count);
 
 
 			GameObject go = GameObjectFactory.Instance.Spawn("p-Actor", null, startPos, Quaternion.identity);
@@ -189,11 +189,12 @@ public class Boss : Singleton<Boss>
 			attachObject.transform.localRotation = Quaternion.AngleAxis(-90f, Vector3.up);
 			actor.body.attachments.Add(attachObject);
 			users[i].controlledActor = actor;
+			
+			actor.sequencer = go.AddComponent<ActionSequencer>();
 			actor.controller = go.AddComponent<ActorController>();
 			
 			RegisterActor(actor, team);
 
-			go.AddComponent<ActionSequencer>();
 			go.BroadcastMessage("OnSpawn", SendMessageOptions.DontRequireReceiver);
 		}
 		
@@ -202,36 +203,12 @@ public class Boss : Singleton<Boss>
 	void RegisterActor(Actor actor, Team team)
 	{
 		actor.team = team;
+		actor.positionIndex = team.actors.Count;
 		team.actors.Add(actor);
 		field.allActors.Add(actor);
 	}
 
-	Vector3 GetHomePos(int teamIndex, int slot)
-	{
-		if( teamIndex == 0 )
-		{
-			switch(slot) 
-			{
-				default:
-				case 0: return new Vector3(-10,0,0);
-				case 1: return new Vector3(-5,0,-3);
-				case 2: return new Vector3(-5,0,3);
-				case 3: return new Vector3(-2,0,1);
-			}
-		}
-		else
-		{
-			switch(slot) 
-			{
-				default:
-				case 0: return new Vector3(10,0,0);
-				case 1: return new Vector3(5,0,-3);
-				case 2: return new Vector3(5,0,3);
-				case 3: return new Vector3(2,0,-1);
-			}
-		}
-	}
-
+	
 	void StartAgentActors()
 	{
 		for(int i=0; i<teams.Count;++i)
@@ -239,15 +216,17 @@ public class Boss : Singleton<Boss>
 			Team team = teams[i];
 			for(int j=team.actors.Count;j<4;++j)
 			{
-				Vector3 startPos = GetHomePos(team.teamIndex,team.actors.Count);
+				Vector3 startPos = team.GetHomePos(team.actors.Count);
 				GameObject go = GameObjectFactory.Instance.Spawn("p-Actor", null, startPos, Quaternion.identity) ;
 				go.name = "agent["+i+"]"+j;
 				Actor actor = go.GetComponent<Actor>();
+
 				GameObject bodyObject = GameObjectFactory.Instance.Spawn("p-ActorBody", null, Vector3.zero, Quaternion.identity) ;
 				bodyObject.name = "herobody"+i;
 				bodyObject.transform.SetParent(actor.transform, false);
 				actor.body = bodyObject.GetComponent<ActorBody>();
 
+				actor.sequencer = go.AddComponent<ActionSequencer>();
 				actor.controller = go.AddComponent<AgentController>();
 				RegisterActor(actor,team);
 

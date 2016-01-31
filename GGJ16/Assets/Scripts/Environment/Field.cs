@@ -25,6 +25,8 @@ public class Field : Singleton<Field>
 		ballObject.name = "Ball";
 		ball = ballObject.GetComponent<Ball>();
 		ballObject.BroadcastMessage("OnSpawn", SendMessageOptions.DontRequireReceiver);
+		
+		CamControl.Instance.target = ball.transform;
 	}
 
 }
