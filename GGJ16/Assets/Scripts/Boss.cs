@@ -105,7 +105,7 @@ public class Boss : HardSingleton<Boss>
 	public void RefreshScore()
 	{
 		Debug.Log("RefreshScore");
-		ScoreUpdate.Invoke("Team1: "+teams[0].score, "Team2: "+teams[1].score);
+		ScoreUpdate.Invoke(teams[0].score.ToString(), teams[1].score.ToString());
 	}
 
 
