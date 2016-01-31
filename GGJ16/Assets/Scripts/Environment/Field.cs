@@ -92,7 +92,7 @@ public class Field : HardSingleton<Field>
     	{
     		return;
     	}
-    	//Debug.Log("Field "+nextState);
+    	Debug.Log("Field "+nextState);
     	state = nextState;
     	switch(state)
     	{
@@ -154,6 +154,15 @@ public class Field : HardSingleton<Field>
 	        }
 	        hasFirstSetup = true;
 	    }
+	    else
+	    {
+	    	RespawnObjects();
+	    	Renderer[] renderers = GetComponentsInChildren<Renderer>(true);
+	    	foreach(Renderer renderer in renderers)
+	    	{
+	    		renderer.gameObject.SetActive(true);
+	    	}
+	    }
 			
 		foreach(Team team in Boss.Instance.Teams)
 		{
@@ -205,6 +214,12 @@ public class Field : HardSingleton<Field>
     }
     void Enter_EndGame()
     {
+
+    	Renderer[] renderers = GetComponentsInChildren<Renderer>(true);
+    	foreach(Renderer renderer in renderers)
+    	{
+    		renderer.gameObject.SetActive(false);
+    	}
     	Boss.Instance.ChangeState(Boss.State.EndingGame);
     }
 
