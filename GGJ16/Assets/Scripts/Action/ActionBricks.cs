@@ -25,6 +25,7 @@ public class ActionBricks
     static public void AddRightDash(GameObject gameObject, ActionSequence sequence)
     {
         SideDash action = new SideDash();
+		action.name = "left dash";
         action.source = gameObject;
         action.force = 3f;
         action.left = false;
@@ -35,7 +36,8 @@ public class ActionBricks
     static public void AddLeftDash(GameObject gameObject, ActionSequence sequence)
     {
         SideDash action = new SideDash();
-        action.source = gameObject;
+		action.name = "right dash";
+		action.source = gameObject;
         action.force = 3f;
         action.left = true;
         action.duration = 0.4f;

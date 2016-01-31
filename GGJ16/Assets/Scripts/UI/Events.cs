@@ -9,6 +9,8 @@ public class UpdateTimeEvent : UnityEvent<float> { }
 [System.Serializable]
 public class MoveCursorEvent : UnityEvent<int, MoveCursorAction> { }
 [System.Serializable]
+public class AddActionEvent : UnityEvent<int, ActionMenuAction> { }
+[System.Serializable]
 public class SequenceUpdatedEvent : UnityEvent<int, int, int> { }
 
 public enum MoveCursorAction
@@ -18,3 +20,9 @@ public enum MoveCursorAction
 	Up,
 	Down
 }
+
+public enum ActionMenuAction
+{
+	Alpha,
+	Bravo
+};

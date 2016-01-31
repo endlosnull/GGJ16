@@ -21,7 +21,7 @@ public class MenuBehaviour : MonoBehaviour
 		}
  		Cursors.Sort(delegate(Transform t1, Transform t2)
         {
-        	return -t1.position.y.CompareTo(t2.position.y);
+        	return t1.gameObject.name.CompareTo(t2.gameObject.name);
     	});
 	}
 

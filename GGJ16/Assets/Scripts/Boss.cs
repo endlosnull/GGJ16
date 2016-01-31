@@ -36,6 +36,7 @@ public class Boss : HardSingleton<Boss>
 	public UpdateTimeEvent UpdateTime = new UpdateTimeEvent();
 	public ChangeScreenEvent ChangeScreen = new ChangeScreenEvent();
 	public MoveCursorEvent MoveCursor = new MoveCursorEvent();
+	public AddActionEvent AddAction = new AddActionEvent();
 
 	public Texture masterPaletteMain;
 	public Texture masterPaletteAlt;
@@ -390,6 +391,10 @@ public class Boss : HardSingleton<Boss>
 			{
 				GotoStartGame();
 			}
+		}
+		if (btnAlpha || btnBravo)
+		{
+			AddAction.Invoke(idx, btnAlpha ? ActionMenuAction.Alpha : ActionMenuAction.Bravo);
 		}
 	}
 

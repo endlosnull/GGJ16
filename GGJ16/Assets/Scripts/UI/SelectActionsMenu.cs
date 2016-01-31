@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
@@ -35,7 +36,7 @@ public class SelectActionsMenu : MenuBehaviour
 		{
 			var cursorPos = new CursorPosition();
 			cursorPositions.Add(cursorPos);
-			SetCursor(c, cursorPos);
+			SetCursorPosition(c, cursorPos);
 		}
 
 		Transform actionBricksTransform = GameObject.Find("ActionBricks").transform;
@@ -96,10 +97,38 @@ public class SelectActionsMenu : MenuBehaviour
 				if (cp.j > 0) cp.j--;
 				break;
 		}
-		SetCursor(idx, cp);
+		SetCursorPosition(idx, cp);
 	}
 
-	private void SetCursor(int idx, CursorPosition cp)
+	public void AddAction(int idx, ActionMenuAction actionToAdd)
+	{
+		if (!CanMoveCursor(idx) || this.cursorPositions.Count == 0)
+		{
+			return;
+		}
+		if (idx >= this.cursorPositions.Count)
+		{
+			Debug.LogWarning("Invalid index " + idx + " of " + this.cursorPositions.Count);
+			return;
+		}
+
+		if (actionToAdd == ActionMenuAction.Alpha)
+		{
+			Type actionBricks = typeof(ActionBricks);
+			var method = actionBricks.GetMethod("AddForwardDash");
+			object[] p = new object[] { null, Boss.Instance.Users[idx].sequences[0] };
+			method.Invoke(null, p);
+		}
+		else
+		{
+			Type actionBricks = typeof(ActionBricks);
+			var method = actionBricks.GetMethod("AddForwardDash");
+			object[] p = new object[] { null, Boss.Instance.Users[idx].sequences[0] };
+			method.Invoke(null, p);
+		}
+	}
+
+	private void SetCursorPosition(int idx, CursorPosition cp)
 	{
 		this.Cursors[idx].localPosition = new Vector3(cp.i * BrickSize - BrickSize, cp.j * BrickSize, 0);
 	}
