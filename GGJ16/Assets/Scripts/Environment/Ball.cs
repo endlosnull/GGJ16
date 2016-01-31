@@ -6,17 +6,13 @@ public class Ball : GameEntity
     public Field field;
     public AudioSource audioSource;
 
-    void Reset()
-    {
-        audioSource = GetComponent<AudioSource>();
-        this.physics.audioSource = audioSource;
-    }
-
     public override void OnSpawn()
     {
         this.physics.SetSize(1);
         this.physics.fullStop = 1.0f;
         this.physics.bounce = 0.5f;
+        this.physics.audioSource = audioSource;
+
         base.OnSpawn();
     }
 
