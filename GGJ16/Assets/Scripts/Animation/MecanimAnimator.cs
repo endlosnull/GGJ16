@@ -65,11 +65,6 @@ public class MecanimAnimator : MonoBehaviour
 		}
 	}
 
-	public int GetControlId(string parameter)
-	{
-		return Animator.StringToHash(parameter);
-	}
-
 	public int GetCurrentTag(int layer)
 	{
 		return animator.GetCurrentAnimatorStateInfo(layer).tagHash;

@@ -30,18 +30,23 @@ public class Throw : GameAction
 		base.OnInvokeStart();
 
 		controller = source.GetComponent<ActorController>();
-        Ball ball = controller.actor.ownedBall;
-        if (ball != null)
-        {
-            controller.actor.LosePossession();
-            ball.physics.velocity += controller.actor.Forward * forceForward;
-            ball.physics.velocity += Vector3.up * forceUp;
-        }
+		controller.actor.body.SetAnimatorThrow();
     }
 
     protected override void OnInvokeEnd()
 	{
 		base.OnInvokeEnd();
+	}
+
+	protected override void OnActionTime()
+	{
+		Ball ball = controller.actor.ownedBall;
+		if (ball != null)
+		{
+			controller.actor.LosePossession();
+			ball.physics.velocity += controller.actor.Forward * forceForward;
+			ball.physics.velocity += Vector3.up * forceUp;
+		}
 	}
 
 	public override bool OnTick(float deltaTime)

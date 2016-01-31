@@ -12,7 +12,11 @@ public class ActorBody : Body
 
 	// Animation
 	public MecanimAnimator animator;
+	int layerArms = 1;
 	int ctrlIdMoveSpeed;
+	int ctrlIdHold;
+	int ctrlIdThrow;
+	int tagThrow;
 
 	void Reset()
 	{
@@ -25,7 +29,15 @@ public class ActorBody : Body
 
 		if (animator != null)
 		{
-			ctrlIdMoveSpeed = animator.GetControlId("MoveSpeed");
+			ctrlIdMoveSpeed = Animator.StringToHash("MoveSpeed");
+			ctrlIdHold = Animator.StringToHash("Hold");
+			ctrlIdThrow = Animator.StringToHash("Throw");
+
+			tagThrow = Animator.StringToHash("Tag");
+
+			animator.RegisterOnTagEnd(tagThrow, delegate {
+				SetAnimatorArmWeight(0f);
+			});
 		}
 	}
 
@@ -53,8 +65,25 @@ public class ActorBody : Body
 		colorTimer.SetDuration(duration);
 	}
 
-	public void SetMoveSpeed(float value)
+	public void SetAnimatorMoveSpeed(float value)
 	{
 		animator.SetFloat(ctrlIdMoveSpeed, value);
+	}
+
+	public void SetAnimatorHold(bool value)
+	{
+		animator.SetBool(ctrlIdHold, value);
+		SetAnimatorArmWeight((value ? 1f : 0f));
+	}
+
+	public void SetAnimatorThrow()
+	{
+		animator.SetTrigger(ctrlIdThrow);
+		SetAnimatorArmWeight(1f);
+	}
+
+	public void SetAnimatorArmWeight(float value)
+	{
+		animator.SetLayerWeight(layerArms, value);
 	}
 }
