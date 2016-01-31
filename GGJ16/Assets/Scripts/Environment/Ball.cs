@@ -4,6 +4,7 @@ public class Ball : GameEntity
 {
     public Actor owner;
     public Field field;
+	public TrailRenderer trail;
     public AudioSource audioSource;
 
     public override void OnSpawn()

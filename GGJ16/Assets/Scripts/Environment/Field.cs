@@ -84,6 +84,7 @@ public class Field : HardSingleton<Field>
 		ball.transform.position = ballVec;
 		ball.transform.localRotation = Quaternion.identity;
 		ball.SyncPhysics(); 
+		ball.trail.enabled = false;
 	}
 
     public void SetState(State nextState)
@@ -187,6 +188,7 @@ public class Field : HardSingleton<Field>
 		{
 			team.GlobalLock(false);
 		}
+		ball.trail.enabled = true;
     	AudioManager.Instance.PlayOneShot(CamControl.Instance.audioSource, AudioManager.Instance.goal);
         Boss.Instance.ChangeState(Boss.State.InGame);
     }
