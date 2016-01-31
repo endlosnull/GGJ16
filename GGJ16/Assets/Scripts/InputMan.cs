@@ -56,32 +56,43 @@ public class InputMan : Singleton<InputMan>
 
 		if (Input.GetKeyDown(KeyCode.F3))
 		{
-			Goal goal = Field.Instance.goal;
-			Ball ball = Field.Instance.ball;
-			ball.transform.position = goal.transform.position + Vector3.left*3f;
-			ball.SyncPhysics();
-			ball.physics.velocity = Vector3.zero;
-			float forceForward = 3f;
-			float forceUp = 3f;
-			ball.physics.velocity += Vector3.right * forceForward;
-			ball.physics.velocity += Vector3.up * forceUp;
+            ThrowBallAtAngle(0);
 		}
 
 		if (Input.GetKeyDown(KeyCode.F4))
 		{
-			Goal goal = Field.Instance.goal;
-			Ball ball = Field.Instance.ball;
-			ball.transform.position = goal.transform.position + Vector3.right*3f;
-			ball.SyncPhysics();
-			ball.physics.velocity = Vector3.zero;
-			float forceForward = 3f;
-			float forceUp = 3f;
-			ball.physics.velocity += Vector3.left * forceForward;
-			ball.physics.velocity += Vector3.up * forceUp;
+            ThrowBallAtAngle(180);
+        }
+
+		if (Input.GetKeyDown(KeyCode.F10))
+		{
+			foreach(Actor actor in Field.Instance.allActors)
+			{
+				if( !actor.isHuman )
+				{
+					actor.controller.enabled = !actor.controller.enabled;
+					actor.physics.velocity = Vector3.zero;
+				}
+			}
 		}
 	}
 
-	void ProcessUserInput(int idx, float deltaTime)
+    void ThrowBallAtAngle(float angle)
+    {
+        Vector3 direction = new Vector3(Mathf.Cos(angle / 180 * Mathf.PI), 0, Mathf.Sin(angle / 180 * Mathf.PI));
+
+        Goal goal = Field.Instance.goal;
+        Ball ball = Field.Instance.ball;
+        ball.transform.position = goal.transform.position + direction * 3f;
+        ball.SyncPhysics();
+        ball.physics.velocity = Vector3.zero;
+        float forceForward = 3f;
+        float forceUp = 3f;
+        ball.physics.velocity += -direction * forceForward;
+        ball.physics.velocity += Vector3.up * forceUp;
+    }
+
+    void ProcessUserInput(int idx, float deltaTime)
 	{
 		List<User> users = Boss.Instance.Users;
 		string inputPrefix = users[idx].inputPrefix;
