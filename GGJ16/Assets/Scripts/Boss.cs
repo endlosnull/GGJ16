@@ -129,7 +129,6 @@ public class Boss : Singleton<Boss>
 			GameObject bodyObject = GameObjectFactory.Instance.Spawn("p-ActorBodyOne", null, Vector3.zero, Quaternion.identity);
 			bodyObject.name = "herobody" + i;
 			bodyObject.transform.SetParent(actor.transform);
-			bodyObject.transform.localRotation = Quaternion.AngleAxis(-90f, Vector3.up);
 			actor.body = bodyObject.GetComponent<ActorBody>();
 			GameObject attachObject = GameObjectFactory.Instance.Spawn("p-AttachHeaddressBird", null, Vector3.zero, Quaternion.identity);
 			attachObject.name = "attachment" + i;
