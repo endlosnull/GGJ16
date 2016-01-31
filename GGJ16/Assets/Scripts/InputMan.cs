@@ -107,7 +107,6 @@ public class InputMan : Singleton<InputMan>
 	{
 		Boss.Instance.MoveUserCursor(idx, hAxis, vAxis);
 		if (btnStart) {
-			Debug.Log("AA");
 			Boss.Instance.ChangeStateInt(3);
 		}
 	}

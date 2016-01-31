@@ -165,7 +165,7 @@ public class Boss : Singleton<Boss>
 	}
 	public void MoveUserCursor(int idx, float hAxis, float vAxis)
 	{
-		if (Mathf.Abs(hAxis) > 0.5f)
+		if (Mathf.Abs(hAxis) > 0.05f)
 		{
 			MoveCursor.Invoke(idx, hAxis > 0f ? MoveCursorAction.Right : MoveCursorAction.Left);
 		}
