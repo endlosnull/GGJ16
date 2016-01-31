@@ -227,8 +227,6 @@ public class Actor : MonoBehaviour
 			actorCollider.enabled = true;
 			actorRigidbody.useGravity = true;
 			actorRigidbody.isKinematic = false;
-
-            body.transform.position = Vector3.zero;
 			physics.enabled = false;
 		}
 		else
