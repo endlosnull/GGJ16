@@ -26,7 +26,7 @@ public class ActionSequencer : MonoBehaviour
         ForwardDash forwardDash = new ForwardDash();
         forwardDash.source = gameObject;
         forwardDash.force = 3f;
-        forwardDash.duration = 0.2f;
+        forwardDash.duration = 0.4f;
         sequence.actions.Add(forwardDash);
 
         Jump jump = new Jump();
