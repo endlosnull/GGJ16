@@ -4,8 +4,7 @@ using UnityEngine.UI;
 
 public class SequenceHud : MonoBehaviour
 {
-	public int PlayerIdx;
-	public int SequenceIdx;
+	public ActionSequencer sequencer;
 
 	// Use this for initialization
 	void Start()
@@ -16,14 +15,9 @@ public class SequenceHud : MonoBehaviour
 	// Update is called once per frame
 	void Update()
 	{
-
-	}
-
-	public void OnSequenceUpdated(int playerIdx, int sequenceIdx, int sequence)
-	{
-		if (playerIdx == PlayerIdx && sequenceIdx == SequenceIdx)
+		if(sequencer)
 		{
-			GetComponent<Text>().text = string.Format("{0}", sequence);
+			// attachedActor.sequencer.SequenceIndex
 		}
 	}
 }

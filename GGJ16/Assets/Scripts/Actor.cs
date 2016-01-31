@@ -18,7 +18,7 @@ public class Actor : GameEntity
 
 	public void DoActionAlpha()
 	{
-		sequencer.RunSequence(sequencer.sequences[0]);
+		sequencer.RunSequence(0);
 		LockInput effect = new LockInput();
 		effect.duration = sequencer.sequences[0].TotalDuration;
 		effect.target = gameObject;
@@ -29,7 +29,7 @@ public class Actor : GameEntity
 
 	public void DoActionBravo()
 	{
-		sequencer.RunSequence(sequencer.sequences[1]);
+		sequencer.RunSequence(1);
         LockInput effect = new LockInput();
         effect.duration = sequencer.sequences[1].TotalDuration;
         effect.target = gameObject;

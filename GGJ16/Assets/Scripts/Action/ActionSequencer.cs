@@ -10,7 +10,8 @@ public class ActionSequencer : MonoBehaviour
 
 	bool active;
 	ActionSequence currentSequence;
-	int sequenceIndex;
+	public int ActionIndex;
+	public int SequenceIndex;
 
 	void OnSpawn()
 	{
@@ -73,21 +74,22 @@ public class ActionSequencer : MonoBehaviour
 		sequences.Remove(sequence);
 	}
 
-	public void RunSequence(ActionSequence sequence)
+	public void RunSequence(int sequenceIndex)
 	{
 		if (active)
 		{
 			return;
 		}
 
-		OnSequenceStart(sequence);
+		SequenceIndex = sequenceIndex;
+		OnSequenceStart(sequences[SequenceIndex]);
 	}
 
 	void OnSequenceStart(ActionSequence sequence)
 	{
 		active = true;
 		currentSequence = sequence;
-		sequenceIndex = 0;
+		ActionIndex = 0;
 	}
 
 	void OnSequenceEnd()
@@ -107,14 +109,14 @@ public class ActionSequencer : MonoBehaviour
 			return;
 		}
 
-		if (sequenceIndex >= currentSequence.actions.Count)
+		if (ActionIndex >= currentSequence.actions.Count)
 		{
 			OnSequenceEnd();
 			return;
 		}
 
 		float deltaTime = Time.deltaTime;
-		GameAction action = currentSequence.actions[sequenceIndex];
+		GameAction action = currentSequence.actions[ActionIndex];
 		if (action == null)
 		{
 			return;
@@ -125,7 +127,7 @@ public class ActionSequencer : MonoBehaviour
 		}
 		if (action.OnTick(deltaTime))
 		{
-			++sequenceIndex;
+			++ActionIndex;
 		}
 	}
 }
