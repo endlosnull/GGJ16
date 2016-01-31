@@ -19,15 +19,17 @@ public class ActionSequencer : MonoBehaviour
 		{
 			sequences.Add(new ActionSequence());
 		}
-		// TEST SEQUENCE
-		sequences[0].actions.Clear();
-        ActionBricks.AddForwardDash(gameObject, sequences[0]);
-        ActionBricks.AddGrab(gameObject, sequences[0]);
+        // TEST SEQUENCE
+        int seqInd = 0;
+		sequences[seqInd].actions.Clear();
+        ActionBricks.AddForwardDash(gameObject, sequences[seqInd]);
+        ActionBricks.AddGrab(gameObject, sequences[seqInd]);
 
+        seqInd++;
         sequences[1].actions.Clear();
-        ActionBricks.AddRightDash(gameObject, sequences[1]);
-        ActionBricks.AddJump(gameObject, sequences[1]);
-        ActionBricks.AddThrow(gameObject, sequences[1]);
+        ActionBricks.AddRightDash(gameObject, sequences[seqInd]);
+        ActionBricks.AddJump(gameObject, sequences[seqInd]);
+        ActionBricks.AddThrow(gameObject, sequences[seqInd]);
     }
 
     public void AddForwardDash(GameObject gameObject, ActionSequence sequence)
