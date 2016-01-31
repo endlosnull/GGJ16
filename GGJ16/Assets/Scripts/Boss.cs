@@ -6,11 +6,20 @@ using GGJ16;
 using GGJ16.Pooling;
 
 [System.Serializable]
-public class ScoreUpdateEvent : UnityEvent<string, string> {}
+public class ScoreUpdateEvent : UnityEvent<string, string> { }
 [System.Serializable]
-public class ChangeScreenEvent : UnityEvent<string> {}
+public class ChangeScreenEvent : UnityEvent<string> { }
 [System.Serializable]
-public class UpdateTimeEvent : UnityEvent<float> {}
+public class UpdateTimeEvent : UnityEvent<float> { }
+[System.Serializable]
+public class SetPlayerStateEvent : UnityEvent<string, string, SetPlayerStateAction> { }
+
+public enum SetPlayerStateAction
+{
+	Add,
+	Remove,
+	ChangeTeam
+}
 
 public class Boss : Singleton<Boss>
 {
@@ -35,6 +44,7 @@ public class Boss : Singleton<Boss>
 	public UnityEngine.UI.Button startGameButton;
     public UpdateTimeEvent UpdateTime = new UpdateTimeEvent();
 	public ChangeScreenEvent ChangeScreen = new ChangeScreenEvent();
+	public SetPlayerStateEvent SetPlayerState = new SetPlayerStateEvent();
 
     private float time;
 
@@ -61,6 +71,7 @@ public class Boss : Singleton<Boss>
 			User user = go.AddComponent<User>();
 			user.inputPrefix = prefix;
 			users.Add(user);
+			SetPlayerState.Invoke(go.name, "", SetPlayerStateAction.Add);
 		}
 	}
     
@@ -75,6 +86,7 @@ public class Boss : Singleton<Boss>
 			User user = go.AddComponent<User>();
 			user.inputPrefix = prefix;
 			users.Add(user);
+			SetPlayerState.Invoke(go.name, "", SetPlayerStateAction.Add);
 		}
 	}
 
