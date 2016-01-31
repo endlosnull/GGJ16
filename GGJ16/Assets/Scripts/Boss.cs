@@ -207,7 +207,7 @@ public class Boss : Singleton<Boss>
 	void StartField()
 	{
 		GameObject fieldObject = GameObjectFactory.Instance.Spawn("p-Field", null, Vector3.zero, Quaternion.identity) ;
-		Field field = fieldObject.GetComponent<Field>();
+		field = fieldObject.GetComponent<Field>();
 		field.BeginRound();
 	}
 
