@@ -261,7 +261,7 @@ public class Boss : Singleton<Boss>
 
 	public void FixedUpdate()
 	{
-		if (field == null)
+		if (field == null || field.ball == null)
 			return;
 
 		Ball ball = field.ball;

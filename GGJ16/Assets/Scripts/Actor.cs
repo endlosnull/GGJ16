@@ -37,8 +37,10 @@ public class Actor : MonoBehaviour
 
 	public void DoActionBravo()
 	{
-		Debug.Log("Bravo!");
-		body.SetShadowColor(Color.red, 1f);
+        ActionSequencer sequencer = GetComponent<ActionSequencer>();
+        sequencer.RunSequence(sequencer.sequences[1]);
+
+        body.SetShadowColor(Color.red, 1f);
 	}
 
     public Vector3 Forward
