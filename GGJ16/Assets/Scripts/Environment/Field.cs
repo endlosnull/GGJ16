@@ -31,6 +31,8 @@ public class Field : HardSingleton<Field>
 	Timer advanceTimer = new Timer();
 	bool hasFirstSetup = false;
 
+	List<Renderer> arrows = new List<Renderer>();
+
 	private float gameTime;
 	public float GameTime
 	{
@@ -68,6 +70,22 @@ public class Field : HardSingleton<Field>
     	{
     		int currentState = (int)state;
     		SetState((State)(currentState+1));
+    	}
+    	List<Team> teams = Boss.Instance.Teams;
+    	for(int i=0; i<teams.Count; ++i)
+    	{
+    		if( teams[i].isOffense )	
+    		{
+    			Color color = teams[i].teamColor;
+    			color.a = 1.0f;
+    			arrows[i].material.color = color;
+    		}
+    		else
+    		{
+    			Color color = teams[i].teamColor;
+    			color.a = 0.4f;
+    			arrows[i].material.color = color;
+    		}
     	}
     }
 
