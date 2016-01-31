@@ -81,29 +81,21 @@ public class StrategySpace : AgentStrategy
 
 	public override bool GetAlpha(int rand, ref float energyDrain)
 	{
-		if( rand < 15 )
-		{
-			energyDrain += 0f;
-			return false;
-		}
-		else
+		if( rand == 1 || rand == 2 )
 		{
 			energyDrain += 2f;
 			return true;
+		}
+		else
+		{
+			energyDrain += 0f;
+			return false;
 		}
 	}
 	public override bool GetBravo(int rand, ref float energyDrain)
 	{
-		if( rand > 85 )
-		{
-			energyDrain += 0f;
-			return false;
-		}
-		else
-		{
-			energyDrain += 2f;
-			return true;
-		}
+		energyDrain += 0f;
+		return false;
 	}
 	public override int GetGoodness()
 	{
@@ -127,28 +119,28 @@ public class StrategyBallHawk : AgentStrategy
 
 	public override bool GetAlpha(int rand, ref float energyDrain)
 	{
-		if( rand < 15 )
-		{
-			energyDrain += 0f;
-			return false;
-		}
-		else
+		if( rand == 1 || rand == 2 )
 		{
 			energyDrain += 2f;
 			return true;
+		}
+		else
+		{
+			energyDrain += 0f;
+			return false;
 		}
 	}
 	public override bool GetBravo(int rand, ref float energyDrain)
 	{
-		if( rand > 85 )
-		{
-			energyDrain += 0f;
-			return false;
-		}
-		else
+		if( rand == 1 || rand == 2 )
 		{
 			energyDrain += 2f;
 			return true;
+		}
+		else
+		{
+			energyDrain += 0f;
+			return false;
 		}
 	}
 	public override int GetGoodness()
@@ -174,28 +166,28 @@ public class StrategyOffenseScore : AgentStrategy
 
 	public override bool GetAlpha(int rand, ref float energyDrain)
 	{
-		if( rand < 15 )
-		{
-			energyDrain += 0f;
-			return false;
-		}
-		else
+		if( rand == 1  )
 		{
 			energyDrain += 2f;
 			return true;
+		}
+		else
+		{
+			energyDrain += 0f;
+			return false;
 		}
 	}
 	public override bool GetBravo(int rand, ref float energyDrain)
 	{
-		if( rand > 85 )
-		{
-			energyDrain += 0f;
-			return false;
-		}
-		else
+		if( rand == 1 || rand == 2 || rand == 3 )
 		{
 			energyDrain += 2f;
 			return true;
+		}
+		else
+		{
+			energyDrain += 0f;
+			return false;
 		}
 	}
 	public override int GetGoodness()

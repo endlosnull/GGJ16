@@ -37,6 +37,20 @@ public class User : MonoBehaviour
         ActionBricks.AddThrow(null, sequences[seqInd]);
 	}
 
+	public void DefaultAISequences()
+	{
+        int seqInd = 0;
+		sequences[seqInd].actions.Clear();
+        ActionBricks.AddForwardDash(null, sequences[seqInd]);
+        ActionBricks.AddGrab(null, sequences[seqInd]);
+
+        seqInd++;
+        sequences[seqInd].actions.Clear();
+        ActionBricks.AddSwat(null, sequences[seqInd]);
+        ActionBricks.AddJump(null, sequences[seqInd]);
+        ActionBricks.AddThrow(null, sequences[seqInd]);
+	}
+
 	public void Update()
 	{
 

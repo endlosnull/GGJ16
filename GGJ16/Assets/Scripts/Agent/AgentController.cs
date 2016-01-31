@@ -14,16 +14,20 @@ public class AgentController : ActorController
 	float energyLevel;
 	float maxEnergyLevel;
 	Timer recoverEnergyTimer;
+	Timer alphaTimer;
+	Timer bravoTimer;
 
 	public override void OnSpawn()
 	{
 		base.OnSpawn();
 		AddStrategy(gameObject.AddComponent<StrategySpace>());
 		AddStrategy(gameObject.AddComponent<StrategyBallHawk>());
-        //AddStrategy(gameObject.AddComponent<StrategyOffenseScore>());
+        AddStrategy(gameObject.AddComponent<StrategyOffenseScore>());
         energyLevel = 12f;
         maxEnergyLevel = 12f;
         recoverEnergyTimer = new Timer(1f, true);
+        alphaTimer = new Timer(1f, true);
+        bravoTimer = new Timer(1f, true);
     }
 
 	void AddStrategy(AgentStrategy strategy)
@@ -51,13 +55,24 @@ public class AgentController : ActorController
 		if( energyLevel > 0f )
 		{
 			strategy.GetMove(ref moveDir, ref energyConsumed);
-			int rand = UnityEngine.Random.Range(0,100);
+			int alphaDice = 0;
+			if( alphaTimer.Tick(deltaTime) ) 
+			{
+				alphaTimer.SetDuration(UnityEngine.Random.Range(1f,3f));
+				alphaDice = UnityEngine.Random.Range(1,6);
+			} 
+			int bravoDice = 0;
+			if( bravoTimer.Tick(deltaTime) ) 
+			{
+				bravoTimer.SetDuration(UnityEngine.Random.Range(1f,3f));
+				bravoDice = UnityEngine.Random.Range(1,6);
+			}
 			
 			InputMove(moveDir.x,moveDir.y);	
         
-			InputAlpha = strategy.GetAlpha(rand, ref energyConsumed);
+			InputAlpha = strategy.GetAlpha(alphaDice, ref energyConsumed);
 
-			InputBravo = strategy.GetBravo(rand, ref energyConsumed);
+			InputBravo = strategy.GetBravo(bravoDice, ref energyConsumed);
 			energyLevel -= energyConsumed*Time.deltaTime;
 		}
 		else
