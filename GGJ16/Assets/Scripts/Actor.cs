@@ -1,4 +1,5 @@
 using UnityEngine;
+using System.Collections.Generic;
 
 public class Actor : MonoBehaviour
 {
@@ -18,6 +19,8 @@ public class Actor : MonoBehaviour
     private const float possessionDelayTime = 0.5f;
     private float possessionDelay = 0;
 
+	public List<GameAction> statusEffects = new List<GameAction>();
+
     public virtual void OnSpawn()
     {
         physics.position = this.transform.position;
@@ -27,12 +30,25 @@ public class Actor : MonoBehaviour
     public void Update()
 	{
 		this.transform.rotation = Quaternion.LookRotation(directionVector, Vector3.up);
+
+		float deltaTime = Time.deltaTime;
+		for (int i = statusEffects.Count - 1; i >= 0; --i)
+		{
+			if (statusEffects[i].OnTick(deltaTime))
+			{
+				statusEffects.RemoveAt(i);
+			}
+		}
  	}
 
 	public void DoActionAlpha()
 	{
 		
 		sequencer.RunSequence(sequencer.sequences[0]);
+		LockInput effect = new LockInput();
+		effect.duration = sequencer.sequences[0].TotalDuration;
+		effect.target = gameObject;
+		AddStatusEffect(effect);
 
 		body.SetShadowColor(Color.blue, 1f);
 	}
@@ -162,5 +178,9 @@ public class Actor : MonoBehaviour
 		body.SetAnimatorHold(false);
     }
 
-
+	public void AddStatusEffect(GameAction effect)
+	{
+		effect.Invoke();
+		statusEffects.Add(effect);
+	}
 }
