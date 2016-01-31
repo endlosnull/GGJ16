@@ -72,7 +72,7 @@ public class Ball : GameEntity
             else
             {
                 if (this.field.RoundActive)
-                    this.field.OnScore((Mathf.Abs(normalAngle) < 90) ? 0 : 1);
+                    this.field.OnScore((Mathf.Abs(normalAngle) < 90) ? 1 : 0);
             }
         }
     }
