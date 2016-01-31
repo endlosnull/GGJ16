@@ -5,13 +5,14 @@ public class BodyAttachment : MonoBehaviour
 {
 	public bool pinToGround;
 
-	public void Update()
+	public void FixedUpdate()
 	{
 		if(pinToGround)
 		{
-			Vector3 pos = this.transform.position;
-			pos.y = 0.01f;
-			this.transform.position = pos;
+			Vector3 parentPos = this.transform.parent.position;
+			Vector3 localPos = new Vector3(0f, 0.01f-parentPos.y, 0f);
+			this.transform.localPosition = localPos;
+			this.transform.rotation = Quaternion.AngleAxis(90f, Vector3.right);
 		}
 	}
 }

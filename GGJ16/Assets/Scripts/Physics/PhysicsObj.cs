@@ -3,6 +3,8 @@ using System.Collections;
 
 public class PhysicsObj
 {
+	public bool enabled = true;
+
     private const float gravity = 8;
 
     private const float arenaWidth = 22;
@@ -27,6 +29,25 @@ public class PhysicsObj
         get { return this.halfObjSize; }
     }
 
+    public static bool TestCollision(PhysicsObj a, PhysicsObj b, out Vector3 normal, out float penetration)
+    {
+        normal = Vector3.zero;
+        penetration = 0;
+
+        Vector3 diff = a.position - b.position;
+        diff.y = 0;
+        normal = diff.normalized;
+        if (diff.sqrMagnitude == 0)
+            return false;
+
+        float distance = diff.magnitude;
+        penetration = b.HalfSize + a.HalfSize - distance;
+        if (penetration > 0)
+            return true;
+
+        return false;
+    }
+
     public void SetSize(float size)
     {
         this.halfObjSize = size / 2;
@@ -36,6 +57,11 @@ public class PhysicsObj
 
     public void FixedUpdate(Vector3 input)
     {
+		if (!enabled)
+		{
+			return;
+		}
+
         Vector3 moveDelta = Vector3.zero;
         
         // Build moveDelta

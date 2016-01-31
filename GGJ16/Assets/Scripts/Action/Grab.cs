@@ -12,7 +12,7 @@ public class Grab : GameAction
 		base.OnInvokeStart();
 
 		controller = source.GetComponent<ActorController>();
-        Ball ball = controller.actor.boss.field.ball;
+        Ball ball = Field.Instance.ball;
         controller.actor.TryTakePossession(ball, this.range);
     }
 

@@ -32,6 +32,20 @@ public class SelectTeamMenu : MenuBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
+		int j = 0;
+		List<User> users = Boss.Instance.users;
+		for(int i=0; i < users.Count; ++i)
+		{
+			if(users[i].isLocal && j<this.Cursors.Length)
+			{
+				this.Cursors[j].gameObject.SetActive(true);
+				++j;
+			}
+		}
+		for(; j<this.Cursors.Length; ++j)
+		{
+			this.Cursors[j].gameObject.SetActive(false);
+		}
 	}
 
 	public void MoveCursor(int idx, MoveCursorAction action)

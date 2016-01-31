@@ -38,7 +38,47 @@ public class InputMan : Singleton<InputMan>
 		{
 			ProcessUserInput(i, deltaTime);
 		}
-		
+
+		if (Input.GetKeyDown(KeyCode.F1))
+		{
+			for (int i = 0; i < Field.Instance.allActors.Count; ++i)
+			{
+				Actor actor = Field.Instance.allActors[i];
+				actor.SetUnityPhysics(true);
+				actor.AddUnityExplosionForce(250f, Vector3.down * 10f, 250f);
+			}
+			Field.Instance.ball.SetUnityPhysics(true);
+			Field.Instance.ball.AddUnityExplosionForce(250f, Vector3.down * 10f, 250f);
+			Field.Instance.goal.SetUnityPhysics(true);
+			Field.Instance.goal.AddUnityExplosionForce(250f, Vector3.down * 10f + Vector3.right*3f, 250f);
+			CamControl.Instance.AddShake(0.4f);
+		}
+
+		if (Input.GetKeyDown(KeyCode.F3))
+		{
+			Goal goal = Field.Instance.goal;
+			Ball ball = Field.Instance.ball;
+			ball.transform.position = goal.transform.position + Vector3.left*3f;
+			ball.SyncPhysics();
+			ball.physics.velocity = Vector3.zero;
+			float forceForward = 3f;
+			float forceUp = 3f;
+			ball.physics.velocity += Vector3.right * forceForward;
+			ball.physics.velocity += Vector3.up * forceUp;
+		}
+
+		if (Input.GetKeyDown(KeyCode.F4))
+		{
+			Goal goal = Field.Instance.goal;
+			Ball ball = Field.Instance.ball;
+			ball.transform.position = goal.transform.position + Vector3.right*3f;
+			ball.SyncPhysics();
+			ball.physics.velocity = Vector3.zero;
+			float forceForward = 3f;
+			float forceUp = 3f;
+			ball.physics.velocity += Vector3.left * forceForward;
+			ball.physics.velocity += Vector3.up * forceUp;
+		}
 	}
 
 	void ProcessUserInput(int idx, float deltaTime)

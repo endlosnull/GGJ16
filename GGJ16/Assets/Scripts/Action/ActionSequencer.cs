@@ -14,26 +14,38 @@ public class ActionSequencer : MonoBehaviour
 
 	void OnSpawn()
 	{
+		for(int i=0;i<2;++i)
+		{
+			sequences.Add(new ActionSequence());
+		}
 		// TEST SEQUENCE
-		ActionSequence sequence = new ActionSequence();
+		sequences[0].actions.Clear();
+
+        ForwardDash forwardDash = new ForwardDash();
+        forwardDash.source = gameObject;
+        forwardDash.force = 3f;
+        forwardDash.duration = 0.4f;
+        sequences[0].actions.Add(forwardDash);
 
         Grab grabAction = new Grab();
         grabAction.source = gameObject;
         grabAction.range = 2.0f;
         grabAction.duration = 0.2f;
-        sequence.actions.Add(grabAction);
+        sequences[0].actions.Add(grabAction);
 
-        ForwardDash forwardDash = new ForwardDash();
-        forwardDash.source = gameObject;
-        forwardDash.force = 3f;
-        forwardDash.duration = 0.2f;
-        sequence.actions.Add(forwardDash);
+        sequences[1].actions.Clear();
+
+		SideDash sideDash = new SideDash();
+        sideDash.source = gameObject;
+        sideDash.force = 3f;
+        sideDash.duration = 0.2f;
+        sequences[1].actions.Add(sideDash);
 
         Jump jump = new Jump();
         jump.source = gameObject;
         jump.force = 2f;
         jump.duration = 0.5f;
-        sequence.actions.Add(jump);
+        sequences[1].actions.Add(jump);
 
         Throw throwAction = new Throw();
         throwAction.source = gameObject;
@@ -41,13 +53,7 @@ public class ActionSequencer : MonoBehaviour
         throwAction.forceUp = 3f;
         throwAction.duration = 0.2f;
 		throwAction.actionTime = 0.1f;
-        sequence.actions.Add(throwAction);
-
-        //SideDash sideDash = new SideDash();
-        //sideDash.source = gameObject;
-        //sideDash.force = 3f;
-        //sideDash.duration = 0.2f;
-        //sequence.actions.Add(sideDash);
+        sequences[1].actions.Add(throwAction);
 
         //ForwardDash forwardDash2 = new ForwardDash();
         //forwardDash2.source = gameObject;
@@ -55,7 +61,6 @@ public class ActionSequencer : MonoBehaviour
         //forwardDash2.duration = 0.33f;
         //sequence.actions.Add(forwardDash2);
 
-        AddSequence(sequence);
 	}
 
 	public void AddSequence(ActionSequence sequence)

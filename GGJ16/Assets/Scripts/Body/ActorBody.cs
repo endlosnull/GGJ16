@@ -3,6 +3,7 @@ using System.Collections.Generic;
 
 public class ActorBody : Body
 {
+	public Renderer bodyRenderer;
 	public Renderer vfxRenderer;
 	Color defaultColor =  new Color(0f,0f,0f,0.3f);
 	Timer colorTimer = new Timer();	
@@ -21,11 +22,18 @@ public class ActorBody : Body
 	void Reset()
 	{
 		animator = GetComponentInChildren<MecanimAnimator>();
+		
 	}
 
 	void Awake()
 	{
 		ResetShadow();
+
+		Transform bodyTransform = transform.FindTransformInChildren("Mesh");
+		if( bodyTransform )
+		{
+			bodyRenderer = bodyTransform.GetComponent<Renderer>();
+		}
 
 		if (animator != null)
 		{
@@ -54,6 +62,14 @@ public class ActorBody : Body
 	void ResetShadow()
 	{
 		vfxRenderer.material.color = defaultColor; 
+	}
+
+	public void SetTexture(Texture tex)
+	{
+		if( bodyRenderer )
+		{
+			bodyRenderer.material.SetTexture("_MainTex",tex);
+		}
 	}
 
 	

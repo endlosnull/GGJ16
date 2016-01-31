@@ -1,7 +1,7 @@
 using UnityEngine;
 using System.Collections.Generic;
 
-public class Actor : MonoBehaviour
+public class Actor : GameEntity
 {
     public ActionSequencer sequencer;
 	public ActorController controller;
@@ -11,39 +11,13 @@ public class Actor : MonoBehaviour
 
     public Team team;
     public int positionIndex; // position 0 is forward, 3 is defense, or whatever
-    
-    public PhysicsObj physics = new PhysicsObj();
-    public Vector2 inputForce = Vector2.zero;
-    private Vector3 directionVector = Vector3.forward;
+    public bool isHuman;
 
     private const float possessionDelayTime = 0.5f;
     private float possessionDelay = 0;
 
-	public List<GameAction> statusEffects = new List<GameAction>();
-
-    public virtual void OnSpawn()
-    {
-        physics.position = this.transform.position;
-    }
-
-    
-    public void Update()
-	{
-		this.transform.rotation = Quaternion.LookRotation(directionVector, Vector3.up);
-
-		float deltaTime = Time.deltaTime;
-		for (int i = statusEffects.Count - 1; i >= 0; --i)
-		{
-			if (statusEffects[i].OnTick(deltaTime))
-			{
-				statusEffects.RemoveAt(i);
-			}
-		}
- 	}
-
 	public void DoActionAlpha()
 	{
-		
 		sequencer.RunSequence(sequencer.sequences[0]);
 		LockInput effect = new LockInput();
 		effect.duration = sequencer.sequences[0].TotalDuration;
@@ -55,50 +29,18 @@ public class Actor : MonoBehaviour
 
 	public void DoActionBravo()
 	{
-		Debug.Log("Bravo!");
-		body.SetShadowColor(Color.red, 1f);
+		sequencer.RunSequence(sequencer.sequences[1]);
+        LockInput effect = new LockInput();
+        effect.duration = sequencer.sequences[1].TotalDuration;
+        effect.target = gameObject;
+        AddStatusEffect(effect);
+
+        body.SetShadowColor(Color.red, 1f);
 	}
 
-    public Vector3 Forward
+    public override void FixedUpdate()
     {
-        get { return this.directionVector; }
-    }
-
-    public Vector3 Backward
-    {
-        get { return -this.directionVector; }
-    }
-
-    public Vector3 Left
-    {
-        get { return Vector3.Cross(this.directionVector, Vector3.up); }
-    }
-
-    public Vector3 Right
-    {
-        get { return -this.Left; }
-    }
-
-    public void Turn(float angleDegrees)
-    {
-        this.directionVector = Quaternion.AngleAxis(angleDegrees, Vector3.up) * this.directionVector;
-    }
-
-    public void FixedUpdate()
-    {
-        if (inputForce.sqrMagnitude > 0)
-        {
-            this.directionVector.x = inputForce.normalized.x;
-            this.directionVector.y = 0;
-            this.directionVector.z = inputForce.normalized.y;
-        }
-
-        if (this.directionVector.sqrMagnitude == 0)
-            this.directionVector = Vector3.forward; // hack to avoid 0 direction
-        this.directionVector.Normalize();
-
-        this.physics.FixedUpdate(new Vector3(inputForce.normalized.x, 0, inputForce.normalized.y));
-        this.transform.position = this.physics.position;
+		base.FixedUpdate();
 
         this.possessionDelay -= Time.deltaTime;
 
@@ -106,6 +48,20 @@ public class Actor : MonoBehaviour
 		float forward = Vector3.Dot(this.transform.forward, moveDelta);
 		float strafe = Vector3.Dot(this.transform.right, moveDelta);
 		body.SetAnimatorMoveSpeed(Mathf.Max(forward, strafe));
+    }
+
+    public override void TestObjectCollisions()
+    {
+        Field field = this.boss.field;
+        if (field == null)
+            return;
+
+        Goal goal = field.goal;
+
+        Vector3 normal;
+        float penetration;
+        if (PhysicsObj.TestCollision(this.physics, goal.physics, out normal, out penetration))
+            this.physics.position += normal * penetration;
     }
 
     public void BallHandling(Ball ball)
@@ -130,28 +86,14 @@ public class Actor : MonoBehaviour
         if (ball.owner != null)
             return;
 
-        Vector3 diff = ball.transform.position - this.transform.position;
-        diff.y = 0;
-        Vector3 normal = diff.normalized;
-        if (diff.sqrMagnitude == 0)
-            return;
-
-        float distance = diff.magnitude;
-        float penetration = this.physics.HalfSize + ball.physics.HalfSize - distance;
-        if (penetration > 0)
+        Vector3 normal;
+        float penetration;
+        if (PhysicsObj.TestCollision(ball.physics, this.physics, out normal, out penetration))
         {
             ball.physics.position += normal * penetration;
-            //ball.physics.velocity += normal * penetration;
+
+            ball.Bounce(normal);
         }
-        //else
-        //{
-        //    float penetration2 = penetration + 5;
-        //    if (penetration2 > 0)
-        //    {
-        //        //ball.physics.position += normal * penetration2;
-        //        ball.physics.velocity += this.physics.velocity * penetration2 * 20.5f;
-        //    }
-        //}
     }
 
     public void TakePossession(Ball ball)
@@ -161,6 +103,7 @@ public class Actor : MonoBehaviour
 
         ball.owner = this;
         this.ownedBall = ball;
+        Boss.Instance.SetOffenseTeam(this.team);
 		ball.transform.parent = transform.FindTransformInChildren("Hand_Target");
 		ball.transform.localPosition = Vector3.zero;
 		body.SetAnimatorHold(true);
@@ -172,15 +115,23 @@ public class Actor : MonoBehaviour
             return;
 
         this.ownedBall.owner = null;
+        Boss.Instance.SetOffenseTeam(null);
 		this.ownedBall.transform.parent = null;
         this.ownedBall = null;
         this.possessionDelay = Actor.possessionDelayTime;
 		body.SetAnimatorHold(false);
     }
 
-	public void AddStatusEffect(GameAction effect)
+	public override void SetUnityPhysics(bool value)
 	{
-		effect.Invoke();
-		statusEffects.Add(effect);
+        base.SetUnityPhysics(value);
+		if (value)
+		{
+			body.vfxRenderer.enabled = false;
+		}
+		else
+		{
+			body.vfxRenderer.enabled = true;
+		}
 	}
 }

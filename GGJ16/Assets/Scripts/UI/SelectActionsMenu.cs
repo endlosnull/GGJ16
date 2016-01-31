@@ -54,6 +54,11 @@ public class SelectActionsMenu : MenuBehaviour
 		{
 			return;
 		}
+		if( idx >= this.cursorPositions.Count )
+		{
+			Debug.LogWarning("Invalid index "+idx+" of "+this.cursorPositions.Count);
+			return;
+		}
 		CursorPosition cp = this.cursorPositions[idx];
 		switch (action)
 		{
@@ -70,7 +75,7 @@ public class SelectActionsMenu : MenuBehaviour
 				cp.j--;
 				break;
 		}
-		Debug.Log("cp" + cp);
+		//Debug.Log("cp" + cp);
 		this.Cursors[idx].localPosition = new Vector3(cp.i * 120 - 240, cp.j * 120 - 240, 0);
 	}
 }
