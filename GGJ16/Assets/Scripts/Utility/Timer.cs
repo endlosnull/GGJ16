@@ -4,22 +4,22 @@ public class Timer
 	float timeLeft;
 	float timeMax;
 	bool isPaused;
-	bool resetOnComplete;
+	bool isLooping;
 
 	public Timer()
 	{
 		timeLeft = -1;
 		timeMax = -1;
 		isPaused = true;
-		resetOnComplete = false;
+		isLooping = false;
 	}
 
-	public Timer(float duration, bool resetOnComplete)
+	public Timer(float duration, bool isLooping)
 	{
 		timeLeft = duration;
 		timeMax = duration;
 		isPaused = false;
-		this.resetOnComplete = resetOnComplete;
+		this.isLooping = isLooping;
 	}
 
 	public bool Tick(float deltaTime)
@@ -31,7 +31,7 @@ public class Timer
 		timeLeft -= deltaTime;
 		if( timeLeft < 0f )
 		{
-			if( resetOnComplete )
+			if( isLooping )
 			{
 				Reset();
 			}
