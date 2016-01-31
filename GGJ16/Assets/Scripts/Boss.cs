@@ -39,7 +39,7 @@ public class Boss : Singleton<Boss>
 
 	public void Update()
 	{
-		time += Time.deltaTime;
+		time -= Time.deltaTime;
 		UpdateTime.Invoke(time);
 	}
 
@@ -120,7 +120,7 @@ public class Boss : Singleton<Boss>
 
 	void StartGame()
 	{
-		time = 0f;
+		time = 5f * 60f;
 		for (int i = 0; i < users.Count; ++i)
 		{
 			GameObject go = GameObjectFactory.Instance.Spawn("p-Actor", null, Vector3.zero, Quaternion.identity);
