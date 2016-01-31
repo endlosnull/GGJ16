@@ -93,7 +93,12 @@ public class Ball : GameEntity
         float angle = Mathf.Atan2(normal.x, normal.z) / Mathf.PI * 180;
         this.physics.velocity = Quaternion.AngleAxis(-angle, Vector3.up) * this.physics.velocity;
         this.physics.velocity.z *= -1;
+
+        float vol = Mathf.Abs(this.physics.velocity.z) / 3;
+        if (vol > 1)
+            vol = 1;
+        AudioManager.Instance.PlayOneShot(audioSource, AudioManager.Instance.ballBounce, vol);
+
         this.physics.velocity = Quaternion.AngleAxis(angle, Vector3.up) * this.physics.velocity;
-        AudioManager.Instance.PlayOneShot(audioSource, AudioManager.Instance.ballBounce);
     }
 }

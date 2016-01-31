@@ -100,7 +100,10 @@ public class PhysicsObj
 
                 if (audioSource != null && this.bounce > 0)
                 {
-                    AudioManager.Instance.PlayOneShot(audioSource, AudioManager.Instance.ballBounce);
+                    float vol = Mathf.Abs(this.velocity[dim]) / 3;
+                    if (vol > 1)
+                        vol = 1;
+                    AudioManager.Instance.PlayOneShot(audioSource, AudioManager.Instance.ballBounce, vol);
                 }
             }
             else if (this.position[dim] > this.arenaMax[dim])
@@ -110,7 +113,10 @@ public class PhysicsObj
 
                 if (audioSource != null && this.bounce > 0)
                 {
-                    AudioManager.Instance.PlayOneShot(audioSource, AudioManager.Instance.ballBounce);
+                    float vol = Mathf.Abs(this.velocity[dim]) / 3;
+                    if (vol > 1)
+                        vol = 1;
+                    AudioManager.Instance.PlayOneShot(audioSource, AudioManager.Instance.ballBounce, vol);
                 }
             }
             else

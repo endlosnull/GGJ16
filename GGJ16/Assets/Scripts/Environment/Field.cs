@@ -76,11 +76,13 @@ public class Field : HardSingleton<Field>
 		Vector3 goalVec = GetGoalPos();
 		goal.SetUnityPhysics(false);
 		goal.transform.position = goalVec;
+		goal.transform.localRotation = GetGoalRot();
 		goal.SyncPhysics();
 
 		Vector3 ballVec = GetBallPos();
 		ball.SetUnityPhysics(false);
 		ball.transform.position = ballVec;
+		ball.transform.localRotation = Quaternion.identity;
 		ball.SyncPhysics(); 
 	}
 
@@ -107,6 +109,11 @@ public class Field : HardSingleton<Field>
     	return Vector3.zero;
     }
 
+    Quaternion GetGoalRot()
+    {
+    	return Quaternion.AngleAxis(-90f,Vector3.up);
+    }
+
     Vector3 GetBallPos()
     {
 
@@ -118,7 +125,7 @@ public class Field : HardSingleton<Field>
 		if( !hasFirstSetup )
 		{	
 			GameObject goalObject = GameObjectFactory.Instance.Spawn("p-Goal", null, GetGoalPos(), Quaternion.identity) ;
-			goalObject.transform.localRotation = Quaternion.AngleAxis(-90f,Vector3.up);
+			goalObject.transform.localRotation = GetGoalRot();
 			goalObject.name = "Goal";
 			goal = goalObject.GetComponent<Goal>();
 			goalObject.BroadcastMessage("OnSpawn", SendMessageOptions.DontRequireReceiver);
@@ -173,7 +180,7 @@ public class Field : HardSingleton<Field>
     {
     	foreach(Team team in Boss.Instance.Teams)
 		{
-			
+			team.GlobalLock(true);
 			if( team.score >= 3 )
 			{
 				SetState(State.EndGame);
@@ -218,6 +225,18 @@ public class Field : HardSingleton<Field>
 
     public void OnScore(int teamIndex)
     {
+    	for (int i = 0; i < allActors.Count; ++i)
+		{
+			Actor actor = allActors[i];
+			actor.SetUnityPhysics(true);
+			actor.AddUnityExplosionForce(250f, Vector3.down * 10f, 250f);
+		}
+		ball.SetUnityPhysics(true);
+		ball.AddUnityExplosionForce(250f, Vector3.down * 10f, 250f);
+		goal.SetUnityPhysics(true);
+		goal.AddUnityExplosionForce(250f, Vector3.down * 10f + Vector3.right*3f, 250f);
+		CamControl.Instance.AddShake(0.4f);
+
 		AudioManager.Instance.PlayOneShot(CamControl.Instance.audioSource, AudioManager.Instance.airhorn);
         CamControl.Instance.AddShake(0.2f);
         CamControl.Instance.AddZoom(5f, 0.5f);
