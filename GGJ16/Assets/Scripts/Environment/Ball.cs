@@ -5,8 +5,6 @@ public class Ball : GameEntity
     public Actor owner;
     public Field field;
 
-    public Renderer[] currentRenderers;
-
     public override void OnSpawn()
     {
         this.physics.SetSize(1);

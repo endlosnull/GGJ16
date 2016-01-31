@@ -29,6 +29,23 @@ namespace Pooling
 			}
 		}
 
+		public void Precache(string prefabName, int count)
+		{
+
+			GameObject prefab = Resources.Load(RESOURCES_PREFIX + prefabName) as GameObject;
+			if (prefab == null)
+			{
+				return;
+			}
+			GameObjectPool pool;
+			if (!pools.TryGetValue(prefab, out pool))
+			{
+				pool = new GameObjectPool();
+				pool.Precache(prefab, count);
+				pools.Add(prefab, pool);
+			}
+		}
+
 		public GameObject Spawn(GameObject prefab)
 		{
 			return Spawn(prefab, null, VECTOR3_ZERO, QUATERNION_IDENTITY);

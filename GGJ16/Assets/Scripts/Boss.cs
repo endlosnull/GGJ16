@@ -4,7 +4,7 @@ using System.Collections;
 using System.Collections.Generic;
 using Pooling;
 
-public class Boss : Singleton<Boss>
+public class Boss : HardSingleton<Boss>
 {
 	public ScoreUpdateEvent ScoreUpdate = new ScoreUpdateEvent();
 	public List<User> users = new List<User>();
@@ -21,8 +21,9 @@ public class Boss : Singleton<Boss>
 		SettingUp,
 		PreGame,
 		Loadout,
-		StartGame,
+		StartingGame,
 		InGame,
+		EndingGame,
 	}
 
 	public State state = State.None;
@@ -37,19 +38,26 @@ public class Boss : Singleton<Boss>
 	public Texture masterPaletteMain;
 	public Texture masterPaletteAlt;
 
-	private float time;
+	float inputLock = -1f;
+
 
 	void Awake()
 	{
-		time = 0f;
 		ChangeState(State.SettingUp);
 		ChangeScreen.Invoke("SelectTeam");
 	}
 
 	public void Update()
 	{
-		time -= Time.deltaTime;
-		UpdateTime.Invoke(time);
+		float deltaTime = Time.deltaTime;
+		if( inputLock > 0f)
+		{
+			inputLock -= deltaTime;
+		}
+		if( Field.HasInstance )
+		{
+			UpdateTime.Invoke(Field.Instance.GameTime);
+		}
 	}
 
 	public void AddKeyboardPlayer()
@@ -96,13 +104,14 @@ public class Boss : Singleton<Boss>
 
 	public void RefreshScore()
 	{
-		ScoreUpdate.Invoke("Team1:"+teams[0].score, "Team2:"+teams[1].score);
+		ScoreUpdate.Invoke(teams[0].score.ToString(), teams[1].score.ToString());
+		Debug.Log("ScoreUpdate "+teams[0].score+" to "+teams[1].score);
 	}
 
 
 	public void GotoStartGame()
 	{
-		ChangeState(State.StartGame);
+		ChangeState(State.StartingGame);
 	}
 
 	public void GotoLoadout()
@@ -110,7 +119,7 @@ public class Boss : Singleton<Boss>
 		ChangeState(State.Loadout);
 	}
 
-	void ChangeState(State nextState)
+	public void ChangeState(State nextState)
 	{
 		if (state == nextState)
 		{
@@ -127,7 +136,7 @@ public class Boss : Singleton<Boss>
 				ChangeScreen.Invoke("SelectActions");
 				StartLoadout();
 				break;
-			case State.StartGame:
+			case State.StartingGame:
 				ChangeScreen.Invoke("Play");
 				StartGame();
 				break;
@@ -141,18 +150,17 @@ public class Boss : Singleton<Boss>
 		users.Clear();
 
         StartTeams();
+        GameObjectFactory.Instance.Precache("p-Field",2);
 	}
 
 	void StartGame()
 	{
-        time = 5f * 60f;
         StartField();
+        
         StartUserActors();
         StartAgentActors();
-        field.BeginRound();
-        teams[0].SetScore(0);
-        teams[1].SetScore(0);
-        ChangeState(State.InGame);
+        field.SetState(Field.State.SettingUp);
+        
 
     }
 
@@ -216,7 +224,7 @@ public class Boss : Singleton<Boss>
 			//fix this to get the team
 			Team team = teams[0];
 
-			Vector2 startPos = team.GetHomePos(team.actors.Count);
+			Vector2 startPos = team.GetSpawnPos(team.actors.Count);
 			Vector3 startVec = new Vector3(startPos.x, 0, startPos.y);
 
 
@@ -265,7 +273,7 @@ public class Boss : Singleton<Boss>
 			for(int j=team.actors.Count;j<4;++j)
 			{
 
-				Vector2 startPos = team.GetHomePos(team.actors.Count);
+				Vector2 startPos = team.GetSpawnPos(team.actors.Count);
 				Vector3 startVec = new Vector3(startPos.x, 0, startPos.y);
 				GameObject go = GameObjectFactory.Instance.Spawn("p-Actor", null, startVec, Quaternion.identity) ;
 				go.name = "agent["+i+"]"+team.GetName(j);
@@ -299,7 +307,9 @@ public class Boss : Singleton<Boss>
 	void StartField()
 	{
 		GameObject fieldObject = GameObjectFactory.Instance.Spawn("p-Field", null, Vector3.zero, Quaternion.identity) ;
+		fieldObject.name = "Field";
 		field = fieldObject.GetComponent<Field>();
+		HardSingleton<Field>.SingletonInit(field);	
 		
 	}
 
@@ -326,12 +336,12 @@ public class Boss : Singleton<Boss>
 		{
 			MoveCursor.Invoke(idx, vAxis > 0f ? MoveCursorAction.Up : MoveCursorAction.Down);
 		}
-		if (btnStart && time <= 0f)
+		if (btnStart)
 		{
 			if(state == State.SettingUp)
 			{
 				GotoLoadout();
-				time = 1f;
+				inputLock = 1f;
 			}
 			else if(state == State.Loadout)
 			{

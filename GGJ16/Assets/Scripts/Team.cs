@@ -42,6 +42,18 @@ public class Team : MonoBehaviour
 		Boss.Instance.RefreshScore();
 	}
 
+	public void RespawnActor()
+	{
+		foreach(Actor actor in actors)
+		{
+			Vector2 homePos = GetSpawnPos(actor.positionIndex);
+			Vector3 homeVec = new Vector3(homePos.x, 0f, homePos.y);
+			actor.SetUnityPhysics(false);
+			actor.transform.position = homeVec;
+			actor.SyncPhysics();
+		}
+	}
+
 	void Reposition()
 	{
 		List<float> leashDistances = new List<float>();
@@ -154,6 +166,32 @@ public class Team : MonoBehaviour
 				case 1: return new Vector2(2,-3);
 				case 2: return new Vector2(2,3);
 				case 3: return new Vector2(-3,-1);
+			}
+		}
+	}
+
+	public Vector2 GetSpawnPos(int slot)
+	{
+		if( teamIndex == 0 )
+		{
+			switch(slot) 
+			{
+				default:
+				case 0: return new Vector2(-10,0);
+				case 1: return new Vector2(-9,-3);
+				case 2: return new Vector2(-9,3);
+				case 3: return new Vector2(-8,1);
+			}
+		}
+		else
+		{
+			switch(slot) 
+			{
+				default:
+				case 0: return new Vector2(10,0);
+				case 1: return new Vector2(9,-3);
+				case 2: return new Vector2(9,3);
+				case 3: return new Vector2(8,-1);
 			}
 		}
 	}
