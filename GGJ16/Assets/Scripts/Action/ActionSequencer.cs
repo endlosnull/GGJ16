@@ -22,12 +22,19 @@ public class ActionSequencer : MonoBehaviour
         // TEST SEQUENCE
         int seqInd = 0;
 		sequences[seqInd].actions.Clear();
+        //ActionBricks.AddSwat(gameObject, sequences[seqInd]);
+        //ActionBricks.AddGrab(gameObject, sequences[seqInd]);
+        //ActionBricks.AddBackDash(gameObject, sequences[seqInd]);
+        //ActionBricks.AddJump(gameObject, sequences[seqInd]);
+        //ActionBricks.AddTurnRight(gameObject, sequences[seqInd]);
+        //ActionBricks.AddThrow(gameObject, sequences[seqInd]);
         ActionBricks.AddForwardDash(gameObject, sequences[seqInd]);
         ActionBricks.AddGrab(gameObject, sequences[seqInd]);
 
         seqInd++;
         sequences[1].actions.Clear();
         ActionBricks.AddSwat(gameObject, sequences[seqInd]);
+        //ActionBricks.AddTurnRight(gameObject, sequences[seqInd]);
         ActionBricks.AddJump(gameObject, sequences[seqInd]);
         ActionBricks.AddThrow(gameObject, sequences[seqInd]);
     }
