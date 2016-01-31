@@ -274,8 +274,8 @@ MonoBehaviour:
   ball: {fileID: 0}
   allActors: []
   arrows:
-  - {fileID: 2349186}
   - {fileID: 2362898}
+  - {fileID: 2349186}
 --- !u!1001 &100100000
 Prefab:
   m_ObjectHideFlags: 1

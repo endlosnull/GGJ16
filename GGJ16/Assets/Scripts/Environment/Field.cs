@@ -83,7 +83,7 @@ public class Field : HardSingleton<Field>
     		else
     		{
     			Color color = teams[i].teamColor;
-    			color.a = 0.4f;
+    			color.a = 0.3f;
     			arrows[i].material.color = color;
     		}
     	}
