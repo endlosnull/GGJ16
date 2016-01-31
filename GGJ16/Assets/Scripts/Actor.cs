@@ -49,8 +49,9 @@ public class Actor : GameEntity
         base.FixedUpdate();
 
         this.possessionDelay -= Time.deltaTime;
+        this.ballCheckCooldown -= Time.deltaTime;
 
-		Vector3 moveDelta = ((new Vector3(inputAdj.normalized.x, 0, inputAdj.normalized.y) * this.physics.inputPower) + this.physics.velocity).normalized;
+        Vector3 moveDelta = ((new Vector3(inputAdj.normalized.x, 0, inputAdj.normalized.y) * this.physics.inputPower) + this.physics.velocity).normalized;
 		float forward = Vector3.Dot(this.transform.forward, moveDelta);
 		float strafe = Vector3.Dot(this.transform.right, moveDelta);
 		body.SetAnimatorMoveSpeed(Mathf.Max(forward, strafe));
