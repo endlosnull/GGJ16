@@ -12,19 +12,24 @@ public class PhysicsObj
     private Vector3 arenaMax = new Vector3(arenaWidth / 2, arenaHeight, arenaDepth / 2);
 
     public Vector3 position = Vector3.zero;
-
     public Vector3 velocity = Vector3.zero;
+
     public float drag = 1.7f;
     public float fullStop = 2.0f;
 
     public float inputPower = 2;
 
-    public float halfObjSize = 1;
+    private float halfObjSize = 1;
+
+    public float HalfSize
+    {
+        get { return this.halfObjSize; }
+    }
 
     public void SetSize(float size)
     {
         this.halfObjSize = size / 2;
-        this.arenaMin = new Vector3(-arenaWidth / 2 + halfObjSize, 0, -arenaDepth / 2 + halfObjSize);
+        this.arenaMin = new Vector3(-arenaWidth / 2 + halfObjSize, halfObjSize, -arenaDepth / 2 + halfObjSize);
         this.arenaMax = new Vector3(arenaWidth / 2 - halfObjSize, arenaHeight, arenaDepth / 2 - halfObjSize);
     }
 
@@ -42,7 +47,7 @@ public class PhysicsObj
         DoMove(moveDelta);
 
         // Apply drag
-        if (this.position.y == 0)
+        if (this.position.y == this.arenaMin.y)
         {
             this.velocity -= this.velocity * Time.deltaTime * drag;
             if (this.velocity.sqrMagnitude < fullStop * fullStop)

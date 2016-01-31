@@ -4,16 +4,20 @@ public class Actor : MonoBehaviour
 {
 	public ActorController controller;
 	public Body body;
+    public Ball ownedBall;
 	public MecanimAnimator animator;
 
     public PhysicsObj physics = new PhysicsObj();
     public Vector2 inputForce = Vector2.zero;
     private Vector3 directionVector = Vector3.forward;
+
+    private const float possessionDelayTime = 0.5f;
+    private float possessionDelay = 0;
     
     public void Update()
 	{
-
-	}
+		this.transform.rotation = Quaternion.LookRotation(directionVector, Vector3.up);
+ 	}
 
 	public void DoActionAlpha()
 	{
@@ -61,20 +65,45 @@ public class Actor : MonoBehaviour
             this.directionVector.z = inputForce.normalized.y;
         }
 
+        if (this.directionVector.sqrMagnitude == 0)
+            this.directionVector = Vector3.forward; // hack to avoid 0 direction
+        this.directionVector.Normalize();
+
         this.physics.FixedUpdate(new Vector3(inputForce.normalized.x, 0, inputForce.normalized.y));
         this.transform.position = this.physics.position;
+
+        this.possessionDelay -= Time.deltaTime;
     }
 
     public void BallHandling(Ball ball)
     {
-        if (ball.owner == null)
+        if (ball.owner == null && this.possessionDelay < 0)
         {
             float distance = (ball.transform.position - this.transform.position).magnitude;
-            if (distance < this.physics.halfObjSize + ball.physics.halfObjSize)
+            if (distance < this.physics.HalfSize + ball.physics.HalfSize)
             {
-                ball.owner = this;
+                TakePossession(ball);
             }
         }
+    }
+
+    public void TakePossession(Ball ball)
+    {
+        if (this.ownedBall != null)
+            LosePossession();
+
+        ball.owner = this;
+        this.ownedBall = ball;
+    }
+
+    public void LosePossession()
+    {
+        if (this.ownedBall == null)
+            return;
+
+        this.ownedBall.owner = null;
+        this.ownedBall = null;
+        this.possessionDelay = Actor.possessionDelayTime;
     }
 
 

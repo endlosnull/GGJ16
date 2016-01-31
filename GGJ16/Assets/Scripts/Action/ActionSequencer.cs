@@ -29,11 +29,18 @@ public class ActionSequencer : MonoBehaviour
         jump.duration = 0.5f;
         sequence.actions.Add(jump);
 
-        SideDash sideDash = new SideDash();
-        sideDash.source = gameObject;
-        sideDash.force = 3f;
-        sideDash.duration = 0.2f;
-        sequence.actions.Add(sideDash);
+        Throw throwAction = new Throw();
+        throwAction.source = gameObject;
+        throwAction.forceForward = 3f;
+        throwAction.forceUp = 3f;
+        throwAction.duration = 0.2f;
+        sequence.actions.Add(throwAction);
+
+        //SideDash sideDash = new SideDash();
+        //sideDash.source = gameObject;
+        //sideDash.force = 3f;
+        //sideDash.duration = 0.2f;
+        //sequence.actions.Add(sideDash);
 
         //ForwardDash forwardDash2 = new ForwardDash();
         //forwardDash2.source = gameObject;
