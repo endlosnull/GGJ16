@@ -17,7 +17,7 @@ public class SelectActionsMenu : MenuBehaviour
 	public Transform ActionBrick;
 	List<CursorPosition> cursorPositions = new List<CursorPosition>();
 
-	public int MaxI = 3;
+	public int MaxI = 5;
 	public int maxJ = 0;
 
 	protected override string MenuName
@@ -41,7 +41,7 @@ public class SelectActionsMenu : MenuBehaviour
 
 		Transform actionBricksTransform = GameObject.Find("ActionBricks").transform;
 		int i = 0;
-		int j = 0;
+		int j = -1;
 
 		foreach (string k in ActionBricksDictionary.Dictionary.Keys)
 		{
@@ -53,7 +53,7 @@ public class SelectActionsMenu : MenuBehaviour
 
 			var cube = Instantiate(ActionBrick);
 			cube.SetParent(actionBricksTransform);
-			cube.localPosition = new Vector3(i * BrickSize - BrickSize, j * BrickSize - BrickSize, 0);
+			cube.localPosition = new Vector3((i - MaxI / 2) * BrickSize, -j * BrickSize + BrickSize * 3, 0);
 			cube.Find("BrickText").GetComponent<Text>().text = ActionBricksDictionary.Dictionary[k].name;
 
 			var sprite = Resources.Load<Sprite>(ActionBricksDictionary.Dictionary[k].image);
@@ -65,10 +65,24 @@ public class SelectActionsMenu : MenuBehaviour
 		}
 	}
 
-	// Update is called once per frame
 	void Update()
 	{
+		int j = 0;
+		List<User> users = Boss.Instance.users;
+		for (int i = 0; i < users.Count; ++i)
+		{
+			if (users[i].isLocalHuman && j < this.Cursors.Count)
+			{
+				this.Cursors[j].gameObject.SetActive(true);
+				++j;
+			}
+		}
+		for (; j < this.Cursors.Count; ++j)
+		{
+			this.Cursors[j].gameObject.SetActive(false);
+		}
 	}
+
 
 	public void MoveCursor(int idx, MoveCursorAction action)
 	{
@@ -91,10 +105,10 @@ public class SelectActionsMenu : MenuBehaviour
 				if (cp.i + 1 < MaxI) cp.i++;
 				break;
 			case MoveCursorAction.Up:
-				if (cp.j + 1 < maxJ) cp.j++;
+				if (cp.j > 0) cp.j--;
 				break;
 			case MoveCursorAction.Down:
-				if (cp.j > 0) cp.j--;
+				if (cp.j < maxJ) cp.j++;
 				break;
 		}
 		SetCursorPosition(idx, cp);
@@ -130,6 +144,6 @@ public class SelectActionsMenu : MenuBehaviour
 
 	private void SetCursorPosition(int idx, CursorPosition cp)
 	{
-		this.Cursors[idx].localPosition = new Vector3(cp.i * BrickSize - BrickSize, cp.j * BrickSize, 0);
+		this.Cursors[idx].localPosition = new Vector3((cp.i - MaxI / 2) * BrickSize, -cp.j * BrickSize + BrickSize * 3, 0);
 	}
 }
