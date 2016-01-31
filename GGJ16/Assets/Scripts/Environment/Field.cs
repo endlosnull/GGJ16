@@ -20,7 +20,7 @@ public class Field : HardSingleton<Field>
 	public Goal goal;
 	public Ball ball;
 	public List<Actor> allActors;
-
+	public List<Spectator> allSpectators = new List<Spectator>();
 
 	public FloorEntity[,] tiles;
 	float floorHalfX = 0;
@@ -103,6 +103,17 @@ public class Field : HardSingleton<Field>
 		ball.transform.localRotation = Quaternion.identity;
 		ball.SyncPhysics(); 
 		ball.trail.enabled = false;
+
+		Vector3 specPos = new Vector3(-8f, 2.25f, 8f);
+		Quaternion specRot = Quaternion.Euler(0f, 180f, 0f);
+		for (int i = 0; i < allSpectators.Count; ++i)
+		{
+			Spectator spec = allSpectators[i];
+			spec.transform.position = specPos;
+			spec.transform.rotation = specRot;
+			specPos += Vector3.right * Random.Range(0.5f, 1.2f);
+			spec.SetUnityPhysics(false);
+		}
 	}
 
     public void SetState(State nextState)
@@ -171,6 +182,18 @@ public class Field : HardSingleton<Field>
 	        		tileObject.BroadcastMessage("OnSpawn", SendMessageOptions.DontRequireReceiver);
 		        }
 	        }
+
+			Vector3 specPos = new Vector3(-8f, 2.25f, 8f);
+			Quaternion specRot = Quaternion.Euler(0f, 180f, 0f);
+			for (int i = 0; i < 20; ++i)
+			{
+				GameObject specGO = GameObjectFactory.Instance.Spawn("p-Spectator", null, specPos, specRot);
+				specPos += Vector3.right * Random.Range(0.5f, 1.2f);
+				Spectator spec = specGO.GetComponent<Spectator>();
+				spec.SetUnityPhysics(false);
+				allSpectators.Add(spec);
+			}
+
 	        hasFirstSetup = true;
 	    }
 	    else
@@ -271,10 +294,17 @@ public class Field : HardSingleton<Field>
 			actor.SetUnityPhysics(true);
 			actor.AddUnityExplosionForce(250f, Vector3.down * 10f, 250f);
 		}
+		for (int i = 0; i < allSpectators.Count; ++i)
+		{
+			Spectator spec = allSpectators[i];
+			spec.SetUnityPhysics(true);
+			spec.AddUnityExplosionForce(250f, Vector3.down * 10f, 250f);
+		}
 		ball.SetUnityPhysics(true);
 		ball.AddUnityExplosionForce(250f, Vector3.down * 10f, 250f);
 		goal.SetUnityPhysics(true);
 		goal.AddUnityExplosionForce(250f, Vector3.down * 10f + Vector3.right*3f, 250f);
+		GameObjectFactory.Instance.Spawn("p-GoalVFX", null, goal.transform.position + Vector3.up * 2f, Quaternion.identity);
 		CamControl.Instance.AddShake(0.4f);
 
 		AudioManager.Instance.PlayOneShot(CamControl.Instance.audioSource, AudioManager.Instance.airhorn);
