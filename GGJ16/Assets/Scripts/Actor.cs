@@ -107,16 +107,27 @@ public class Actor : MonoBehaviour
             return;
 
         Vector3 diff = ball.transform.position - this.transform.position;
+        diff.y = 0;
+        Vector3 normal = diff.normalized;
+        if (diff.sqrMagnitude == 0)
+            return;
+
         float distance = diff.magnitude;
         float penetration = this.physics.HalfSize + ball.physics.HalfSize - distance;
-
-        Vector3 normal = diff.normalized;
-
         if (penetration > 0)
         {
             ball.physics.position += normal * penetration;
             //ball.physics.velocity += normal * penetration;
         }
+        //else
+        //{
+        //    float penetration2 = penetration + 5;
+        //    if (penetration2 > 0)
+        //    {
+        //        //ball.physics.position += normal * penetration2;
+        //        ball.physics.velocity += this.physics.velocity * penetration2 * 20.5f;
+        //    }
+        //}
     }
 
     public void TakePossession(Ball ball)

@@ -20,7 +20,7 @@ public class PhysicsObj
 
     public float inputPower = 2;
 
-    private float halfObjSize = 1;
+    private float halfObjSize = 0.5f;
 
     public float HalfSize
     {

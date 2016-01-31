@@ -19,7 +19,7 @@ public class ActionSequencer : MonoBehaviour
 
         Grab grabAction = new Grab();
         grabAction.source = gameObject;
-        grabAction.range = 3f;
+        grabAction.range = 2.0f;
         grabAction.duration = 0.2f;
         sequence.actions.Add(grabAction);
 
