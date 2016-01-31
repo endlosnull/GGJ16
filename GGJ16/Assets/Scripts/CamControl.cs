@@ -9,7 +9,6 @@ public class CamControl : Singleton<CamControl>
 	Vector3 targetPosition = Vector3.zero;
 	Vector3 currentPosition;
 	Vector3 desiredPosition;
-	float velocity = 0f;
 	float maxVelocity = 1.2f;
 	public float distance = 22;	
 	float pitch = 60f*Mathf.PI/180f;

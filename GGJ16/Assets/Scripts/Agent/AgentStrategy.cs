@@ -79,7 +79,7 @@ public class StrategySpace : AgentStrategy
 		
 	}
 
-	public virtual bool GetAlpha(int rand, ref float energyDrain)
+	public override bool GetAlpha(int rand, ref float energyDrain)
 	{
 		if( rand < 15 )
 		{
@@ -92,7 +92,7 @@ public class StrategySpace : AgentStrategy
 			return true;
 		}
 	}
-	public virtual bool GetBravo(int rand, ref float energyDrain)
+	public override bool GetBravo(int rand, ref float energyDrain)
 	{
 		if( rand > 85 )
 		{

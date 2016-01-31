@@ -39,7 +39,6 @@ public class Team : MonoBehaviour
 			Vector2 leashPos = GetLeashPos(i);
 			Vector3 leashVec = new Vector3(leashPos.x, 0f, leashPos.y);
 			leashDistances.Add(99999f*99999f);
-			Actor bestActor = null;
 			for(int j=0; j<actors.Count; ++j)
 			{
 				Actor actor = actors[j];
@@ -47,7 +46,6 @@ public class Team : MonoBehaviour
 				if( curDiff < leashDistances[i] )
 				{
 					leashDistances[i] = curDiff;
-					bestActor = actor;
 				}
 			}
 		}

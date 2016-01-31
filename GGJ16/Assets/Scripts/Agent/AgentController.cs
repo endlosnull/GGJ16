@@ -8,7 +8,6 @@ public class AgentController : ActorController
 	Timer reevaluateTimer = new Timer(2f, true);
 	Timer scanTimer = new Timer(0.5f, true);
 	Timer decideTimer = new Timer(0.25f, true);
-	Vector3 homePosition = Vector3.zero;
 	List<AgentStrategy> strategyList = new List<AgentStrategy>();
 	StrategyContext context = new StrategyContext();
 
@@ -19,7 +18,6 @@ public class AgentController : ActorController
 	public override void OnSpawn()
 	{
 		base.OnSpawn();
-		homePosition = this.transform.position;
 		AddStrategy(gameObject.AddComponent<StrategySpace>());
 		AddStrategy(gameObject.AddComponent<StrategyBallHawk>());
 		//AddStrategy(gameObject.AddComponent<StrategyOffenseScore>());
@@ -47,8 +45,9 @@ public class AgentController : ActorController
 		if( energyLevel > 0f )
 		{
 			strategy.GetMove(ref moveDir, ref energyConsumed);
-			InputMove(moveDir.x,moveDir.y);	
 			int rand = UnityEngine.Random.Range(0,100);
+			
+			InputMove(moveDir.x,moveDir.y);	
         
 			InputAlpha = strategy.GetAlpha(rand, ref energyConsumed);
 
@@ -101,7 +100,6 @@ public class AgentController : ActorController
 		}
 		if( strategy == null )
 		{
-			float randomVal = UnityEngine.Random.value;
 			int bestGoodness = -100;
 			Scan(0, true);
 			for(int i=0; i<strategyList.Count; ++i)
