@@ -33,6 +33,9 @@ public class Boss : Singleton<Boss>
 	public ChangeScreenEvent ChangeScreen = new ChangeScreenEvent();
 	public MoveCursorEvent MoveCursor = new MoveCursorEvent();
 
+	public Texture masterPaletteMain;
+	public Texture masterPaletteAlt;
+
 	private float time;
 
 	void Awake()
@@ -164,6 +167,39 @@ public class Boss : Singleton<Boss>
 		teams.Add(teamRight);
     }
 
+
+	void RegisterActor(Actor actor, Team team)
+	{
+		actor.team = team;
+		actor.positionIndex = team.actors.Count;
+		team.actors.Add(actor);
+		field.allActors.Add(actor);
+	}
+
+	public void SetOffenseTeam(Team team)
+	{
+		bool freeBall = team == null;
+		for(int i=0; i<teams.Count; ++i)
+		{
+			if(freeBall)
+			{
+				teams[i].isOffense = false;
+				teams[i].isDefense = false;
+			}
+			else if( teams[i] == team )
+			{
+				teams[i].isOffense = true;
+				teams[i].isDefense = false;
+			}
+			else if( teams[i] != team )
+			{
+				teams[i].isOffense = false;
+				teams[i].isDefense = true;
+			}
+			
+		}
+	}
+
     void StartUserActors()
     {
 		for (int i = 0; i < users.Count; ++i)
@@ -171,24 +207,33 @@ public class Boss : Singleton<Boss>
 			//fix this to get the team
 			Team team = teams[0];
 
-			Vector3 startPos = team.GetHomePos(team.actors.Count);
+			Vector2 startPos = team.GetHomePos(team.actors.Count);
+			Vector3 startVec = new Vector3(startPos.x, 0, startPos.y);
 
 
-			GameObject go = GameObjectFactory.Instance.Spawn("p-Actor", null, startPos, Quaternion.identity);
+			GameObject go = GameObjectFactory.Instance.Spawn("p-Actor", null, startVec, Quaternion.identity);
 			go.name = "hero" + i;
 			Actor actor = go.GetComponent<Actor>();
 			GameObject bodyObject = GameObjectFactory.Instance.Spawn("p-ActorBody", null, Vector3.zero, Quaternion.identity);
 			bodyObject.name = "herobody" + i;
 			bodyObject.transform.SetParent(actor.transform, false);
 			actor.body = bodyObject.GetComponent<ActorBody>();
-            actor.boss = this;
+			if( i == 0 )
+			{
+				actor.body.SetTexture(masterPaletteMain);
+			}
+			else
+			{
+				actor.body.SetTexture(masterPaletteAlt);
+			}
 			GameObject attachObject = GameObjectFactory.Instance.Spawn("p-AttachHeaddressBird", null, Vector3.zero, Quaternion.identity);
 			attachObject.name = "attachment" + i;
 			attachObject.transform.parent = bodyObject.transform.FindTransformInChildren("Head");
 			attachObject.transform.localPosition = Vector3.zero;
 			attachObject.transform.localRotation = Quaternion.AngleAxis(-90f, Vector3.up);
 			actor.body.attachments.Add(attachObject);
-			users[i].controlledActor = actor;
+            actor.boss = this;
+            users[i].controlledActor = actor;
 			
 			actor.sequencer = go.AddComponent<ActionSequencer>();
 			actor.controller = go.AddComponent<ActorController>();
@@ -199,15 +244,6 @@ public class Boss : Singleton<Boss>
 		}
 		
 	}
-
-	void RegisterActor(Actor actor, Team team)
-	{
-		actor.team = team;
-		actor.positionIndex = team.actors.Count;
-		team.actors.Add(actor);
-		field.allActors.Add(actor);
-	}
-
 	
 	void StartAgentActors()
 	{
@@ -216,8 +252,10 @@ public class Boss : Singleton<Boss>
 			Team team = teams[i];
 			for(int j=team.actors.Count;j<4;++j)
 			{
-				Vector3 startPos = team.GetHomePos(team.actors.Count);
-				GameObject go = GameObjectFactory.Instance.Spawn("p-Actor", null, startPos, Quaternion.identity) ;
+
+				Vector2 startPos = team.GetHomePos(team.actors.Count);
+				Vector3 startVec = new Vector3(startPos.x, 0, startPos.y);
+				GameObject go = GameObjectFactory.Instance.Spawn("p-Actor", null, startVec, Quaternion.identity) ;
 				go.name = "agent["+i+"]"+j;
 				Actor actor = go.GetComponent<Actor>();
 
@@ -225,6 +263,14 @@ public class Boss : Singleton<Boss>
 				bodyObject.name = "herobody"+i;
 				bodyObject.transform.SetParent(actor.transform, false);
 				actor.body = bodyObject.GetComponent<ActorBody>();
+				if( i == 0 )
+				{
+					actor.body.SetTexture(masterPaletteMain);
+				}
+				else
+				{
+					actor.body.SetTexture(masterPaletteAlt);
+				}
                 actor.boss = this;
 
                 actor.sequencer = go.AddComponent<ActionSequencer>();

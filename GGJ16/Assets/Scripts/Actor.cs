@@ -165,6 +165,7 @@ public class Actor : MonoBehaviour
 
         ball.owner = this;
         this.ownedBall = ball;
+        Boss.Instance.SetOffenseTeam(this.team);
 		ball.transform.parent = transform.FindTransformInChildren("Hand_Target");
 		ball.transform.localPosition = Vector3.zero;
 		body.SetAnimatorHold(true);
@@ -176,6 +177,7 @@ public class Actor : MonoBehaviour
             return;
 
         this.ownedBall.owner = null;
+        Boss.Instance.SetOffenseTeam(null);
 		this.ownedBall.transform.parent = null;
         this.ownedBall = null;
         this.possessionDelay = Actor.possessionDelayTime;
