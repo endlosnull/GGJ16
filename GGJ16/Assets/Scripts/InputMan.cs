@@ -52,6 +52,8 @@ public class InputMan : Singleton<InputMan>
 			Field.Instance.goal.SetUnityPhysics(true);
 			Field.Instance.goal.AddUnityExplosionForce(250f, Vector3.down * 10f + Vector3.right*3f, 250f);
 			CamControl.Instance.AddShake(0.4f);
+			CamControl.Instance.AddZoom(5f, 0.5f);
+			Boss.Instance.TimeScale(0.1f, 1f);
 		}
 
 		if (Input.GetKeyDown(KeyCode.F2))

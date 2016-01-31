@@ -370,4 +370,21 @@ public class Boss : HardSingleton<Boss>
 	{
 		SequenceUpdated.Invoke(playerIdx, sequenceIdx, sequence);
 	}
+
+	public void TimeScale(float value, float duration)
+	{
+		StartCoroutine(TimeScaleCoroutine(value, duration));
+	}
+
+	IEnumerator TimeScaleCoroutine(float value, float duration)
+	{
+		float oldValue = Time.timeScale;
+		Time.timeScale = value;
+
+		float scalar = value / oldValue;
+
+		yield return new WaitForSeconds(duration * scalar);
+
+		Time.timeScale = oldValue;
+	}
 }

@@ -220,6 +220,8 @@ public class Field : HardSingleton<Field>
     {
 		AudioManager.Instance.PlayOneShot(CamControl.Instance.audioSource, AudioManager.Instance.airhorn);
         CamControl.Instance.AddShake(0.2f);
+        CamControl.Instance.AddZoom(5f, 0.5f);
+        Boss.Instance.TimeScale(0.1f, 1f);
         Team scoringTeam = Boss.Instance.Teams.Find(x=>x.teamIndex == teamIndex);
         scoringTeam.ModifyScore(1);
         SetState(State.AfterScore);

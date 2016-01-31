@@ -22,6 +22,13 @@ public class CamControl : Singleton<CamControl>
 	float shakeIntensity;
 	float shakeFadeMod = 0.5f;
 
+	float zoomValue;
+	float zoomSavedValue;
+	float zoomTarget;
+	float zoomTime;
+	float zoomDuration;
+	bool zoomReset;
+
 	void Awake()
 	{
 		currentPosition = this.transform.position;
@@ -56,12 +63,62 @@ public class CamControl : Singleton<CamControl>
 				shakeIntensity = Mathf.Max(0f, shakeIntensity - shakeFadeMod * deltaTime);
 			}
 
-			this.transform.position = currentPosition + shakePos;
+			Vector3 zoomPos = Vector3.zero;
+			if (zoomDuration > 0f)
+			{
+				zoomValue = Mathf.Lerp(zoomSavedValue, zoomTarget, Mathf.Clamp01(zoomTime / zoomDuration));
+
+				zoomPos = this.transform.forward * zoomValue;
+
+				zoomTime += deltaTime;
+
+				if (zoomTime >= zoomDuration)
+				{
+					if (!zoomReset)
+					{
+						ResetZoom(0.5f);
+					}
+					else
+					{
+						ClearZoom();
+					}
+				}
+			}
+
+			this.transform.position = currentPosition + shakePos + zoomPos;
 		}
 	}
 
 	public void AddShake(float intensity)
 	{
 		shakeIntensity += intensity;
+	}
+
+	public void AddZoom(float target, float duration)
+	{
+		zoomSavedValue = zoomValue;
+		zoomTarget = target;
+		zoomTime = 0f;
+		zoomDuration = duration;
+		zoomReset = false;
+	}
+
+	public void ResetZoom(float duration)
+	{
+		zoomSavedValue = zoomValue;
+		zoomTarget = 0f;
+		zoomTime = 0f;
+		zoomDuration = duration;
+		zoomReset = true;
+	}
+
+	void ClearZoom()
+	{
+		zoomValue = 0f;
+		zoomSavedValue = 0f;
+		zoomTarget = 0f;
+		zoomTime = 0f;
+		zoomDuration = 0f;
+		zoomReset = false;
 	}
 }
