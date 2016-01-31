@@ -46,6 +46,7 @@ public class Team : MonoBehaviour
 	{
 		foreach(Actor actor in actors)
 		{
+			actor.physics.enabled = !val;
 			actor.controller.externalLocked = val;
 		}
 	}
@@ -68,6 +69,7 @@ public class Team : MonoBehaviour
 			Vector3 homeVec = new Vector3(homePos.x, 0f, homePos.y);
 			actor.SetUnityPhysics(false);
 			actor.transform.position = homeVec;
+			actor.transform.rotation = GetSpawnRot();
 			actor.SyncPhysics();
 		}
 	}
@@ -211,6 +213,18 @@ public class Team : MonoBehaviour
 				case 2: return new Vector2(9,3);
 				case 3: return new Vector2(8,-1);
 			}
+		}
+	}
+
+	public Quaternion GetSpawnRot()
+	{
+		if( teamIndex == 0 )
+		{
+			return Quaternion.Euler(0f, 90f, 0f);
+		}
+		else
+		{
+			return Quaternion.Euler(0f, -90f, 0f);
 		}
 	}
 
