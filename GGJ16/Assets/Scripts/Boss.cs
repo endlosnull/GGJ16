@@ -280,12 +280,28 @@ public class Boss : HardSingleton<Boss>
 			{
 				actor.body.SetTexture(masterPaletteAlt);
 			}
-			GameObject attachObject = GameObjectFactory.Instance.Spawn("p-AttachHeaddressBird", null, Vector3.zero, Quaternion.identity);
-			attachObject.name = "attachment" + i;
-			attachObject.transform.parent = bodyObject.transform.FindTransformInChildren("Head");
-			attachObject.transform.localPosition = Vector3.zero;
-			attachObject.transform.localRotation = Quaternion.AngleAxis(-90f, Vector3.up);
-			actor.body.attachments.Add(attachObject);
+			GameObject attachObject = null;
+			switch (team.teamIndex)
+			{
+			case 0:
+				attachObject = GameObjectFactory.Instance.Spawn("p-AttachHeaddressCat", null, Vector3.zero, Quaternion.identity);
+				break;
+			case 1:
+				attachObject = GameObjectFactory.Instance.Spawn("p-AttachHeaddressBird", null, Vector3.zero, Quaternion.identity);
+				break;
+			default:
+				break;
+			}
+
+			if (attachObject != null)
+			{
+				attachObject.name = "attachment" + i;
+				attachObject.transform.parent = bodyObject.transform.FindTransformInChildren("Head");
+				attachObject.transform.localPosition = Vector3.zero;
+				attachObject.transform.localRotation = Quaternion.AngleAxis(-90f, Vector3.up);
+				actor.body.attachments.Add(attachObject);
+			}
+
 			users[i].controlledActor = actor;
 			
 			actor.sequencer = go.AddComponent<ActionSequencer>();
