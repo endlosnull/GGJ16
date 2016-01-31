@@ -7,12 +7,11 @@ public class Goal : MonoBehaviour
 
     public PhysicsObj physics = new PhysicsObj();
 
-    void Awake()
+    public virtual void OnSpawn()
     {
         this.physics.SetSize(3);
         this.physics.fullStop = float.MaxValue;
 
         this.physics.position = this.transform.position;
-        this.physics.position.y = 0;
     }
 }

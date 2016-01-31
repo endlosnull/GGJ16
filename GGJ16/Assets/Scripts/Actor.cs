@@ -16,6 +16,12 @@ public class Actor : MonoBehaviour
 
     private const float possessionDelayTime = 0.5f;
     private float possessionDelay = 0;
+
+    public virtual void OnSpawn()
+    {
+        this.physics.position = this.transform.position;
+    }
+
     
     public void Update()
 	{
@@ -133,6 +139,8 @@ public class Actor : MonoBehaviour
 
         ball.owner = this;
         this.ownedBall = ball;
+		ball.transform.parent = transform.FindTransformInChildren("Hand_Target");
+		ball.transform.localPosition = Vector3.zero;
 		body.animator.SetLayerWeight(1, 1f);
     }
 
@@ -142,6 +150,7 @@ public class Actor : MonoBehaviour
             return;
 
         this.ownedBall.owner = null;
+		this.ownedBall.transform.parent = null;
         this.ownedBall = null;
         this.possessionDelay = Actor.possessionDelayTime;
 		body.animator.SetLayerWeight(1, 0f);

@@ -15,12 +15,12 @@ public class Field : Singleton<Field>
 	public void BeginRound()
 	{
 			
-		GameObject goalObject = GameObjectFactory.Instance.Spawn("p-Goal", null, Vector3.right*7f, Quaternion.identity) ;
+		GameObject goalObject = GameObjectFactory.Instance.Spawn("p-Goal", null, Vector3.zero, Quaternion.identity) ;
 		goalObject.transform.localRotation = Quaternion.AngleAxis(-90f,Vector3.up);
 		goalObject.name = "Goal";
 		goal = goalObject.GetComponent<Goal>();
 
-		GameObject ballObject = GameObjectFactory.Instance.Spawn("p-Ball", null, Vector3.up*3f, Quaternion.identity) ;
+		GameObject ballObject = GameObjectFactory.Instance.Spawn("p-Ball", null, Vector3.forward*3f, Quaternion.identity) ;
 		ballObject.name = "Ball";
 		ball = ballObject.GetComponent<Ball>();
         ball.field = this;

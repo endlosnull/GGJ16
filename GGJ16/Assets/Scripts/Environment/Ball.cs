@@ -20,6 +20,7 @@ public class Ball : MonoBehaviour
         if (owner == null)
         {
             this.physics.FixedUpdate(Vector3.zero);
+			this.transform.position = this.physics.position;
 
             CheckScore();
         }
@@ -28,8 +29,6 @@ public class Ball : MonoBehaviour
             this.physics.position = this.owner.physics.position + this.owner.Forward * 0.2f + Vector3.up * 0.5f;
             this.physics.velocity = this.owner.physics.velocity;
         }
-
-        this.transform.position = this.physics.position;
     }
 
     public void CheckScore()
