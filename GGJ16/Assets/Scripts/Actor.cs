@@ -65,4 +65,17 @@ public class Actor : MonoBehaviour
         this.transform.position = this.physics.position;
     }
 
+    public void BallHandling(Ball ball)
+    {
+        if (ball.owner == null)
+        {
+            float distance = (ball.transform.position - this.transform.position).magnitude;
+            if (distance < this.physics.halfObjSize + ball.physics.halfObjSize)
+            {
+                ball.owner = this;
+            }
+        }
+    }
+
+
 }
