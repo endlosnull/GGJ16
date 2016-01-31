@@ -21,7 +21,6 @@ public class SelectTeamMenu : MenuBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-	
 	}
 
 	public void SetPlayerState(string playerName, string teamName, SetPlayerStateAction action)
@@ -30,6 +29,7 @@ public class SelectTeamMenu : MenuBehaviour {
 		{
 			case SetPlayerStateAction.Add:
 				players.Add(playerName);
+
 				var go = Instantiate(playerUi);
 				go.SetParent(GetComponent<Canvas>().gameObject.transform);
 				go.localPosition = Vector3.zero;
