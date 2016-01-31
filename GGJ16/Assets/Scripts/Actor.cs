@@ -2,12 +2,14 @@ using UnityEngine;
 
 public class Actor : MonoBehaviour
 {
+    public ActionSequencer sequencer;
 	public ActorController controller;
 	public ActorBody body;
     public Ball ownedBall;
     public Boss boss;
 
     public Team team;
+    public int positionIndex; // position 0 is forward, 3 is defense, or whatever
     
     public PhysicsObj physics = new PhysicsObj();
     public Vector2 inputForce = Vector2.zero;
@@ -29,7 +31,7 @@ public class Actor : MonoBehaviour
 
 	public void DoActionAlpha()
 	{
-		ActionSequencer sequencer = GetComponent<ActionSequencer>();
+		
 		sequencer.RunSequence(sequencer.sequences[0]);
 
 		body.SetShadowColor(Color.blue, 1f);

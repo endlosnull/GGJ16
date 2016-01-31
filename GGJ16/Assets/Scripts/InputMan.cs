@@ -4,7 +4,6 @@ using System.Collections.Generic;
 
 public class InputMan : Singleton<InputMan>
 {
-	public Canvas splashCanvas;
 
 	private System.Text.StringBuilder sb = new System.Text.StringBuilder();
 
