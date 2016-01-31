@@ -75,6 +75,11 @@ public class MecanimAnimator : MonoBehaviour
 		return animator.GetCurrentAnimatorStateInfo(layer).tagHash;
 	}
 
+	public void SetLayerWeight(int layer, float value)
+	{
+		animator.SetLayerWeight(layer, value);
+	}
+
 	public bool GetBool(int id)
 	{
 		return animator.GetBool(id);

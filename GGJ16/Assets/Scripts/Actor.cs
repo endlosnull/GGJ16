@@ -76,7 +76,7 @@ public class Actor : MonoBehaviour
 
         this.possessionDelay -= Time.deltaTime;
 
-        Vector3 moveDelta = (new Vector3(inputForce.normalized.x, 0, inputForce.normalized.y) * this.physics.inputPower) + this.physics.velocity;
+		Vector3 moveDelta = ((new Vector3(inputForce.normalized.x, 0, inputForce.normalized.y) * this.physics.inputPower) + this.physics.velocity).normalized;
 		float forward = Vector3.Dot(this.transform.forward, moveDelta);
 		float strafe = Vector3.Dot(this.transform.right, moveDelta);
 		body.SetMoveSpeedForward(forward);
@@ -102,6 +102,7 @@ public class Actor : MonoBehaviour
 
         ball.owner = this;
         this.ownedBall = ball;
+		body.animator.SetLayerWeight(1, 1f);
     }
 
     public void LosePossession()
@@ -112,6 +113,7 @@ public class Actor : MonoBehaviour
         this.ownedBall.owner = null;
         this.ownedBall = null;
         this.possessionDelay = Actor.possessionDelayTime;
+		body.animator.SetLayerWeight(1, 0f);
     }
 
 
