@@ -21,7 +21,8 @@ public class Boss : Singleton<Boss>
 		SettingUp,
 		PreGame,
 		Loadout,
-		InGame
+		StartGame,
+		InGame,
 	}
 
 	public State state = State.None;
@@ -94,9 +95,9 @@ public class Boss : Singleton<Boss>
 	}
 
 
-	public void GotoInGame()
+	public void GotoStartGame()
 	{
-		ChangeState(State.InGame);
+		ChangeState(State.StartGame);
 	}
 
 	public void GotoLoadout()
@@ -121,7 +122,7 @@ public class Boss : Singleton<Boss>
 				ChangeScreen.Invoke("SelectActions");
 				StartLoadout();
 				break;
-			case State.InGame:
+			case State.StartGame:
 				ChangeScreen.Invoke("Play");
 				StartGame();
 				break;
@@ -144,6 +145,7 @@ public class Boss : Singleton<Boss>
         StartUserActors();
         StartAgentActors();
         field.BeginRound();
+        ChangeState(State.InGame);
 
     }
 
@@ -236,6 +238,7 @@ public class Boss : Singleton<Boss>
 			
 			actor.sequencer = go.AddComponent<ActionSequencer>();
 			actor.controller = go.AddComponent<ActorController>();
+			actor.isHuman = true;
 			
 			RegisterActor(actor, team);
 
@@ -255,7 +258,7 @@ public class Boss : Singleton<Boss>
 				Vector2 startPos = team.GetHomePos(team.actors.Count);
 				Vector3 startVec = new Vector3(startPos.x, 0, startPos.y);
 				GameObject go = GameObjectFactory.Instance.Spawn("p-Actor", null, startVec, Quaternion.identity) ;
-				go.name = "agent["+i+"]"+j;
+				go.name = "agent["+i+"]"+team.GetName(j);
 				Actor actor = go.GetComponent<Actor>();
 
 				GameObject bodyObject = GameObjectFactory.Instance.Spawn("p-ActorBody", null, Vector3.zero, Quaternion.identity) ;
@@ -273,6 +276,7 @@ public class Boss : Singleton<Boss>
 
 				actor.sequencer = go.AddComponent<ActionSequencer>();
 				actor.controller = go.AddComponent<AgentController>();
+				actor.isHuman = false;
 				RegisterActor(actor,team);
 
 				go.AddComponent<ActionSequencer>();
@@ -320,7 +324,7 @@ public class Boss : Singleton<Boss>
 			}
 			else if(state == State.Loadout)
 			{
-				GotoInGame();
+				GotoStartGame();
 			}
 		}
 	}
