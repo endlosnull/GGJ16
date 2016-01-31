@@ -77,7 +77,7 @@ public class Actor : GameEntity
 
     public void TryTakePossession(Ball ball, float range)
     {
-        if (ball.owner != null && this.possessionDelay > 0)
+        if (ball.owner != null || this.possessionDelay > 0)
             return;
 
         float distance = (ball.transform.position - this.transform.position).magnitude;

@@ -257,7 +257,6 @@ public class Boss : Singleton<Boss>
 
 	void StartAgentActors()
 	{
-        return; // PRECHECKIN: remove
         for (int i=0; i<teams.Count;++i)
 		{
 			Team team = teams[i];
