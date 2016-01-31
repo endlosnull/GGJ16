@@ -61,6 +61,7 @@ public class Field : Singleton<Field>
         }
 		
 		CamControl.Instance.target = ball.transform;
+		AudioManager.Instance.PlayOneShot(CamControl.Instance.audioSource, AudioManager.Instance.goal);
 
         this.roundActive = true;
     }
