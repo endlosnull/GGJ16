@@ -8,7 +8,6 @@ public class InputMan : Singleton<InputMan>
 
 	private System.Text.StringBuilder sb = new System.Text.StringBuilder();
 
-
 	public void Update()
 	{
 		float deltaTime = Time.deltaTime;

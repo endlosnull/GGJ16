@@ -108,6 +108,10 @@ public class Boss : Singleton<Boss>
 				ChangeScreen.Invoke("SelectTeam");
 				StartSetup();
 				break;
+			case State.Loadout:
+				ChangeScreen.Invoke("SelectActions");
+				StartLoadout();
+				break;
 			case State.InGame:
 				ChangeScreen.Invoke("Play");
 				StartGame();
@@ -132,6 +136,11 @@ public class Boss : Singleton<Boss>
         StartField();
 
     }
+
+	void StartLoadout()
+	{
+
+	}
 
     void StartTeams()
     {

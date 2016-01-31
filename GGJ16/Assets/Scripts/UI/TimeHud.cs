@@ -17,6 +17,6 @@ public class TimeHud : MonoBehaviour {
     public void UpdateTime(float time)
     {
 		TimeSpan t = TimeSpan.FromSeconds(time);
-		GetComponent<Text>().text = string.Format("{0:D2}:{1:D2}:{2:D3}", t.Minutes, t.Seconds, t.Milliseconds);
+		GetComponent<Text>().text = string.Format("{0:D2}:{1:D2}.{2}", t.Minutes, t.Seconds, (int)Mathf.Round(t.Milliseconds / 100));
     }
 }
