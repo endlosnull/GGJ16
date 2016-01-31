@@ -45,12 +45,12 @@ public class InputMan : Singleton<InputMan>
 			{
 				Actor actor = Field.Instance.allActors[i];
 				actor.SetUnityPhysics(true);
-				actor.AddUnityExplosionForce(150f, Vector3.down * 10f, 150f);
+				actor.AddUnityExplosionForce(250f, Vector3.down * 10f, 250f);
 			}
 			Field.Instance.ball.SetUnityPhysics(true);
-			Field.Instance.ball.AddUnityExplosionForce(150f, Vector3.down * 10f, 150f);
+			Field.Instance.ball.AddUnityExplosionForce(250f, Vector3.down * 10f, 250f);
 			Field.Instance.goal.SetUnityPhysics(true);
-			Field.Instance.goal.AddUnityExplosionForce(150f, Vector3.down * 10f + Vector3.right*3f, 150f);
+			Field.Instance.goal.AddUnityExplosionForce(250f, Vector3.down * 10f + Vector3.right*3f, 250f);
 			CamControl.Instance.AddShake(0.4f);
 		}
 
