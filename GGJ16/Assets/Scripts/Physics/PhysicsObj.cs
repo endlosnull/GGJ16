@@ -15,6 +15,7 @@ public class PhysicsObj
 
     public Vector3 position = Vector3.zero;
     public Vector3 velocity = Vector3.zero;
+    public AudioSource audioSource;
 
     public float airControlMult = 0.4f;
     public float bounce = 0;
@@ -96,11 +97,21 @@ public class PhysicsObj
             {
                 this.velocity[dim] = -this.velocity[dim] * this.bounce;
                 this.position[dim] = this.arenaMin[dim];
+
+                if (audioSource != null && this.bounce > 0)
+                {
+                    AudioManager.Instance.PlayOneShot(audioSource, AudioManager.Instance.ballBounce);
+                }
             }
             else if (this.position[dim] > this.arenaMax[dim])
             {
                 this.velocity[dim] = -this.velocity[dim] * this.bounce;
                 this.position[dim] = this.arenaMax[dim];
+
+                if (audioSource != null && this.bounce > 0)
+                {
+                    AudioManager.Instance.PlayOneShot(audioSource, AudioManager.Instance.ballBounce);
+                }
             }
             else
             {

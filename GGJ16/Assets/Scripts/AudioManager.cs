@@ -10,8 +10,9 @@ public class AudioManager : Singleton<AudioManager>
 	public AudioClip hitPlayer;
 	public AudioClip goal;
 	public AudioClip airhorn;
+    public AudioClip ballBounce;
 
-	public void PlayOneShot(AudioSource source, AudioClip clip)
+    public void PlayOneShot(AudioSource source, AudioClip clip)
 	{
 		//source.PlayOneShot(clip);
 	}

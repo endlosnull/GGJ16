@@ -4,6 +4,13 @@ public class Ball : GameEntity
 {
     public Actor owner;
     public Field field;
+    public AudioSource audioSource;
+
+    void Reset()
+    {
+        audioSource = GetComponent<AudioSource>();
+        this.physics.audioSource = audioSource;
+    }
 
     public override void OnSpawn()
     {
@@ -91,5 +98,6 @@ public class Ball : GameEntity
         this.physics.velocity = Quaternion.AngleAxis(-angle, Vector3.up) * this.physics.velocity;
         this.physics.velocity.z *= -1;
         this.physics.velocity = Quaternion.AngleAxis(angle, Vector3.up) * this.physics.velocity;
+        AudioManager.Instance.PlayOneShot(audioSource, AudioManager.Instance.ballBounce);
     }
 }
