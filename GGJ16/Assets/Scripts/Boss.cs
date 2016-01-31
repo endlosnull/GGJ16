@@ -12,6 +12,7 @@ public class Boss : Singleton<Boss>
 	public List<User> Users { get { return users; } }
 	List<Team> teams  = new List<Team>();
 	public List<Team> Teams { get { return teams; } }
+	public SequenceUpdatedEvent SequenceUpdated = new SequenceUpdatedEvent();
 
 	[System.Serializable]
 	public enum State
@@ -241,7 +242,7 @@ public class Boss : Singleton<Boss>
 			attachObject.transform.localRotation = Quaternion.AngleAxis(-90f, Vector3.up);
 			actor.body.attachments.Add(attachObject);
             actor.boss = this;
-            users[i].controlledActor = actor;
+			users[i].controlledActor = actor;
 			
 			actor.sequencer = go.AddComponent<ActionSequencer>();
 			actor.controller = go.AddComponent<ActorController>();
@@ -253,7 +254,7 @@ public class Boss : Singleton<Boss>
 		}
 		
 	}
-	
+
 	void StartAgentActors()
 	{
         for (int i=0; i<teams.Count;++i)
@@ -282,7 +283,7 @@ public class Boss : Singleton<Boss>
 				}
                 actor.boss = this;
 
-                actor.sequencer = go.AddComponent<ActionSequencer>();
+				actor.sequencer = go.AddComponent<ActionSequencer>();
 				actor.controller = go.AddComponent<AgentController>();
 				actor.isHuman = false;
 				RegisterActor(actor,team);
@@ -335,5 +336,10 @@ public class Boss : Singleton<Boss>
 				GotoStartGame();
 			}
 		}
+	}
+
+	public void UpdateSequence(int playerIdx, int sequenceIdx, int sequence)
+	{
+		SequenceUpdated.Invoke(playerIdx, sequenceIdx, sequence);
 	}
 }

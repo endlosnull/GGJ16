@@ -8,6 +8,8 @@ public class ChangeScreenEvent : UnityEvent<string> { }
 public class UpdateTimeEvent : UnityEvent<float> { }
 [System.Serializable]
 public class MoveCursorEvent : UnityEvent<int, MoveCursorAction> { }
+[System.Serializable]
+public class SequenceUpdatedEvent : UnityEvent<int, int, int> { }
 
 public enum MoveCursorAction
 {
