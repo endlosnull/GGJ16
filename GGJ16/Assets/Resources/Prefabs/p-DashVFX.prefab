@@ -88,7 +88,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 84ce6a3d9c5a26b4cb18bc96bc74dea1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  particleSystem: {fileID: 19816368}
+  system: {fileID: 19816368}
 --- !u!198 &19816368
 ParticleSystem:
   m_ObjectHideFlags: 1
@@ -1680,6 +1680,10 @@ Prefab:
       propertyPath: CollisionModule.enabled
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: system
+      value: 
+      objectReference: {fileID: 19816368}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}
   m_RootGameObject: {fileID: 190200}
