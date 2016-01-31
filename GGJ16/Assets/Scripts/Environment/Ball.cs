@@ -68,6 +68,11 @@ public class Ball : GameEntity
                 this.physics.position += normal * penetration;
                 Bounce(normal);
             }
+            else
+            {
+                if (this.field.RoundActive)
+                    this.field.OnScore((Mathf.Abs(normalAngle) < 90) ? 0 : 1);
+            }
         }
     }
 

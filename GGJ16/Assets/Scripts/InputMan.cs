@@ -57,11 +57,13 @@ public class InputMan : Singleton<InputMan>
 		if (Input.GetKeyDown(KeyCode.F3))
 		{
             ThrowBallAtAngle(0);
-		}
+            //ThrowBallAtAngle(180 + 10);
+        }
 
-		if (Input.GetKeyDown(KeyCode.F4))
+        if (Input.GetKeyDown(KeyCode.F4))
 		{
             ThrowBallAtAngle(180);
+            //ThrowBallAtAngle(180-10);
         }
 
 		if (Input.GetKeyDown(KeyCode.F10))
