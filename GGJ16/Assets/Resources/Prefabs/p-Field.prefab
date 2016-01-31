@@ -28,6 +28,7 @@ GameObject:
   - 4: {fileID: 422548}
   - 33: {fileID: 3309738}
   - 23: {fileID: 2374780}
+  - 64: {fileID: 6485170}
   m_Layer: 0
   m_Name: fieldModel
   m_TagString: Untagged
@@ -108,6 +109,18 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
+--- !u!64 &6485170
+MeshCollider:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 164966}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Convex: 0
+  m_Mesh: {fileID: 4300000, guid: 4e7ceb1e37580fb47855701609300f98, type: 3}
 --- !u!65 &6568042
 BoxCollider:
   m_ObjectHideFlags: 1
@@ -135,6 +148,7 @@ MonoBehaviour:
   - {fileID: 2374780}
   goal: {fileID: 0}
   ball: {fileID: 0}
+  allActors: []
 --- !u!1001 &100100000
 Prefab:
   m_ObjectHideFlags: 1

@@ -60,12 +60,13 @@ MonoBehaviour:
   controller: {fileID: 0}
   body: {fileID: 0}
   ownedBall: {fileID: 0}
-  collider: {fileID: 13536626}
-  rigidbody: {fileID: 5414178}
+  boss: {fileID: 0}
   team: {fileID: 0}
   positionIndex: 0
   isHuman: 0
   inputForce: {x: 0, y: 0}
+  actorCollider: {fileID: 13536626}
+  actorRigidbody: {fileID: 5414178}
 --- !u!135 &13536626
 SphereCollider:
   m_ObjectHideFlags: 1
@@ -129,6 +130,14 @@ Prefab:
       propertyPath: m_Center.z
       value: 0.35
       objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: actorCollider
+      value: 
+      objectReference: {fileID: 13536626}
+    - target: {fileID: 0}
+      propertyPath: actorRigidbody
+      value: 
+      objectReference: {fileID: 5414178}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}
   m_RootGameObject: {fileID: 163466}

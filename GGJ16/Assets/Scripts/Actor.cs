@@ -22,10 +22,13 @@ public class Actor : MonoBehaviour
 
 	public List<GameAction> statusEffects = new List<GameAction>();
 
+    public Collider actorCollider;
+    public Rigidbody actorRigidbody;
+
 	void Reset()
 	{
-		collider = GetComponent<Collider>();
-		rigidbody = GetComponent<Rigidbody>();
+		actorCollider = GetComponent<Collider>();
+		actorRigidbody = GetComponent<Rigidbody>();
 	}
 
     public virtual void OnSpawn()
@@ -54,14 +57,14 @@ public class Actor : MonoBehaviour
 	public void DoActionAlpha()
 	{
 		// Test explosion
-		/*
-		for (int i = 0; i < Field.Instance.allActors.Count; ++i)
+		
+		/*for (int i = 0; i < Field.Instance.allActors.Count; ++i)
 		{
 			Actor actor = Field.Instance.allActors[i];
 			actor.SetUnityPhysics(true);
 			actor.AddUnityExplosionForce(500f, Vector3.down * 10f, 500f);
-		}
-		*/
+		}*/
+		
 
 		sequencer.RunSequence(sequencer.sequences[0]);
 		LockInput effect = new LockInput();
@@ -221,22 +224,24 @@ public class Actor : MonoBehaviour
 	{
 		if (value)
 		{
-			collider.enabled = true;
-			rigidbody.useGravity = true;
-			rigidbody.isKinematic = false;
+			actorCollider.enabled = true;
+			actorRigidbody.useGravity = true;
+			actorRigidbody.isKinematic = false;
+
+            body.transform.position = Vector3.zero;
 			physics.enabled = false;
 		}
 		else
 		{
-			collider.enabled = false;
-			rigidbody.useGravity = false;
-			rigidbody.isKinematic = true;
+			actorCollider.enabled = false;
+			actorRigidbody.useGravity = false;
+			actorRigidbody.isKinematic = true;
 			physics.enabled = true;
 		}
 	}
 
 	public void AddUnityExplosionForce(float force, Vector3 position, float radius)
 	{
-		rigidbody.AddExplosionForce(force, position, radius);
+		GetComponent<Rigidbody>().AddExplosionForce(force, position, radius);
 	}
 }
