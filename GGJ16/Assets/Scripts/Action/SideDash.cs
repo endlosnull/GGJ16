@@ -5,6 +5,7 @@ using Pooling;
 public class SideDash : GameAction
 {
 	public float force;
+    public bool left;
 
 	ActorController controller;
 	FXGroup vfx;
@@ -14,7 +15,7 @@ public class SideDash : GameAction
 		base.OnInvokeStart();
 
 		controller = source.GetComponent<ActorController>();
-        controller.actor.physics.velocity += controller.actor.Right * force;
+        controller.actor.physics.velocity += (left ? controller.actor.Left : controller.actor.Right) * force;
 
 		GameObject vfxGO = GameObjectFactory.Instance.Spawn("p-DashVFX");
 		vfx = vfxGO.GetComponent<FXGroup>();

@@ -18,6 +18,17 @@ public class ActionBricks
         SideDash action = new SideDash();
         action.source = gameObject;
         action.force = 3f;
+        action.left = false;
+        action.duration = 0.4f;
+        sequence.actions.Add(action);
+    }
+
+    static public void AddLeftDash(GameObject gameObject, ActionSequence sequence)
+    {
+        SideDash action = new SideDash();
+        action.source = gameObject;
+        action.force = 3f;
+        action.left = true;
         action.duration = 0.4f;
         sequence.actions.Add(action);
     }

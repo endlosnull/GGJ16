@@ -27,56 +27,8 @@ public class ActionSequencer : MonoBehaviour
 
         seqInd++;
         sequences[1].actions.Clear();
-        ActionBricks.AddRightDash(gameObject, sequences[seqInd]);
         ActionBricks.AddJump(gameObject, sequences[seqInd]);
         ActionBricks.AddThrow(gameObject, sequences[seqInd]);
-    }
-
-    public void AddForwardDash(GameObject gameObject, ActionSequence sequence)
-    {
-        ForwardDash action = new ForwardDash();
-        action.source = gameObject;
-        action.force = 3f;
-        action.duration = 0.4f;
-        sequence.actions.Add(action);
-    }
-
-    public void AddRightDash(GameObject gameObject, ActionSequence sequence)
-    {
-        SideDash action = new SideDash();
-        action.source = gameObject;
-        action.force = 3f;
-        action.duration = 0.4f;
-        sequence.actions.Add(action);
-    }
-
-    public void AddGrab(GameObject gameObject, ActionSequence sequence)
-    {
-        Grab action = new Grab();
-        action.source = gameObject;
-        action.range = 2.0f;
-        action.duration = 0.2f;
-        sequence.actions.Add(action);
-    }
-
-    public void AddJump(GameObject gameObject, ActionSequence sequence)
-    {
-        Jump action = new Jump();
-        action.source = gameObject;
-        action.force = 2f;
-        action.duration = 0.5f;
-        sequence.actions.Add(action);
-    }
-
-    public void AddThrow(GameObject gameObject, ActionSequence sequence)
-    {
-        Throw action = new Throw();
-        action.source = gameObject;
-        action.forceForward = 3f;
-        action.forceUp = 3f;
-        action.duration = 0.2f;
-        action.actionTime = 0.1f;
-        sequence.actions.Add(action);
     }
 
     public void AddSequence(ActionSequence sequence)
