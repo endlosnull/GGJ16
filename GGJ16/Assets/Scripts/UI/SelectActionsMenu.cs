@@ -16,6 +16,9 @@ public class SelectActionsMenu : MenuBehaviour
 	public Transform ActionBrick;
 	List<CursorPosition> cursorPositions = new List<CursorPosition>();
 
+	public int MaxI = 3;
+	public int maxJ = 0;
+
 	protected override string MenuName
 	{
 		get
@@ -30,23 +33,25 @@ public class SelectActionsMenu : MenuBehaviour
 		base.Start();
 		for (int c = 0; c < Cursors.Count; ++c)
 		{
-			cursorPositions.Add(new CursorPosition());
+			var cursorPos = new CursorPosition();
+			cursorPositions.Add(cursorPos);
+			SetCursor(c, cursorPos);
 		}
 
-		Transform canvasTransform = GetComponent<Canvas>().transform;
+		Transform actionBricksTransform = GameObject.Find("ActionBricks").transform;
 		int i = 0;
 		int j = 0;
 
 		foreach (string k in ActionBricksDictionary.Dictionary.Keys)
 		{
-			if (i % 3 == 0)
+			if (i % MaxI == 0)
 			{
 				i = 0;
 				j++;
 			}
 
 			var cube = Instantiate(ActionBrick);
-			cube.SetParent(canvasTransform);
+			cube.SetParent(actionBricksTransform);
 			cube.localPosition = new Vector3(i * BrickSize - BrickSize, j * BrickSize - BrickSize, 0);
 			cube.Find("BrickText").GetComponent<Text>().text = ActionBricksDictionary.Dictionary[k].name;
 
@@ -54,6 +59,8 @@ public class SelectActionsMenu : MenuBehaviour
 			cube.Find("BrickBg").GetComponent<Image>().sprite = sprite;
 			actions.Add(cube);
 			i++;
+
+			maxJ = j;
 		}
 	}
 
@@ -77,18 +84,23 @@ public class SelectActionsMenu : MenuBehaviour
 		switch (action)
 		{
 			case MoveCursorAction.Left:
-				cp.i--;
+				if (cp.i > 0) cp.i--;
 				break;
 			case MoveCursorAction.Right:
-				cp.i++;
+				if (cp.i + 1 < MaxI) cp.i++;
 				break;
 			case MoveCursorAction.Up:
-				cp.j++;
+				if (cp.j + 1 < maxJ) cp.j++;
 				break;
 			case MoveCursorAction.Down:
-				cp.j--;
+				if (cp.j > 0) cp.j--;
 				break;
 		}
-		this.Cursors[idx].localPosition = new Vector3(cp.i * BrickSize - BrickSize, cp.j * BrickSize - BrickSize, 0);
+		SetCursor(idx, cp);
+	}
+
+	private void SetCursor(int idx, CursorPosition cp)
+	{
+		this.Cursors[idx].localPosition = new Vector3(cp.i * BrickSize - BrickSize, cp.j * BrickSize, 0);
 	}
 }
