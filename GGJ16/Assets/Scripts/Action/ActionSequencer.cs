@@ -40,6 +40,7 @@ public class ActionSequencer : MonoBehaviour
         throwAction.forceForward = 3f;
         throwAction.forceUp = 3f;
         throwAction.duration = 0.2f;
+		throwAction.actionTime = 0.1f;
         sequence.actions.Add(throwAction);
 
         //SideDash sideDash = new SideDash();
