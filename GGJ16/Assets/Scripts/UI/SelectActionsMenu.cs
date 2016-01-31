@@ -16,6 +16,7 @@ public class SelectActionsMenu : MenuBehaviour
 	List<Transform> actions = new List<Transform>();
 	public Transform ActionBrick;
 	List<CursorPosition> cursorPositions = new List<CursorPosition>();
+	List<string> actionMethods = new List<string>();
 
 	public int MaxI = 5;
 	public int maxJ = 0;
@@ -45,6 +46,7 @@ public class SelectActionsMenu : MenuBehaviour
 
 		foreach (string k in ActionBricksDictionary.Dictionary.Keys)
 		{
+			actionMethods.Add(ActionBricksDictionary.Dictionary[k].method);
 			if (i % MaxI == 0)
 			{
 				i = 0;
@@ -126,17 +128,18 @@ public class SelectActionsMenu : MenuBehaviour
 			return;
 		}
 
+		int actionIndex = this.cursorPositions[idx].i + this.cursorPositions[idx].j * MaxI;
 		if (actionToAdd == ActionMenuAction.Alpha)
 		{
 			Type actionBricks = typeof(ActionBricks);
-			var method = actionBricks.GetMethod("AddForwardDash");
+			var method = actionBricks.GetMethod(actionMethods[actionIndex]);
 			object[] p = new object[] { null, Boss.Instance.Users[idx].sequences[0] };
 			method.Invoke(null, p);
 		}
 		else
 		{
 			Type actionBricks = typeof(ActionBricks);
-			var method = actionBricks.GetMethod("AddForwardDash");
+			var method = actionBricks.GetMethod(actionMethods[actionIndex]);
 			object[] p = new object[] { null, Boss.Instance.Users[idx].sequences[0] };
 			method.Invoke(null, p);
 		}
