@@ -245,6 +245,8 @@ public class Boss : Singleton<Boss>
 			users[i].controlledActor = actor;
 			
 			actor.sequencer = go.AddComponent<ActionSequencer>();
+			GameObject.Find("Ritual_" + i).GetComponent<SequenceHud>().sequencer = actor.sequencer;
+
 			actor.controller = go.AddComponent<ActorController>();
 			actor.isHuman = true;
 			
