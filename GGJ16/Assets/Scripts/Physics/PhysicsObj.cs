@@ -35,7 +35,7 @@ public class PhysicsObj
         penetration = 0;
 
         Vector3 diff = a.position - b.position;
-        diff.y = 0;
+        //diff.y = 0;
         normal = diff.normalized;
         if (diff.sqrMagnitude == 0)
             return false;

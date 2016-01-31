@@ -16,6 +16,7 @@ public class Actor : GameEntity
 
     private const float possessionDelayTime = 0.5f;
     private float possessionDelay = 0;
+    private float ballCheckCooldown = 0;
 
     void Reset()
 	{
@@ -87,9 +88,14 @@ public class Actor : GameEntity
         }
     }
 
+    public void OnThrowBall()
+    {
+        this.ballCheckCooldown = 0.2f;
+    }
+
     public void TryKickBall(Ball ball)
     {
-        if (ball.owner != null)
+        if (ball.owner != null || this.ballCheckCooldown > 0)
             return;
 
         Vector3 normal;

@@ -8,7 +8,7 @@ public class ActionBricks
     {
         ForwardDash action = new ForwardDash();
         action.source = gameObject;
-        action.force = 3f;
+        action.force = 6f;
         action.duration = 0.4f;
         sequence.actions.Add(action);
     }
@@ -46,7 +46,7 @@ public class ActionBricks
     {
         Jump action = new Jump();
         action.source = gameObject;
-        action.force = 2f;
+        action.force = 5f;
         action.duration = 0.5f;
         sequence.actions.Add(action);
     }
