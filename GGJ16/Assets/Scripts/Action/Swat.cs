@@ -7,6 +7,11 @@ public class Swat : GameAction
 
     ActorController controller;
 
+	public Swat()
+	{
+		name = "swat";
+	}
+
 	protected override void OnInvokeStart()
 	{
 		base.OnInvokeStart();

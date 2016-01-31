@@ -53,7 +53,7 @@ public class Boss : HardSingleton<Boss>
 		if( inputLock > 0f)
 		{
 			inputLock -= deltaTime;
-		}
+	}
 		if( Field.HasInstance )
 		{
 			UpdateTime.Invoke(Field.Instance.GameTime);
@@ -104,8 +104,8 @@ public class Boss : HardSingleton<Boss>
 
 	public void RefreshScore()
 	{
+		Debug.Log("RefreshScore");
 		ScoreUpdate.Invoke(teams[0].score.ToString(), teams[1].score.ToString());
-		Debug.Log("ScoreUpdate "+teams[0].score+" to "+teams[1].score);
 	}
 
 
@@ -176,7 +176,7 @@ public class Boss : HardSingleton<Boss>
 			team.SetScore(0);
         }
         field.SetState(Field.State.SettingUp);
-        
+
 
     }
 
@@ -352,12 +352,12 @@ public class Boss : HardSingleton<Boss>
 		{
 			MoveCursor.Invoke(idx, vAxis > 0f ? MoveCursorAction.Up : MoveCursorAction.Down);
 		}
-		if (btnStart)
+		if (btnStart && inputLock <= 0f)
 		{
 			if(state == State.SettingUp)
 			{
 				GotoLoadout();
-				inputLock = 1f;
+				inputLock = 0.5f;
 			}
 			else if(state == State.Loadout)
 			{

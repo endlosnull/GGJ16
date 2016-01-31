@@ -7,6 +7,11 @@ public class Jump : GameAction
 
 	ActorController controller;
 
+	public Jump()
+	{
+		name = "jump";
+	}
+
 	protected override void OnInvokeStart()
 	{
 		base.OnInvokeStart();

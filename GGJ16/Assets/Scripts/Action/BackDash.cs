@@ -9,6 +9,11 @@ public class BackDash : GameAction
     ActorController controller;
 	FXGroup vfx;
 
+	public BackDash()
+	{
+		name = "back dash";
+	}
+
 	protected override void OnInvokeStart()
 	{
 		base.OnInvokeStart();

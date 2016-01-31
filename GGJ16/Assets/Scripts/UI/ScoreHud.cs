@@ -3,8 +3,6 @@ using UnityEngine.UI;
 
 public class ScoreHud : MonoBehaviour
 {
-    public string TeamName = "";
-        
     // Use this for initialization
     void Start () {
     }
@@ -13,11 +11,9 @@ public class ScoreHud : MonoBehaviour
     void Update () {
     }
 
-    public void UpdateScore(string teamName, string score)
+    public void UpdateScore(string team0, string team1)
     {
-        if(teamName == TeamName)
-        {
-            GetComponent<Text>().text = score;
-        }
-    }
+		GameObject.Find("Score_0").GetComponent<Text>().text = team0;
+		GameObject.Find("Score_1").GetComponent<Text>().text = team1;
+	}
 }

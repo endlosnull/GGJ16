@@ -13,6 +13,17 @@ public class ActionSequencer : MonoBehaviour
 	public int ActionIndex;
 	public int SequenceIndex;
 
+	public GameAction CurrentAction {
+		get
+		{
+			if (currentSequence != null && ActionIndex < currentSequence.actions.Count)
+			{
+				return currentSequence.actions[ActionIndex];
+			}
+			return null;
+		}
+	}
+
 	void OnSpawn()
 	{
 		for(int i=0;i<2;++i)

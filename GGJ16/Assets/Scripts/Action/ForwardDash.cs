@@ -9,6 +9,11 @@ public class ForwardDash : GameAction
     ActorController controller;
 	FXGroup vfx;
 
+	public ForwardDash()
+	{
+		name = "forward dash";
+	}
+
 	protected override void OnInvokeStart()
 	{
 		base.OnInvokeStart();
