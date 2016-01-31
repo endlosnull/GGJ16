@@ -69,7 +69,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!1 &169692
 GameObject:
   m_ObjectHideFlags: 0
@@ -191,6 +191,11 @@ MonoBehaviour:
   - {fileID: 22464574}
   - {fileID: 22427682}
   - {fileID: 22429402}
+  lastTime:
+  - 0
+  - 0
+  - 0
+  - 0
   ActionBrick: {fileID: 22423850, guid: c85397b61500dff469b804e1fb9a94ea, type: 2}
 --- !u!114 &11431454
 MonoBehaviour:
