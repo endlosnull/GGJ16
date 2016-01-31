@@ -327,6 +327,8 @@ public class Boss : HardSingleton<Boss>
 				actor.isHuman = false;
 				RegisterActor(actor,team);
 
+
+
 				go.AddComponent<ActionSequencer>();
 				go.BroadcastMessage("OnSpawn", SendMessageOptions.DontRequireReceiver);
 			}

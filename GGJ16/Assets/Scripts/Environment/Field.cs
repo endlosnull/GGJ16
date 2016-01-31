@@ -158,6 +158,11 @@ public class Field : HardSingleton<Field>
 		foreach(Team team in Boss.Instance.Teams)
 		{
 			team.GlobalLock(true);
+			foreach (Actor actor in team.actors)
+			{
+				actor.transform.rotation = team.GetSpawnRot();
+				actor.body.SetAnimatorMoveSpeed(0f);
+			}
 		}
 		CamControl.Instance.target = ball.transform;
 
