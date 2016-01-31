@@ -128,7 +128,7 @@ public class Boss : Singleton<Boss>
 	{
         time = 5f * 60f;
         StartUserActors();
-        StartAgentActors();
+        //StartAgentActors();
         StartField();
 
     }
@@ -180,13 +180,13 @@ public class Boss : Singleton<Boss>
 
 	void StartAgentActors()
 	{
-		Debug.Log("teams.Count"+teams.Count);
+		//Debug.Log("teams.Count"+teams.Count);
 		for(int i=0; i<teams.Count;++i)
 		{
 			for(int j=0;j<3;++j)
 			{
 				GameObject go = GameObjectFactory.Instance.Spawn("p-Actor", null, Vector3.zero, Quaternion.identity) ;
-				Debug.Log("Make"+go);
+				//Debug.Log("Make"+go);
 				go.name = "agent["+i+"]"+j;
 				Actor actor = go.GetComponent<Actor>();
 				GameObject bodyObject = GameObjectFactory.Instance.Spawn("p-ActorBodyOne", null, Vector3.zero, Quaternion.identity) ;
