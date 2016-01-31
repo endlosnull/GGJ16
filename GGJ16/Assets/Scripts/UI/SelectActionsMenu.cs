@@ -6,7 +6,6 @@ class CursorPosition
 {
 	public int i;
 	public int j;
-	public float lastTime;
 }
 
 public class SelectActionsMenu : MenuBehaviour
@@ -26,8 +25,6 @@ public class SelectActionsMenu : MenuBehaviour
 	// Use this for initialization
 	void Start()
 	{
-		InitializeTimes();
-
 		for(int i = 0; i < Cursors.Length; ++i)
 		{
 			cursorPositions.Add(new CursorPosition());
@@ -58,7 +55,6 @@ public class SelectActionsMenu : MenuBehaviour
 			return;
 		}
 		CursorPosition cp = this.cursorPositions[idx];
-		cp.lastTime = Time.realtimeSinceStartup;
 		switch (action)
 		{
 			case MoveCursorAction.Left:

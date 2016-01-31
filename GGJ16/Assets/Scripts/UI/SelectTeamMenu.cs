@@ -21,8 +21,6 @@ public class SelectTeamMenu : MenuBehaviour {
 
 	// Use this for initialization
 	void Start () {
-		InitializeTimes();
-
 		var pos = CatsTeamLabel.localPosition;
 		pos.x = LeftTeamX;
 		CatsTeamLabel.localPosition = pos;

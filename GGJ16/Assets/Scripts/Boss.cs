@@ -37,6 +37,7 @@ public class Boss : Singleton<Boss>
 
 	void Awake()
 	{
+		time = 0f;
 		ChangeState(State.SettingUp);
 		ChangeScreen.Invoke("SelectTeam");
 	}
@@ -93,6 +94,11 @@ public class Boss : Singleton<Boss>
 	public void GotoInGame()
 	{
 		ChangeState(State.InGame);
+	}
+
+	public void GotoLoadout()
+	{
+		ChangeState(State.Loadout);
 	}
 
 	void ChangeState(State nextState)
@@ -270,7 +276,8 @@ public class Boss : Singleton<Boss>
 			actor.BallHandling(ball);
 		}
 	}
-	public void MoveUserCursor(int idx, float hAxis, float vAxis)
+
+	public void MoveUserCursor(int idx, float hAxis, float vAxis, bool btnAlpha, bool btnBravo, bool btnStart)
 	{
 		if (Mathf.Abs(hAxis) > 0.05f)
 		{
@@ -279,6 +286,18 @@ public class Boss : Singleton<Boss>
 		if (Mathf.Abs(vAxis) > 0.05f)
 		{
 			MoveCursor.Invoke(idx, vAxis > 0f ? MoveCursorAction.Up : MoveCursorAction.Down);
+		}
+		if (btnStart && time <= 0f)
+		{
+			if(state == State.SettingUp)
+			{
+				GotoLoadout();
+				time = 1f;
+			}
+			else if(state == State.Loadout)
+			{
+				GotoInGame();
+			}
 		}
 	}
 }
