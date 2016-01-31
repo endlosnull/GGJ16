@@ -197,6 +197,7 @@ GameObject:
   - 224: {fileID: 22401102}
   - 222: {fileID: 22200720}
   - 114: {fileID: 11423754}
+  - 114: {fileID: 11480520}
   m_Layer: 5
   m_Name: Score
   m_TagString: Untagged
@@ -435,7 +436,7 @@ GameObject:
   - 222: {fileID: 22296518}
   - 114: {fileID: 11412444}
   m_Layer: 5
-  m_Name: Image (1)
+  m_Name: Image_1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -469,7 +470,7 @@ GameObject:
   - 222: {fileID: 22290662}
   - 114: {fileID: 11422162}
   m_Layer: 5
-  m_Name: Image
+  m_Name: Image_0
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1064,6 +1065,17 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   sequencer: {fileID: 0}
   PlayerIndex: 0
+--- !u!114 &11480520
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 139358}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 692e7aaaa0e6d28478ff8c20d4f8a24e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &11481982
 MonoBehaviour:
   m_ObjectHideFlags: 1
