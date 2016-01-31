@@ -79,14 +79,34 @@ public class Actor : MonoBehaviour
 
     public void BallHandling(Ball ball)
     {
-        if (ball.owner == null && this.possessionDelay < 0)
+        TryKickBall(ball);
+    }
+
+    public void TryTakePossession(Ball ball)
+    {
+        if (ball.owner != null && this.possessionDelay > 0)
+            return;
+
+        float distance = (ball.transform.position - this.transform.position).magnitude;
+        if (distance < this.physics.HalfSize + ball.physics.HalfSize)
         {
-            float distance = (ball.transform.position - this.transform.position).magnitude;
-            if (distance < this.physics.HalfSize + ball.physics.HalfSize)
-            {
-                TakePossession(ball);
-            }
+            TakePossession(ball);
         }
+    }
+
+    public void TryKickBall(Ball ball)
+    {
+        if (ball.owner != null)
+            return;
+
+        Vector3 diff = ball.transform.position - this.transform.position;
+        float distance = diff.magnitude;
+        float penetration = this.physics.HalfSize + ball.physics.HalfSize - distance;
+
+        Vector3 normal = diff.normalized;
+
+        if (penetration > 0)
+            ball.physics.velocity += normal * penetration;
     }
 
     public void TakePossession(Ball ball)
