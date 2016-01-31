@@ -21,6 +21,8 @@ public class SelectTeamMenu : MenuBehaviour {
 
 	// Use this for initialization
 	void Start () {
+		InitializeTimes();
+
 		var pos = CatsTeamLabel.localPosition;
 		pos.x = LeftTeamX;
 		CatsTeamLabel.localPosition = pos;
@@ -36,6 +38,10 @@ public class SelectTeamMenu : MenuBehaviour {
 
 	public void MoveCursor(int idx, MoveCursorAction action)
 	{
+		if (!CanMoveCursor(idx))
+		{
+			return;
+		}
 		Vector3 newPosition;
 		switch (action)
 		{

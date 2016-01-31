@@ -26,6 +26,8 @@ public class SelectActionsMenu : MenuBehaviour
 	// Use this for initialization
 	void Start()
 	{
+		InitializeTimes();
+
 		for(int i = 0; i < Cursors.Length; ++i)
 		{
 			cursorPositions.Add(new CursorPosition());
@@ -51,12 +53,11 @@ public class SelectActionsMenu : MenuBehaviour
 
 	public void MoveCursor(int idx, MoveCursorAction action)
 	{
-		CursorPosition cp = this.cursorPositions[idx];
-		if(Time.realtimeSinceStartup - cp.lastTime < 0.25)
+		if (!CanMoveCursor(idx))
 		{
-			// Too short since last move
 			return;
 		}
+		CursorPosition cp = this.cursorPositions[idx];
 		cp.lastTime = Time.realtimeSinceStartup;
 		switch (action)
 		{
