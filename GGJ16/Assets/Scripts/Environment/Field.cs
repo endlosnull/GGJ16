@@ -31,7 +31,7 @@ public class Field : HardSingleton<Field>
 	Timer advanceTimer = new Timer();
 	bool hasFirstSetup = false;
 
-	List<Renderer> arrows = new List<Renderer>();
+	public Renderer[] arrows = new Renderer[2];
 
 	private float gameTime;
 	public float GameTime
