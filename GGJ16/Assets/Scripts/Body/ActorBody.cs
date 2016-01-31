@@ -12,8 +12,7 @@ public class ActorBody : Body
 
 	// Animation
 	public MecanimAnimator animator;
-	int ctrlIdMoveSpeedForward;
-	int ctrlIdMoveSpeedStrafe;
+	int ctrlIdMoveSpeed;
 
 	void Reset()
 	{
@@ -26,8 +25,7 @@ public class ActorBody : Body
 
 		if (animator != null)
 		{
-			ctrlIdMoveSpeedForward = animator.GetControlId("MoveSpeedForward");
-			ctrlIdMoveSpeedStrafe = animator.GetControlId("MoveSpeedStrafe");
+			ctrlIdMoveSpeed = animator.GetControlId("MoveSpeed");
 		}
 	}
 
@@ -55,13 +53,8 @@ public class ActorBody : Body
 		colorTimer.SetDuration(duration);
 	}
 
-	public void SetMoveSpeedForward(float value)
+	public void SetMoveSpeed(float value)
 	{
-		animator.SetFloat(ctrlIdMoveSpeedForward, value);
-	}
-
-	public void SetMoveSpeedStrafe(float value)
-	{
-		animator.SetFloat(ctrlIdMoveSpeedStrafe, value);
+		animator.SetFloat(ctrlIdMoveSpeed, value);
 	}
 }

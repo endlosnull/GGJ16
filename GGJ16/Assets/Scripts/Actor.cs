@@ -88,8 +88,7 @@ public class Actor : MonoBehaviour
 		Vector3 moveDelta = ((new Vector3(inputForce.normalized.x, 0, inputForce.normalized.y) * this.physics.inputPower) + this.physics.velocity).normalized;
 		float forward = Vector3.Dot(this.transform.forward, moveDelta);
 		float strafe = Vector3.Dot(this.transform.right, moveDelta);
-		body.SetMoveSpeedForward(forward);
-		body.SetMoveSpeedStrafe(strafe);
+		body.SetMoveSpeed(Mathf.Max(forward, strafe));
     }
 
     public void BallHandling(Ball ball)
