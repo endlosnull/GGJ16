@@ -9,6 +9,7 @@ public class User : MonoBehaviour
 
 	public string inputPrefix = "Key";
 	public bool isLocalHuman = true;
+	public int teamIndex = 0;
 
 	void Awake()
 	{
