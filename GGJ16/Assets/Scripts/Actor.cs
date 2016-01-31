@@ -22,6 +22,12 @@ public class Actor : MonoBehaviour
 
 	public List<GameAction> statusEffects = new List<GameAction>();
 
+	void Reset()
+	{
+		collider = GetComponent<Collider>();
+		rigidbody = GetComponent<Rigidbody>();
+	}
+
     public virtual void OnSpawn()
     {
         this.physics.position = this.transform.position;
@@ -30,7 +36,10 @@ public class Actor : MonoBehaviour
     
     public void Update()
 	{
-		this.transform.rotation = Quaternion.LookRotation(directionVector, Vector3.up);
+		if (physics.enabled)
+		{
+			this.transform.rotation = Quaternion.LookRotation(directionVector, Vector3.up);
+		}
 
 		float deltaTime = Time.deltaTime;
 		for (int i = statusEffects.Count - 1; i >= 0; --i)
@@ -44,7 +53,16 @@ public class Actor : MonoBehaviour
 
 	public void DoActionAlpha()
 	{
-		
+		// Test explosion
+		/*
+		for (int i = 0; i < Field.Instance.allActors.Count; ++i)
+		{
+			Actor actor = Field.Instance.allActors[i];
+			actor.SetUnityPhysics(true);
+			actor.AddUnityExplosionForce(500f, Vector3.down * 10f, 500f);
+		}
+		*/
+
 		sequencer.RunSequence(sequencer.sequences[0]);
 		LockInput effect = new LockInput();
 		effect.duration = sequencer.sequences[0].TotalDuration;
@@ -92,6 +110,11 @@ public class Actor : MonoBehaviour
 
     public void FixedUpdate()
     {
+		if (!physics.enabled)
+		{
+			return;
+		}
+
         if (inputForce.sqrMagnitude > 0)
         {
             this.directionVector.x = inputForce.normalized.x;
@@ -192,5 +215,28 @@ public class Actor : MonoBehaviour
 	{
 		effect.Invoke();
 		statusEffects.Add(effect);
+	}
+
+	public void SetUnityPhysics(bool value)
+	{
+		if (value)
+		{
+			collider.enabled = true;
+			rigidbody.useGravity = true;
+			rigidbody.isKinematic = false;
+			physics.enabled = false;
+		}
+		else
+		{
+			collider.enabled = false;
+			rigidbody.useGravity = false;
+			rigidbody.isKinematic = true;
+			physics.enabled = true;
+		}
+	}
+
+	public void AddUnityExplosionForce(float force, Vector3 position, float radius)
+	{
+		rigidbody.AddExplosionForce(force, position, radius);
 	}
 }

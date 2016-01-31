@@ -3,6 +3,8 @@ using System.Collections;
 
 public class PhysicsObj
 {
+	public bool enabled = true;
+
     private const float gravity = 8;
 
     private const float arenaWidth = 22;
@@ -55,6 +57,11 @@ public class PhysicsObj
 
     public void FixedUpdate(Vector3 input)
     {
+		if (!enabled)
+		{
+			return;
+		}
+
         Vector3 moveDelta = Vector3.zero;
         
         // Build moveDelta
