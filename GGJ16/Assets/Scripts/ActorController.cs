@@ -2,7 +2,9 @@ using UnityEngine;
 
 public class ActorController : MonoBehaviour
 {
-	public bool locked = false;
+	public bool externalLocked = false;
+	public bool actionLocked = false;
+	public bool Locked { get { return externalLocked || actionLocked; } }
 	bool inputLastAlpha = false;
 	bool inputAlpha = false;
 	public bool InputAlpha { 
@@ -31,17 +33,17 @@ public class ActorController : MonoBehaviour
 
 	public void InputMove(float x, float y)
 	{
-		if (locked)
+		if (Locked)
 		{
 			return;
 		}
         actor.inputForce.x += x;
         actor.inputForce.y += y;
-	}
+    }
 
-	public void InputTick(float deltaTime)
+    public void InputTick(float deltaTime)
 	{
-		if (locked)
+		if (Locked)
 		{
 			return;
 		}

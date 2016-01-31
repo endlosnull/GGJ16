@@ -132,7 +132,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   inputForce: {x: 0, y: 0}
-  gameCollider: {fileID: 0}
+  gameCollider: {fileID: 6539414}
   gameRigidbody: {fileID: 5445948}
   currentRenderers: []
 --- !u!1001 &100100000

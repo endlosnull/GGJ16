@@ -5,6 +5,7 @@ public class GameEntity : MonoBehaviour
 {
     public PhysicsObj physics = new PhysicsObj();
     public Vector2 inputForce = Vector2.zero;
+    public Vector2 inputAdj = Vector2.zero;
     private Vector3 directionVector = Vector3.forward;
 
     public List<GameAction> statusEffects = new List<GameAction>();
@@ -26,6 +27,7 @@ public class GameEntity : MonoBehaviour
     public void SyncPhysics()
     {
         this.physics.position = this.transform.position;
+        this.physics.velocity = Vector3.zero;
         this.directionVector = this.transform.forward;
     }
 
@@ -81,7 +83,14 @@ public class GameEntity : MonoBehaviour
 			return;
 		}
 
-        if (inputForce.sqrMagnitude > 0)
+        this.inputAdj = this.inputForce;
+
+        Vector2 inputAdj = inputForce;
+        if (inputAdj.sqrMagnitude < 0.2f * 0.2f)
+            inputAdj = Vector2.zero; // deadzone HACK, sorry
+
+
+        if (inputAdj.sqrMagnitude > 0)
         {
             this.directionVector.x = inputForce.normalized.x;
             this.directionVector.y = 0;
@@ -93,8 +102,11 @@ public class GameEntity : MonoBehaviour
         this.directionVector.Normalize();
 
         TestObjectCollisions();
-        
-        this.physics.FixedUpdate(new Vector3(inputForce.normalized.x, 0, inputForce.normalized.y));
+        Vector3 physicsInput = Vector3.zero;
+        if (inputAdj.sqrMagnitude > 0)
+            physicsInput = new Vector3(inputAdj.normalized.x, 0, inputAdj.normalized.y);
+
+        this.physics.FixedUpdate(physicsInput);
         this.transform.position = this.physics.position;
     }
 

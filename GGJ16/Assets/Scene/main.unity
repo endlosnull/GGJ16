@@ -751,6 +751,7 @@ MonoBehaviour:
   hitPlayer: {fileID: 8300000, guid: ded58718d5e243945bdf50c4312a4da0, type: 3}
   goal: {fileID: 8300000, guid: 4dc961ac65daf1543b4861dee6162431, type: 3}
   airhorn: {fileID: 8300000, guid: da8aa14ffe60382408ec16ee492ce9eb, type: 3}
+  normalizedVolume: 0.7
 --- !u!4 &1715758646
 Transform:
   m_ObjectHideFlags: 0
@@ -878,7 +879,7 @@ AudioSource:
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 0}
   m_PlayOnAwake: 1
-  m_Volume: 1
+  m_Volume: 0.326
   m_Pitch: 1
   Loop: 0
   Mute: 0
