@@ -75,6 +75,12 @@ public class Actor : MonoBehaviour
         this.transform.position = this.physics.position;
 
         this.possessionDelay -= Time.deltaTime;
+
+        Vector3 moveDelta = (new Vector3(inputForce.normalized.x, 0, inputForce.normalized.y) * this.physics.inputPower) + this.physics.velocity;
+		float forward = Vector3.Dot(this.transform.forward, moveDelta);
+		float strafe = Vector3.Dot(this.transform.right, moveDelta);
+		body.SetMoveSpeedForward(forward);
+		body.SetMoveSpeedStrafe(strafe);
     }
 
     public void BallHandling(Ball ball)
