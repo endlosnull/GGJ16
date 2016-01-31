@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-public class Singleton<T> : MonoBehaviour where T : MonoBehaviour
+public class HardSingleton<T> : MonoBehaviour where T : MonoBehaviour
 {
 	static T instance;
 	static bool applicationIsQuitting;
@@ -17,21 +17,19 @@ public class Singleton<T> : MonoBehaviour where T : MonoBehaviour
 				instance = (T)FindObjectOfType(typeof(T));
 				if (instance == null)
 				{
-					GameObject go = new GameObject(typeof(T).Name + " - Singleton");
-					DontDestroyOnLoad(go);
-					instance = go.AddComponent<T>();
+					Debug.Log("No Instance");
 				}
 			}
 			return instance;
 		}
 	}
 
+	public static bool HasInstance { get { return instance != null; } }
 	public static bool IsSafe { get { return !applicationIsQuitting; } }
 
 	public static void SingletonInit(T obj)
 	{
 		instance = obj;
-		Debug.Log("set Instance"+instance);
 	}
 
 	void OnDestroy()

@@ -27,6 +27,7 @@ public class GameEntity : MonoBehaviour
     public void SyncPhysics()
     {
         this.physics.position = this.transform.position;
+        this.physics.velocity = Vector3.zero;
         this.directionVector = this.transform.forward;
     }
 

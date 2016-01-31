@@ -38,6 +38,10 @@ public class AgentController : ActorController
 		float deltaTime = Time.deltaTime;
 		InputClear();
 
+		if( !Boss.Instance.IsInGame )
+		{
+			return;
+		}
 		Reevaluate(deltaTime);
 		Scan(deltaTime, false);
 		Decide(deltaTime, false);

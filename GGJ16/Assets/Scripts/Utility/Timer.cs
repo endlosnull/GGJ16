@@ -2,6 +2,7 @@
 public class Timer
 {
 	float timeLeft;
+	public float TimeLeft { get { return timeLeft; } }
 	float timeMax;
 	bool isPaused;
 	bool isLooping;
