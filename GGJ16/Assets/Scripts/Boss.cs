@@ -26,7 +26,6 @@ public class Boss : Singleton<Boss>
 	public bool IsInGame { get { return state == State.InGame; } }
 
 	public Canvas startGameCanvas;
-	public UnityEngine.UI.Button startGameButton;
 	public UpdateTimeEvent UpdateTime = new UpdateTimeEvent();
 	public ChangeScreenEvent ChangeScreen = new ChangeScreenEvent();
 	public MoveCursorEvent MoveCursor = new MoveCursorEvent();
@@ -40,7 +39,6 @@ public class Boss : Singleton<Boss>
 
 	public void Update()
 	{
-		startGameButton.enabled = (IsSettingUp && users.Count > 0);
 		time += Time.deltaTime;
 		UpdateTime.Invoke(time);
 	}

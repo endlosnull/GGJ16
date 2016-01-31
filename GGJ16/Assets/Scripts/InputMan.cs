@@ -106,5 +106,9 @@ public class InputMan : Singleton<InputMan>
 	void MenuInput(int idx, float hAxis, float vAxis, bool btnAlpha, bool btnBravo, bool btnStart, float deltaTime)
 	{
 		Boss.Instance.MoveUserCursor(idx, hAxis, vAxis);
+		if (btnStart) {
+			Debug.Log("AA");
+			Boss.Instance.ChangeStateInt(3);
+		}
 	}
 }
