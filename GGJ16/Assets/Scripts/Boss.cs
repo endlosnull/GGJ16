@@ -352,12 +352,12 @@ public class Boss : HardSingleton<Boss>
 		{
 			MoveCursor.Invoke(idx, vAxis > 0f ? MoveCursorAction.Up : MoveCursorAction.Down);
 		}
-		if (btnStart)
+		if (btnStart && inputLock <= 0f)
 		{
 			if(state == State.SettingUp)
 			{
 				GotoLoadout();
-				inputLock = 1f;
+				inputLock = 0.5f;
 			}
 			else if(state == State.Loadout)
 			{
