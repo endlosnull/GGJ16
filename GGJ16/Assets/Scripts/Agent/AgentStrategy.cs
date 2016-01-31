@@ -2,7 +2,7 @@ using UnityEngine;
 using System.Collections.Generic;
 
 [System.Serializable]
-public struct BehaviourContext
+public struct StrategyContext
 {
 	public Transform goal;
 	public float distToGoal;
@@ -13,7 +13,7 @@ public struct BehaviourContext
 	public bool hasBall;
 }
 
-public class AgentBehaviour : MonoBehaviour
+public class AgentStrategy : MonoBehaviour
 {
 	public Actor actor;
 	public Transform source;
@@ -21,7 +21,7 @@ public class AgentBehaviour : MonoBehaviour
 	public Transform target;
 	protected Vector2 targetPos = Vector2.zero;
 	protected Vector2 targetOffset = Vector2.zero;
-	public BehaviourContext context;
+	public StrategyContext context;
 
 	public void Dispose()
 	{
@@ -33,7 +33,7 @@ public class AgentBehaviour : MonoBehaviour
 		
 	}
 
-	public Vector2 GetMove()
+	public void GetMove(ref Vector2 direction, ref float energyDrain)
 	{
 		if( target != null )
 		{
@@ -43,17 +43,24 @@ public class AgentBehaviour : MonoBehaviour
 		Vector2 diff = (targetPos + targetOffset-sourcePos);
 		if( diff.magnitude < 0.5f )
 		{
-			return Vector2.zero;
+			direction = Vector2.zero;
+			energyDrain += 0f;
 		}
-		return diff.normalized;
+		else
+		{
+			direction = diff.normalized;
+			energyDrain += 1f;
+		} 
 
 	}
-	public virtual bool GetAlpha()
+	public virtual bool GetAlpha(int rand, ref float energyDrain)
 	{
+		energyDrain += 0f;
 		return false;
 	}
-	public virtual bool GetBravo()
+	public virtual bool GetBravo(int rand, ref float energyDrain)
 	{
+		energyDrain += 0f;
 		return false;
 	}
 
@@ -63,7 +70,7 @@ public class AgentBehaviour : MonoBehaviour
 	}
 }
 
-public class BehavSpace : AgentBehaviour
+public class StrategySpace : AgentStrategy
 {
 	public override void Decide()
 	{
@@ -72,13 +79,31 @@ public class BehavSpace : AgentBehaviour
 		
 	}
 
-	public virtual bool GetAlpha()
+	public virtual bool GetAlpha(int rand, ref float energyDrain)
 	{
-		return false;
+		if( rand < 15 )
+		{
+			energyDrain += 0f;
+			return false;
+		}
+		else
+		{
+			energyDrain += 2f;
+			return true;
+		}
 	}
-	public virtual bool GetBravo()
+	public virtual bool GetBravo(int rand, ref float energyDrain)
 	{
-		return false;
+		if( rand > 85 )
+		{
+			energyDrain += 0f;
+			return false;
+		}
+		else
+		{
+			energyDrain += 2f;
+			return true;
+		}
 	}
 	public override int GetGoodness()
 	{
@@ -93,20 +118,38 @@ public class BehavSpace : AgentBehaviour
 	}
 }
 
-public class BehavBallHawk : AgentBehaviour
+public class StrategyBallHawk : AgentStrategy
 {
 	public override void Decide()
 	{
 		target = context.ball;
 	}
 
-	public virtual bool GetAlpha()
+	public override bool GetAlpha(int rand, ref float energyDrain)
 	{
-		return false;
+		if( rand < 15 )
+		{
+			energyDrain += 0f;
+			return false;
+		}
+		else
+		{
+			energyDrain += 2f;
+			return true;
+		}
 	}
-	public virtual bool GetBravo()
+	public override bool GetBravo(int rand, ref float energyDrain)
 	{
-		return false;
+		if( rand > 85 )
+		{
+			energyDrain += 0f;
+			return false;
+		}
+		else
+		{
+			energyDrain += 2f;
+			return true;
+		}
 	}
 	public override int GetGoodness()
 	{
@@ -122,20 +165,38 @@ public class BehavBallHawk : AgentBehaviour
 }
 
 
-public class BehavOffenseScore : AgentBehaviour
+public class StrategyOffenseScore : AgentStrategy
 {
 	public override void Decide()
 	{
 		target = context.goal;
 	}
 
-	public virtual bool GetAlpha()
+	public override bool GetAlpha(int rand, ref float energyDrain)
 	{
-		return false;
+		if( rand < 15 )
+		{
+			energyDrain += 0f;
+			return false;
+		}
+		else
+		{
+			energyDrain += 2f;
+			return true;
+		}
 	}
-	public virtual bool GetBravo()
+	public override bool GetBravo(int rand, ref float energyDrain)
 	{
-		return false;
+		if( rand > 85 )
+		{
+			energyDrain += 0f;
+			return false;
+		}
+		else
+		{
+			energyDrain += 2f;
+			return true;
+		}
 	}
 	public override int GetGoodness()
 	{
@@ -153,7 +214,7 @@ public class BehavOffenseScore : AgentBehaviour
 /*
 
 
-public class BehavDefendActor : AgentBehaviour
+public class StrategyDefendActor : AgentStrategy
 {
 	public override void Decide()
 	{
@@ -187,7 +248,7 @@ public class BehavDefendActor : AgentBehaviour
 }
 
 
-public class BehavOffenseHelp : AgentBehaviour
+public class StrategyOffenseHelp : AgentStrategy
 {
 	Vector2 targetOffset = Vector2.zero;
 
@@ -231,7 +292,7 @@ public class BehavOffenseHelp : AgentBehaviour
 	}
 }
 
-public class BehavOffenseAdvance : AgentBehaviour
+public class StrategyOffenseAdvance : AgentStrategy
 {
 
 

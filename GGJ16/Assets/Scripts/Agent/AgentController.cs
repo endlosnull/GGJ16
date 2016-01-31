@@ -4,28 +4,32 @@ using System.Collections.Generic;
 
 public class AgentController : ActorController
 {
-	public AgentBehaviour behav;
+	public AgentStrategy strategy;
 	Timer reevaluateTimer = new Timer(2f, true);
 	Timer scanTimer = new Timer(0.5f, true);
 	Timer decideTimer = new Timer(0.25f, true);
 	Vector3 homePosition = Vector3.zero;
-	List<AgentBehaviour> behavList = new List<AgentBehaviour>();
-	BehaviourContext context = new BehaviourContext();
+	List<AgentStrategy> strategyList = new List<AgentStrategy>();
+	StrategyContext context = new StrategyContext();
+
+	float energyLevel = 12f;
+	float maxEnergyLevel = 12f;
+	Timer recoverEnergyTimer = new Timer(1f,true);
 
 	public override void OnSpawn()
 	{
 		base.OnSpawn();
 		homePosition = this.transform.position;
-		AddBehaviour(gameObject.AddComponent<BehavSpace>());
-		AddBehaviour(gameObject.AddComponent<BehavBallHawk>());
-		//AddBehaviour(gameObject.AddComponent<BehavOffenseScore>());
+		AddStrategy(gameObject.AddComponent<StrategySpace>());
+		AddStrategy(gameObject.AddComponent<StrategyBallHawk>());
+		//AddStrategy(gameObject.AddComponent<StrategyOffenseScore>());
 	}
 
-	void AddBehaviour(AgentBehaviour beh)
+	void AddStrategy(AgentStrategy strategy)
 	{
-		behavList.Add(beh);
-		beh.actor = actor;
-		beh.source = actor.transform;
+		strategyList.Add(strategy);
+		strategy.actor = actor;
+		strategy.source = actor.transform;
 	}
 
 	public void Update()
@@ -38,13 +42,26 @@ public class AgentController : ActorController
 		Scan(deltaTime, false);
 		Decide(deltaTime, false);
 
-		Vector2 moveDir = behav.GetMove();
-			
-		InputMove(moveDir.x,moveDir.y);	
+		Vector2 moveDir = Vector2.zero;
+		float energyConsumed = 0f;
+		if( energyLevel > 0f )
+		{
+			strategy.GetMove(ref moveDir, ref energyConsumed);
+			InputMove(moveDir.x,moveDir.y);	
+			int rand = UnityEngine.Random.Range(0,100);
         
-		InputAlpha = behav.GetAlpha();
+			InputAlpha = strategy.GetAlpha(rand, ref energyConsumed);
 
-		InputBravo = behav.GetBravo();
+			InputBravo = strategy.GetBravo(rand, ref energyConsumed);
+			energyLevel -= energyConsumed*Time.deltaTime;
+		}
+		else
+		{
+			if( recoverEnergyTimer.Tick(deltaTime) )
+			{
+				energyLevel = maxEnergyLevel;
+			}
+		}
 
         InputTick(deltaTime);
 		
@@ -61,9 +78,9 @@ public class AgentController : ActorController
 			context.isDefense = actor.team.isDefense;
 			context.isOffense = actor.team.isOffense;
 			context.hasBall = actor.ownedBall != null;
-			for(int i=0; i<behavList.Count; ++i)
+			for(int i=0; i<strategyList.Count; ++i)
 			{
-				behavList[i].context = context;
+				strategyList[i].context = context;
 			}
 		}
 	}
@@ -71,7 +88,7 @@ public class AgentController : ActorController
 	{
 		if( forced || decideTimer.Tick(deltaTime) )
 		{
-			behav.Decide();
+			strategy.Decide();
 		}
 	}
 
@@ -80,19 +97,19 @@ public class AgentController : ActorController
 
 		if( reevaluateTimer.Tick(deltaTime) )
 		{
-			behav = null;
+			strategy = null;
 		}
-		if( behav == null )
+		if( strategy == null )
 		{
 			float randomVal = UnityEngine.Random.value;
 			int bestGoodness = -100;
 			Scan(0, true);
-			for(int i=0; i<behavList.Count; ++i)
+			for(int i=0; i<strategyList.Count; ++i)
 			{
-				int goodness = behavList[i].GetGoodness();
+				int goodness = strategyList[i].GetGoodness();
 				if( goodness > bestGoodness )
 				{
-					behav = behavList[i];
+					strategy = strategyList[i];
 					bestGoodness = goodness;
 				}
 			}
