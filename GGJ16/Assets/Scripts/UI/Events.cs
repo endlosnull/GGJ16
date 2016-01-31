@@ -7,11 +7,10 @@ public class ChangeScreenEvent : UnityEvent<string> { }
 [System.Serializable]
 public class UpdateTimeEvent : UnityEvent<float> { }
 [System.Serializable]
-public class SetPlayerStateEvent : UnityEvent<string, string, SetPlayerStateAction> { }
+public class MoveCursorEvent : UnityEvent<int, MoveCursorAction> { }
 
-public enum SetPlayerStateAction
+public enum MoveCursorAction
 {
-	Add,
-	Remove,
-	ChangeTeam
+	Left,
+	Right,
 }

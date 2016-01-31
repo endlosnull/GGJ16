@@ -28,7 +28,7 @@ public class Boss : Singleton<Boss>
 	public UnityEngine.UI.Button startGameButton;
     public UpdateTimeEvent UpdateTime = new UpdateTimeEvent();
 	public ChangeScreenEvent ChangeScreen = new ChangeScreenEvent();
-	public SetPlayerStateEvent SetPlayerState = new SetPlayerStateEvent();
+	public MoveCursorEvent MoveCursor = new MoveCursorEvent();
 
     private float time;
 
@@ -55,7 +55,6 @@ public class Boss : Singleton<Boss>
 			User user = go.AddComponent<User>();
 			user.inputPrefix = prefix;
 			users.Add(user);
-			SetPlayerState.Invoke(go.name, "", SetPlayerStateAction.Add);
 		}
 	}
     
@@ -70,7 +69,6 @@ public class Boss : Singleton<Boss>
 			User user = go.AddComponent<User>();
 			user.inputPrefix = prefix;
 			users.Add(user);
-			SetPlayerState.Invoke(go.name, "", SetPlayerStateAction.Add);
 		}
 	}
 
@@ -153,6 +151,13 @@ public class Boss : Singleton<Boss>
 		GameObject fieldObject = GameObjectFactory.Instance.Spawn("p-Field", null, Vector3.zero, Quaternion.identity) ;
 		Field field = fieldObject.GetComponent<Field>();
 		field.BeginRound();
-		
+	}
+
+	public void MoveUserCursor(int idx, float hAxis, float vAxis)
+	{
+		if (Mathf.Abs(hAxis) > 0.5f)
+		{
+			MoveCursor.Invoke(idx, hAxis > 0f ? MoveCursorAction.Right : MoveCursorAction.Left);
+		}
 	}
 }

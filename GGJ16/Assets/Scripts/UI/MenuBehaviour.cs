@@ -4,8 +4,10 @@ using UnityEngine.UI;
 public class MenuBehaviour : MonoBehaviour
 {
 	protected virtual string MenuName { get { return ""; } }
-    
-    public void ChangeScreenEvent(string screen)
+
+	public Transform[] Cursors;
+
+	public void ChangeScreenEvent(string screen)
     {
         if (screen == this.MenuName)
         {

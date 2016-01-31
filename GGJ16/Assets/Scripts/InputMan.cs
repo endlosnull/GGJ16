@@ -67,13 +67,20 @@ public class InputMan : Singleton<InputMan>
 		bool btnBravo = Input.GetButton(sb.ToString());
 		sb.Length = 0;
 
+		sb.Append(inputPrefix);
+		sb.Append("BtnStart");
+		bool btnStart = Input.GetButton(sb.ToString());
+		sb.Length = 0;
+
 		if( Boss.Instance.IsInGame )
 		{
 			GameInput(idx, hAxis, vAxis, btnAlpha, btnBravo, deltaTime);
-			
+		}
+		else
+		{
+			MenuInput(idx, hAxis, vAxis, btnAlpha, btnBravo, btnStart, deltaTime);
 		}
 	}
-
 
 	void GameInput(int idx, float hAxis, float vAxis, bool btnAlpha, bool btnBravo, float deltaTime)
 	{
@@ -94,5 +101,10 @@ public class InputMan : Singleton<InputMan>
 
 	        controller.InputTick(deltaTime);
 	    }
+	}
+
+	void MenuInput(int idx, float hAxis, float vAxis, bool btnAlpha, bool btnBravo, bool btnStart, float deltaTime)
+	{
+		Boss.Instance.MoveUserCursor(idx, hAxis, vAxis);
 	}
 }

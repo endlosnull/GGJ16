@@ -12,9 +12,9 @@ public class SelectTeamMenu : MenuBehaviour {
 		}
 	}
 
-	List<string> players = new List<string>();
-	List<Transform> playerObjects = new List<Transform>();
-	public Transform playerUi;
+	const float LeftTeamX = -50f;
+	const float CenterX = 0f;
+	const float RightTeamX = 50f;
 
 	// Use this for initialization
 	void Start () {
@@ -24,38 +24,21 @@ public class SelectTeamMenu : MenuBehaviour {
 	void Update () {
 	}
 
-	public void SetPlayerState(string playerName, string teamName, SetPlayerStateAction action)
+	public void MoveCursor(int idx, MoveCursorAction action)
 	{
+		Vector3 newPosition;
 		switch (action)
 		{
-			case SetPlayerStateAction.Add:
-				AddPlayer(playerName);
+			case MoveCursorAction.Left:
+				newPosition = this.Cursors[idx].localPosition;
+				newPosition.x = LeftTeamX;
+				this.Cursors[idx].localPosition = newPosition;
 				break;
-			case SetPlayerStateAction.Remove:
-				RemovePlayer(playerName);
-
+			case MoveCursorAction.Right:
+				newPosition = this.Cursors[idx].localPosition;
+				newPosition.x = RightTeamX;
+				this.Cursors[idx].localPosition = newPosition;
 				break;
 		}
-	}
-
-	private void AddPlayer(string playerName)
-	{
-		var transform = Instantiate(playerUi);
-		transform.SetParent(GetComponent<Canvas>().gameObject.transform);
-		transform.localPosition = Vector3.zero;
-		transform.GetComponent<Text>().text = playerName;
-
-		players.Add(playerName);
-		playerObjects.Add(transform);
-	}
-
-	private void RemovePlayer(string playerName)
-	{
-		int index = players.IndexOf(playerName);
-		var transform = playerObjects[index];
-
-		playerObjects.RemoveAt(index);
-		players.RemoveAt(index);
-		Destroy(transform);
 	}
 }
