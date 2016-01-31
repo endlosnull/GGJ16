@@ -8,11 +8,26 @@ class CursorPosition
 	public int j;
 }
 
+class ActionBrickVisuals
+{
+	public string name;
+	public string image;
+}
+
 public class SelectActionsMenu : MenuBehaviour
 {
 	List<Transform> actions = new List<Transform>();
 	public Transform ActionBrick;
 	List<CursorPosition> cursorPositions = new List<CursorPosition>();
+	ActionBrickVisuals[] actionBricks = new ActionBrickVisuals[]
+	{
+		new ActionBrickVisuals { name = "Forward dash", image = "Textures/cards/arrow_up" },
+		new ActionBrickVisuals { name = "Right dash", image = "Textures/cards/arrow_right" },
+		new ActionBrickVisuals { name = "Left dash", image = "Textures/cards/arrow_left" },
+		new ActionBrickVisuals { name = "Jump", image = "Textures/cards/foot" },
+		new ActionBrickVisuals { name = "Throw", image = "Textures/cards/throw" },
+		new ActionBrickVisuals { name = "Swat", image = "Textures/cards/hand" },
+	};
 
 	protected override string MenuName
 	{
@@ -26,21 +41,31 @@ public class SelectActionsMenu : MenuBehaviour
 	public override void Start()
 	{
 		base.Start();
-		for(int i = 0; i < Cursors.Count; ++i)
+		for(int n = 0; n < Cursors.Count; ++n)
 		{
 			cursorPositions.Add(new CursorPosition());
 		}
 
 		Transform canvasTransform = GetComponent<Canvas>().transform;
-		for (int i = 0; i < 5; ++i)
+		int i = 0;
+		int j = 0;
+		for(int n = 0; n < actionBricks.Length; ++n)
 		{
-			for (int j = 0; j < 3; ++j)
+			if(n % 3 == 0)
 			{
-				var cube = Instantiate(ActionBrick);
-				cube.SetParent(canvasTransform);
-				cube.localPosition = new Vector3(i * 120 - 240, j * 120 - 120, 0);
-				actions.Add(cube);
+				i = 0;
+				j++;
 			}
+
+			var cube = Instantiate(ActionBrick);
+			cube.SetParent(canvasTransform);
+			cube.localPosition = new Vector3(i * 200 - 200, j * 200 - 200, 0);
+			cube.Find("BrickText").GetComponent<Text>().text = actionBricks[n].name;
+
+			var sprite = Resources.Load<Sprite>(actionBricks[n].image);
+			cube.Find("BrickBg").GetComponent<Image>().sprite = sprite;
+			actions.Add(cube);
+			i++;
 		}
 	}
 
@@ -77,6 +102,6 @@ public class SelectActionsMenu : MenuBehaviour
 				break;
 		}
 		//Debug.Log("cp" + cp);
-		this.Cursors[idx].localPosition = new Vector3(cp.i * 120 - 240, cp.j * 120 - 240, 0);
+		this.Cursors[idx].localPosition = new Vector3(cp.i * 200 - 200, cp.j * 200 - 400, 0);
 	}
 }
