@@ -168,12 +168,10 @@ public class Boss : Singleton<Boss>
             actor.boss = this;
 			GameObject attachObject = GameObjectFactory.Instance.Spawn("p-AttachHeaddressBird", null, Vector3.zero, Quaternion.identity);
 			attachObject.name = "attachment" + i;
-			actor.body.AttachToBone(attachObject, "model/Armature/Root/Body/Head");
-			if (attachObject)
-			{
-				attachObject.transform.localRotation = Quaternion.AngleAxis(-90f, Vector3.up);
-				actor.body.attachments.Add(attachObject);
-			}
+			attachObject.transform.parent = bodyObject.transform.FindTransformInChildren("Head");
+			attachObject.transform.localPosition = Vector3.zero;
+			attachObject.transform.localRotation = Quaternion.AngleAxis(-90f, Vector3.up);
+			actor.body.attachments.Add(attachObject);
 			users[i].controlledActor = actor;
 			actor.controller = go.AddComponent<ActorController>();
 			team.actors.Add(actor);
