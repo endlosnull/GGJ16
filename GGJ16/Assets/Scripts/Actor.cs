@@ -56,16 +56,6 @@ public class Actor : MonoBehaviour
 
 	public void DoActionAlpha()
 	{
-		// Test explosion
-		
-		/*for (int i = 0; i < Field.Instance.allActors.Count; ++i)
-		{
-			Actor actor = Field.Instance.allActors[i];
-			actor.SetUnityPhysics(true);
-			actor.AddUnityExplosionForce(500f, Vector3.down * 10f, 500f);
-		}*/
-		
-
 		sequencer.RunSequence(sequencer.sequences[0]);
 		LockInput effect = new LockInput();
 		effect.duration = sequencer.sequences[0].TotalDuration;
@@ -228,6 +218,7 @@ public class Actor : MonoBehaviour
 			actorRigidbody.useGravity = true;
 			actorRigidbody.isKinematic = false;
 			physics.enabled = false;
+			body.vfxRenderer.enabled = false;
 		}
 		else
 		{
@@ -235,6 +226,7 @@ public class Actor : MonoBehaviour
 			actorRigidbody.useGravity = false;
 			actorRigidbody.isKinematic = true;
 			physics.enabled = true;
+			body.vfxRenderer.enabled = true;
 		}
 	}
 

@@ -17,8 +17,12 @@ public class CamControl : Singleton<CamControl>
 	float minZ = -1.5f;
 	float maxZ = 1.5f;
 
+	float shakeIntensity;
+	float shakeFadeMod = 0.5f;
+
 	void Awake()
 	{
+		currentPosition = this.transform.position;
 	}
 
 	public void Update()
@@ -26,9 +30,8 @@ public class CamControl : Singleton<CamControl>
 		if( target != null )
 		{
 			float deltaTime = Time.deltaTime;
-			currentPosition = this.transform.position;
-			targetPosition = target.position;
 
+			targetPosition = target.position;
 
 			desiredPosition.x = Mathf.Clamp(targetPosition.x,minX,maxX);
 			desiredPosition.y = Mathf.Clamp(targetPosition.y,0f,1f);
@@ -43,7 +46,20 @@ public class CamControl : Singleton<CamControl>
 				diff = diff.normalized*maxStep;
 			}
 			currentPosition += diff;
-			this.transform.position = currentPosition;
+
+			Vector3 shakePos = Vector3.zero;
+			if (shakeIntensity > 0f)
+			{
+				shakePos = Random.insideUnitSphere * shakeIntensity;
+				shakeIntensity = Mathf.Max(0f, shakeIntensity - shakeFadeMod * deltaTime);
+			}
+
+			this.transform.position = currentPosition + shakePos;
 		}
+	}
+
+	public void AddShake(float intensity)
+	{
+		shakeIntensity += intensity;
 	}
 }

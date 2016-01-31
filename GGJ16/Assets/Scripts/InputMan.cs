@@ -38,7 +38,17 @@ public class InputMan : Singleton<InputMan>
 		{
 			ProcessUserInput(i, deltaTime);
 		}
-		
+
+		if (Input.GetKeyDown(KeyCode.F1))
+		{
+			for (int i = 0; i < Field.Instance.allActors.Count; ++i)
+			{
+				Actor actor = Field.Instance.allActors[i];
+				actor.SetUnityPhysics(true);
+				actor.AddUnityExplosionForce(150f, Vector3.down * 10f, 150f);
+			}
+			CamControl.Instance.AddShake(0.4f);
+		}
 	}
 
 	void ProcessUserInput(int idx, float deltaTime)
