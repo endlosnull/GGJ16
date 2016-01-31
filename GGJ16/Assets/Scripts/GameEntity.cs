@@ -7,6 +7,7 @@ public class GameEntity : MonoBehaviour
     public Vector2 inputForce = Vector2.zero;
     public Vector2 inputAdj = Vector2.zero;
     private Vector3 directionVector = Vector3.forward;
+    public bool modelCenterAtBottom = false;
 
     public List<GameAction> statusEffects = new List<GameAction>();
 
@@ -26,7 +27,10 @@ public class GameEntity : MonoBehaviour
 
     public void SyncPhysics()
     {
-        this.physics.position = this.transform.position;
+        if (this.modelCenterAtBottom)
+            this.physics.position = this.transform.position + Vector3.up * this.physics.HalfSize;
+        else
+            this.physics.position = this.transform.position;
         this.physics.velocity = Vector3.zero;
         this.directionVector = this.transform.forward;
     }
@@ -107,7 +111,14 @@ public class GameEntity : MonoBehaviour
             physicsInput = new Vector3(inputAdj.normalized.x, 0, inputAdj.normalized.y);
 
         this.physics.FixedUpdate(physicsInput);
-        this.transform.position = this.physics.position;
+        if (this.modelCenterAtBottom)
+        {
+            this.transform.position = this.physics.position - Vector3.up * this.physics.HalfSize;
+        }
+        else
+        {
+            this.transform.position = this.physics.position;
+        }
     }
 
     public virtual void TestObjectCollisions()
