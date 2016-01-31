@@ -22,9 +22,9 @@ public class SequenceHud : MonoBehaviour
 			{
 				GameObject.Find("Ritual_" + PlayerIndex).SetActive(true);
 
-				string textName = string.Format("Ritual_{0}/ButtonLabel_{1}", 0, sequencer.SequenceIndex);
+				string textName = string.Format("Ritual_{0}/ButtonLabel_{1}", PlayerIndex, sequencer.SequenceIndex);
 				GameObject.Find(textName).GetComponent<Text>().text = sequencer.CurrentAction.name;
-				string imageName = string.Format("Ritual_{0}/Image_{1}", 0, sequencer.SequenceIndex);
+				string imageName = string.Format("Ritual_{0}/Image_{1}", PlayerIndex, sequencer.SequenceIndex);
 
 				if (ActionBricksDictionary.Dictionary.ContainsKey(sequencer.CurrentAction.name)) {
 					string imagePath = ActionBricksDictionary.Dictionary[sequencer.CurrentAction.name].image;
