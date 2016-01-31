@@ -255,9 +255,9 @@ public class Boss : Singleton<Boss>
 			return;
 
 		Ball ball = field.ball;
-		for (int i = 0; i < users.Count; ++i)
+		for (int i = 0; i < field.allActors.Count; ++i)
 		{
-			Actor actor = users[i].controlledActor;
+			Actor actor = field.allActors[i];
 			actor.BallHandling(ball);
 		}
 	}

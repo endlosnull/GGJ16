@@ -39,7 +39,7 @@ public class AgentBehaviour : MonoBehaviour
 		}
 		sourcePos = new Vector2(source.position.x, source.position.z);
 		Vector2 diff = (targetPos + targetOffset-sourcePos);
-		if( diff.magnitude < 1f )
+		if( diff.magnitude < 0.5f )
 		{
 			return Vector2.zero;
 		}
