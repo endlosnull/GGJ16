@@ -18,9 +18,9 @@ public class Team : MonoBehaviour
 			{
 				default:
 				case 0: return new Vector2(-10,0);
-				case 1: return new Vector2(-5,-3);
-				case 2: return new Vector2(-5,3);
-				case 3: return new Vector2(-2,1);
+				case 1: return new Vector2(-2,-3);
+				case 2: return new Vector2(-2,3);
+				case 3: return new Vector2(3,1);
 			}
 		}
 		else
@@ -29,9 +29,9 @@ public class Team : MonoBehaviour
 			{
 				default:
 				case 0: return new Vector2(10,0);
-				case 1: return new Vector2(5,-3);
-				case 2: return new Vector2(5,3);
-				case 3: return new Vector2(2,-1);
+				case 1: return new Vector2(2,-3);
+				case 2: return new Vector2(2,3);
+				case 3: return new Vector2(-3,-1);
 			}
 		}
 	}

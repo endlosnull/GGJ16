@@ -7,7 +7,6 @@ public class Actor : MonoBehaviour
 	public ActorController controller;
 	public ActorBody body;
     public Ball ownedBall;
-    public Boss boss;
 
     public Team team;
     public int positionIndex; // position 0 is forward, 3 is defense, or whatever
@@ -55,7 +54,7 @@ public class Actor : MonoBehaviour
 
 	public void DoActionBravo()
 	{
-		Debug.Log("Bravo!");
+		//Debug.Log("Bravo!");
 		body.SetShadowColor(Color.red, 1f);
 	}
 

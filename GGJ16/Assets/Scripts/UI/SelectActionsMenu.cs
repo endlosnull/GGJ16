@@ -54,6 +54,11 @@ public class SelectActionsMenu : MenuBehaviour
 		{
 			return;
 		}
+		if( idx >= this.cursorPositions.Count )
+		{
+			Debug.LogWarning("Invalid index "+idx+" of "+this.cursorPositions.Count);
+			return;
+		}
 		CursorPosition cp = this.cursorPositions[idx];
 		switch (action)
 		{

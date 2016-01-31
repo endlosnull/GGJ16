@@ -6,7 +6,8 @@ public class AgentController : ActorController
 {
 	AgentBehaviour behav;
 	Timer reevaluateTimer = new Timer(2f, true);
-	Timer scanTimer = new Timer(2f, true);
+	Timer scanTimer = new Timer(0.5f, true);
+	Timer decideTimer = new Timer(0.25f, true);
 	Vector3 homePosition = Vector3.zero;
 	List<AgentBehaviour> behavList = new List<AgentBehaviour>();
 	BehaviourContext context = new BehaviourContext();
@@ -34,7 +35,8 @@ public class AgentController : ActorController
 		InputClear();
 
 		Reevaluate(deltaTime);
-		Scan(deltaTime);
+		Scan(deltaTime, false);
+		Decide(deltaTime, false);
 
 		Vector2 moveDir = behav.GetMove();
 			
@@ -48,11 +50,28 @@ public class AgentController : ActorController
 		
 	}
 
-	void Scan(float deltaTime)
+	void Scan(float deltaTime, bool forced)
 	{
-		if( scanTimer.Tick(deltaTime) )
+		if( forced || scanTimer.Tick(deltaTime) )
 		{
-			behav.Scan();
+			context.goal = Field.Instance.goal.transform;
+			context.distToGoal = Vector3.Distance(context.goal.position, actor.transform.position);
+			context.ball = Field.Instance.ball.transform;
+			context.distToBall = Vector3.Distance(context.ball.position, actor.transform.position);
+			context.isDefense = actor.team.isDefense;
+			context.isOffense = actor.team.isOffense;
+			context.hasBall = actor.ownedBall != null;
+			for(int i=0; i<behavList.Count; ++i)
+			{
+				behavList[i].context = context;
+			}
+		}
+	}
+	void Decide(float deltaTime, bool forced)
+	{
+		if( forced || decideTimer.Tick(deltaTime) )
+		{
+			behav.Decide();
 		}
 	}
 
@@ -67,16 +86,9 @@ public class AgentController : ActorController
 		{
 			float randomVal = UnityEngine.Random.value;
 			int bestGoodness = -100;
-			context.goal = Field.Instance.goal.transform;
-			context.distToGoal = Vector3.Distance(context.goal.position, actor.transform.position);
-			context.ball = Field.Instance.ball.transform;
-			context.distToBall = Vector3.Distance(context.ball.position, actor.transform.position);
-			context.isDefense = actor.team.isDefense;
-			context.isOffense = actor.team.isOffense;
-			context.hasBall = actor.ownedBall != null;
+			Scan(0, true);
 			for(int i=0; i<behavList.Count; ++i)
 			{
-				behavList[i].context = context;
 				int goodness = behavList[i].GetGoodness();
 				if( goodness > bestGoodness )
 				{
@@ -84,7 +96,7 @@ public class AgentController : ActorController
 					bestGoodness = goodness;
 				}
 			}
-			behav.Scan();
+			Decide(0,true);
 
 		}
 	}

@@ -28,7 +28,7 @@ public class AgentBehaviour : MonoBehaviour
 
 	}
 
-	public virtual void Scan()
+	public virtual void Decide()
 	{
 		
 	}
@@ -65,7 +65,7 @@ public class AgentBehaviour : MonoBehaviour
 
 public class BehavSpace : AgentBehaviour
 {
-	public override void Scan()
+	public override void Decide()
 	{
 		target = null;
 		if(context.isDefense)
@@ -105,7 +105,7 @@ public class BehavSpace : AgentBehaviour
 
 public class BehavDefendActor : AgentBehaviour
 {
-	public override void Scan()
+	public override void Decide()
 	{
 		List<Actor> allActors = Field.Instance.allActors;
 		float bestDiff = 99999f*99999f;
@@ -151,7 +151,7 @@ public class BehavDefendActor : AgentBehaviour
 
 public class BehavBallHawk : AgentBehaviour
 {
-	public override void Scan()
+	public override void Decide()
 	{
 		target = context.ball;
 	}
@@ -180,7 +180,7 @@ public class BehavBallHawk : AgentBehaviour
 
 public class BehavOffenseScore : AgentBehaviour
 {
-	public override void Scan()
+	public override void Decide()
 	{
 		target = context.goal;
 	}
@@ -212,7 +212,7 @@ public class BehavOffenseHelp : AgentBehaviour
 	Vector2 targetOffset = Vector2.zero;
 
 
-	public override void Scan()
+	public override void Decide()
 	{
 		target = Field.Instance.ball.transform;
 		targetPos = new Vector2(target.position.x, target.position.z);
@@ -255,7 +255,7 @@ public class BehavOffenseAdvance : AgentBehaviour
 {
 
 
-	public override void Scan()
+	public override void Decide()
 	{
 		Transform goalTransform = Field.Instance.goal.transform;
 		Vector2 goalPos = new Vector2(goalTransform.position.x, goalTransform.position.z);
