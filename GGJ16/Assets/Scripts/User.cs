@@ -9,6 +9,7 @@ public class User : MonoBehaviour
 
 	public string inputPrefix = "Key";
 	public bool isLocalHuman = true;
+	public int teamIndex = 0;
 
 	void Awake()
 	{
@@ -32,6 +33,20 @@ public class User : MonoBehaviour
         sequences[seqInd].actions.Clear();
         ActionBricks.AddSwat(null, sequences[seqInd]);
         //ActionBricks.AddTurnRight(null, sequences[seqInd]);
+        ActionBricks.AddJump(null, sequences[seqInd]);
+        ActionBricks.AddThrow(null, sequences[seqInd]);
+	}
+
+	public void DefaultAISequences()
+	{
+        int seqInd = 0;
+		sequences[seqInd].actions.Clear();
+        ActionBricks.AddForwardDash(null, sequences[seqInd]);
+        ActionBricks.AddGrab(null, sequences[seqInd]);
+
+        seqInd++;
+        sequences[seqInd].actions.Clear();
+        ActionBricks.AddSwat(null, sequences[seqInd]);
         ActionBricks.AddJump(null, sequences[seqInd]);
         ActionBricks.AddThrow(null, sequences[seqInd]);
 	}

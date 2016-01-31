@@ -89,11 +89,14 @@ public class Actor : GameEntity
 
     public void TrySwatBall(Ball ball, float range, float yRange)
     {
+        if (ball.owner == null)
+            return;
+
         if (ball.owner == this)
             return; // don't swat self!
 
-        if (ball.owner == null)
-            return;
+        if (!this.isHuman && ball.owner.team == this.team)
+            return; // don't same team if AI
 
         float distance = (ball.owner.transform.position - this.transform.position).magnitude;
         if (distance < range && Mathf.Abs(ball.owner.transform.position.y - this.transform.position.y) < yRange)

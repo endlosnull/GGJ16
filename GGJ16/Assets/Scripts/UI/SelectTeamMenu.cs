@@ -41,6 +41,14 @@ public class SelectTeamMenu : MenuBehaviour {
 			if(users[i].isLocalHuman && j<this.Cursors.Count)
 			{
 				this.Cursors[j].gameObject.SetActive(true);
+				if( this.Cursors[j].localPosition.x == LeftTeamX )
+				{
+					users[i].teamIndex = 0;
+				}
+				if( this.Cursors[j].localPosition.x == RightTeamX )
+				{
+					users[i].teamIndex = 1;
+				}
 				++j;
 			}
 		}

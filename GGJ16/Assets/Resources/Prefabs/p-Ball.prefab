@@ -200,7 +200,7 @@ AudioSource:
       tangentMode: 0
     m_PreInfinity: 2
     m_PostInfinity: 2
-    m_RotationOrder: 4
+    m_RotationOrder: 0
   reverbZoneMixCustomCurve:
     serializedVersion: 2
     m_Curve:
@@ -272,10 +272,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   inputForce: {x: 0, y: 0}
   inputAdj: {x: 0, y: 0}
+  modelCenterAtBottom: 0
   gameCollider: {fileID: 13593480}
   gameRigidbody: {fileID: 5483768}
   owner: {fileID: 0}
   field: {fileID: 0}
+  trail: {fileID: 9687666}
   audioSource: {fileID: 8282406}
 --- !u!135 &13593480
 SphereCollider:
@@ -332,6 +334,14 @@ Prefab:
       propertyPath: audioSource
       value: 
       objectReference: {fileID: 8282406}
+    - target: {fileID: 0}
+      propertyPath: spreadCustomCurve.m_RotationOrder
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: trail
+      value: 
+      objectReference: {fileID: 9687666}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}
   m_RootGameObject: {fileID: 106832}
