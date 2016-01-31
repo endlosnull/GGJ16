@@ -87,13 +87,16 @@ public class Actor : GameEntity
         }
     }
 
-    public void TrySwatBall(Ball ball, float range)
+    public void TrySwatBall(Ball ball, float range, float yRange)
     {
         if (ball.owner == this)
             return; // don't swat self!
 
-        float distance = (ball.transform.position - this.transform.position).magnitude;
-        if (distance < range)
+        if (ball.owner == null)
+            return;
+
+        float distance = (ball.owner.transform.position - this.transform.position).magnitude;
+        if (distance < range && Mathf.Abs(ball.owner.transform.position.y - this.transform.position.y) < yRange)
         {
             SwatBall(ball);
         }
