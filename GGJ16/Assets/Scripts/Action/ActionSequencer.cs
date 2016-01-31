@@ -14,64 +14,56 @@ public class ActionSequencer : MonoBehaviour
 
 	void OnSpawn()
 	{
+		for(int i=0;i<2;++i)
+		{
+			sequences.Add(new ActionSequence());
+		}
 		// TEST SEQUENCE
-		ActionSequence sequence1 = new ActionSequence();
+		sequences[0].actions.Clear();
+
+        ForwardDash forwardDash = new ForwardDash();
+        forwardDash.source = gameObject;
+        forwardDash.force = 3f;
+        forwardDash.duration = 0.4f;
+        sequences[0].actions.Add(forwardDash);
 
         Grab grabAction = new Grab();
         grabAction.source = gameObject;
         grabAction.range = 2.0f;
         grabAction.duration = 0.2f;
-        sequence1.actions.Add(grabAction);
+        sequences[0].actions.Add(grabAction);
 
-        //ForwardDash forwardDash = new ForwardDash();
-        //forwardDash.source = gameObject;
-        //forwardDash.force = 3f;
-        //forwardDash.duration = 0.2f;
-        //sequence1.actions.Add(forwardDash);
+        sequences[1].actions.Clear();
 
-        //Jump jump = new Jump();
-        //jump.source = gameObject;
-        //jump.force = 2f;
-        //jump.duration = 0.5f;
-        //sequence1.actions.Add(jump);
+		SideDash sideDash = new SideDash();
+        sideDash.source = gameObject;
+        sideDash.force = 3f;
+        sideDash.duration = 0.2f;
+        sequences[1].actions.Add(sideDash);
 
-  //      Throw throwAction = new Throw();
-  //      throwAction.source = gameObject;
-  //      throwAction.forceForward = 3f;
-  //      throwAction.forceUp = 3f;
-  //      throwAction.duration = 0.2f;
-		//throwAction.actionTime = 0.1f;
-  //      sequence1.actions.Add(throwAction);
-
-        //SideDash sideDash = new SideDash();
-        //sideDash.source = gameObject;
-        //sideDash.force = 3f;
-        //sideDash.duration = 0.2f;
-        //sequence1.actions.Add(sideDash);
-
-        //ForwardDash forwardDash2 = new ForwardDash();
-        //forwardDash2.source = gameObject;
-        //forwardDash2.force = 1.5f;
-        //forwardDash2.duration = 0.33f;
-        //sequence1.actions.Add(forwardDash2);
-
-        AddSequence(sequence1);
-
-
-        ActionSequence sequence2 = new ActionSequence();
+        Jump jump = new Jump();
+        jump.source = gameObject;
+        jump.force = 2f;
+        jump.duration = 0.5f;
+        sequences[1].actions.Add(jump);
 
         Throw throwAction = new Throw();
         throwAction.source = gameObject;
         throwAction.forceForward = 3f;
         throwAction.forceUp = 3f;
         throwAction.duration = 0.2f;
-        throwAction.actionTime = 0.1f;
-        sequence2.actions.Add(throwAction);
+		throwAction.actionTime = 0.1f;
+        sequences[1].actions.Add(throwAction);
 
-        AddSequence(sequence2);
-    }
+        //ForwardDash forwardDash2 = new ForwardDash();
+        //forwardDash2.source = gameObject;
+        //forwardDash2.force = 1.5f;
+        //forwardDash2.duration = 0.33f;
+        //sequence.actions.Add(forwardDash2);
 
-    public void AddSequence(ActionSequence sequence)
+	}
+
+	public void AddSequence(ActionSequence sequence)
 	{
 		sequences.Add(sequence);
 	}

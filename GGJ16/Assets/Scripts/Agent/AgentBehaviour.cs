@@ -68,18 +68,8 @@ public class BehavSpace : AgentBehaviour
 	public override void Decide()
 	{
 		target = null;
-		if(context.isDefense)
-		{
-			targetPos = actor.team.GetDefendPos(actor.positionIndex);
-		}
-		else if(context.isOffense)
-		{
-			targetPos = actor.team.GetAttackPos(actor.positionIndex);
-		}
-		else
-		{
-			targetPos = actor.team.GetHomePos(actor.positionIndex);
-		}
+		targetPos = actor.team.GetLeashPos(actor.positionIndex);
+		
 	}
 
 	public virtual bool GetAlpha()
@@ -103,52 +93,6 @@ public class BehavSpace : AgentBehaviour
 	}
 }
 
-public class BehavDefendActor : AgentBehaviour
-{
-	public override void Decide()
-	{
-		List<Actor> allActors = Field.Instance.allActors;
-		float bestDiff = 99999f*99999f;
-		for(int i=0; i<allActors.Count; ++i)
-		{
-			Actor other = allActors[i];
-			if( other != actor && other.team.teamIndex != actor.team.teamIndex )
-			{
-				float sqrDiff = (other.transform.position - source.position).sqrMagnitude;
-				if( sqrDiff < bestDiff )
-				{
-					target = other.transform;
-				}
-			}
-		}
-	}
-
-	public virtual bool GetAlpha()
-	{
-		return false;
-	}
-	public virtual bool GetBravo()
-	{
-		return false;
-	}
-
-	public override int GetGoodness()
-	{
-		if( context.isOffense || context.hasBall )
-		{
-			return -30;
-		}
-		if( context.distToBall < 4 )
-		{
-			return 20;
-		}
-		else
-		{
-			return 0;
-		}
-	}
-}
-
 public class BehavBallHawk : AgentBehaviour
 {
 	public override void Decide()
@@ -166,13 +110,13 @@ public class BehavBallHawk : AgentBehaviour
 	}
 	public override int GetGoodness()
 	{
-		if( context.isOffense || context.hasBall )
+		if( actor.team.bestBallHawk == actor )
 		{
-			return -20;
+			return 100;
 		}
 		else
 		{
-			return 10;
+			return -100;
 		}
 	}
 }
@@ -207,6 +151,42 @@ public class BehavOffenseScore : AgentBehaviour
 }
 
 /*
+
+
+public class BehavDefendActor : AgentBehaviour
+{
+	public override void Decide()
+	{
+		
+	}
+
+	public virtual bool GetAlpha()
+	{
+		return false;
+	}
+	public virtual bool GetBravo()
+	{
+		return false;
+	}
+
+	public override int GetGoodness()
+	{
+		if( context.isOffense || context.hasBall )
+		{
+			return -30;
+		}
+		if( context.distToBall < 4 )
+		{
+			return 20;
+		}
+		else
+		{
+			return 0;
+		}
+	}
+}
+
+
 public class BehavOffenseHelp : AgentBehaviour
 {
 	Vector2 targetOffset = Vector2.zero;

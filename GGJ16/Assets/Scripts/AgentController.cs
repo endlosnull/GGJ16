@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 public class AgentController : ActorController
 {
-	AgentBehaviour behav;
+	public AgentBehaviour behav;
 	Timer reevaluateTimer = new Timer(2f, true);
 	Timer scanTimer = new Timer(0.5f, true);
 	Timer decideTimer = new Timer(0.25f, true);
@@ -17,8 +17,7 @@ public class AgentController : ActorController
 		base.OnSpawn();
 		homePosition = this.transform.position;
 		AddBehaviour(gameObject.AddComponent<BehavSpace>());
-		//AddBehaviour(gameObject.AddComponent<BehavBallHawk>());
-		//AddBehaviour(gameObject.AddComponent<BehavDefendActor>());
+		AddBehaviour(gameObject.AddComponent<BehavBallHawk>());
 		//AddBehaviour(gameObject.AddComponent<BehavOffenseScore>());
 	}
 

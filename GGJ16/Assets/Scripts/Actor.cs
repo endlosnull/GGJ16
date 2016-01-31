@@ -11,6 +11,7 @@ public class Actor : MonoBehaviour
 
     public Team team;
     public int positionIndex; // position 0 is forward, 3 is defense, or whatever
+    public bool isHuman;
     
     public PhysicsObj physics = new PhysicsObj();
     public Vector2 inputForce = Vector2.zero;
@@ -55,8 +56,11 @@ public class Actor : MonoBehaviour
 
 	public void DoActionBravo()
 	{
-        ActionSequencer sequencer = GetComponent<ActionSequencer>();
-        sequencer.RunSequence(sequencer.sequences[1]);
+		sequencer.RunSequence(sequencer.sequences[1]);
+        LockInput effect = new LockInput();
+        effect.duration = sequencer.sequences[1].TotalDuration;
+        effect.target = gameObject;
+        AddStatusEffect(effect);
 
         body.SetShadowColor(Color.red, 1f);
 	}
