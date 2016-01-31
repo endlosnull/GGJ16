@@ -259,8 +259,7 @@ public class Boss : HardSingleton<Boss>
 			{
 				continue;
 			}
-			//fix this to get the team
-			Team team = teams[0];
+			Team team = teams[users[i].teamIndex];
 
 			Vector2 startPos = team.GetSpawnPos(team.actors.Count);
 			Vector3 startVec = new Vector3(startPos.x, 0, startPos.y);
