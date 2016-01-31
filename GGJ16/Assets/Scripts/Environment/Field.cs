@@ -1,4 +1,5 @@
 using UnityEngine;
+using System.Collections.Generic;
 using Pooling;
 
 public class Field : Singleton<Field>
@@ -9,6 +10,7 @@ public class Field : Singleton<Field>
 
 	public Goal goal;
 	public Ball ball;
+	public List<Actor> allActors;
 
 	public void BeginRound()
 	{

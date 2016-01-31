@@ -7,6 +7,8 @@ public class Actor : MonoBehaviour
     public Ball ownedBall;
 	public MecanimAnimator animator;
 
+    public Team team;
+    
     public PhysicsObj physics = new PhysicsObj();
     public Vector2 inputForce = Vector2.zero;
     private Vector3 directionVector = Vector3.forward;
