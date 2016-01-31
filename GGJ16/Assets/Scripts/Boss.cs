@@ -13,6 +13,7 @@ public class Boss : Singleton<Boss>
 	List<Team> teams  = new List<Team>();
 	public List<Team> Teams { get { return teams; } }
 	public int[] Scores = new int[] { 0, 0 };
+	public SequenceUpdatedEvent SequenceUpdated = new SequenceUpdatedEvent();
 
 	[System.Serializable]
 	public enum State
@@ -278,5 +279,10 @@ public class Boss : Singleton<Boss>
 				GotoInGame();
 			}
 		}
+	}
+
+	public void UpdateSequence(int playerIdx, int sequenceIdx, int sequence)
+	{
+		SequenceUpdated.Invoke(playerIdx, sequenceIdx, sequence);
 	}
 }
