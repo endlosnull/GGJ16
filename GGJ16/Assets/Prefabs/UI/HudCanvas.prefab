@@ -538,6 +538,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   sequencer: {fileID: 0}
+  PlayerIndex: 2
 --- !u!114 &11456376
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -583,6 +584,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   sequencer: {fileID: 0}
+  PlayerIndex: 3
 --- !u!114 &11475122
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -628,6 +630,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   sequencer: {fileID: 0}
+  PlayerIndex: 0
 --- !u!114 &11483270
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -796,6 +799,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   sequencer: {fileID: 0}
+  PlayerIndex: 1
 --- !u!114 &11494956
 MonoBehaviour:
   m_ObjectHideFlags: 1
