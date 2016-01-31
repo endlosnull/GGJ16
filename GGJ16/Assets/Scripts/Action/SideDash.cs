@@ -17,6 +17,12 @@ public class SideDash : GameAction
 		controller = source.GetComponent<ActorController>();
         controller.actor.physics.velocity += (left ? controller.actor.Left : controller.actor.Right) * force;
 
+		if (vfx != null)
+		{
+			vfx.Stop();
+			vfx = null;
+		}
+
 		GameObject vfxGO = GameObjectFactory.Instance.Spawn("p-DashVFX");
 		vfx = vfxGO.GetComponent<FXGroup>();
 		vfx.transform.parent = controller.transform.FindTransformInChildren("Body");
@@ -28,5 +34,8 @@ public class SideDash : GameAction
     protected override void OnInvokeEnd()
 	{
 		base.OnInvokeEnd();
+
+		vfx.Stop();
+		vfx = null;
 	}
 }

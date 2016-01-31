@@ -91,6 +91,7 @@ public class Field : Singleton<Field>
 
     public void OnScore(int teamIndex)
     {
+		AudioManager.Instance.PlayOneShot(CamControl.Instance.audioSource, AudioManager.Instance.airhorn);
         CamControl.Instance.AddShake(0.2f);
         Debug.LogWarning("SCORE BY TEAM " + teamIndex.ToString());
         RoundEnd();
