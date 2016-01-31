@@ -7,18 +7,6 @@ public class SideDash : GameAction
 
 	ActorController controller;
 
-	public override bool Invoke()
-	{
-		if (!base.Invoke())
-		{
-			return false;
-		}
-
-		OnInvokeStart();
-
-		return true;
-	}
-
 	protected override void OnInvokeStart()
 	{
 		base.OnInvokeStart();
@@ -30,20 +18,5 @@ public class SideDash : GameAction
     protected override void OnInvokeEnd()
 	{
 		base.OnInvokeEnd();
-	}
-
-	public override bool OnTick(float deltaTime)
-	{
-		if (!active)
-		{
-			return false;
-		}
-
-		if (base.OnTick(deltaTime))
-		{
-			OnInvokeEnd();
-			return true;
-		}
-		return false;
 	}
 }

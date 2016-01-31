@@ -35,13 +35,14 @@ public class GameAction
 			return false;
 		}
 
+		active = true;
+		time = 0f;
+		OnInvokeStart();
 		return true;
 	}
 
 	protected virtual void OnInvokeStart()
 	{
-		active = true;
-		time = 0f;
 	}
 
 	protected virtual void OnInvokeEnd()
@@ -57,12 +58,23 @@ public class GameAction
 
 	public virtual bool OnTick(float deltaTime)
 	{
-		if (time > actionTime && !usedAction)
+		if (!active)
+		{
+			return false;
+		}
+
+		if (time >= actionTime && !usedAction)
 		{
 			OnActionTime();
 		}
 
+		if (time >= duration)
+		{
+			OnInvokeEnd();
+			return true;
+		}
+
 		time += deltaTime;
-		return time >= duration;
+		return false;
 	}
 }

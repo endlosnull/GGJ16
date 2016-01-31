@@ -47,12 +47,22 @@ public class Ball : MonoBehaviour
         float penetration;
         if (PhysicsObj.TestCollision(this.physics, goal.physics, out normal, out penetration))
         {
+            // see if the angle is right for a score
+            float normalAngle = Mathf.Atan2(normal.x, normal.z) / Mathf.PI * 180;
+            float goalAngle = Mathf.Atan2(this.transform.forward.x, this.transform.forward.z) / Mathf.PI * 180;
+
+            float scoreArc = 90;
+            normalAngle -= goalAngle;
+
+
             this.physics.position += normal * penetration;
             Bounce(normal);
         }
     }
 
-    private void Bounce(Vector3 normal)
+    //public float
+
+    public void Bounce(Vector3 normal)
     {
         float angle = Mathf.Atan2(normal.x, normal.z) / Mathf.PI * 180;
         this.physics.velocity = Quaternion.AngleAxis(-angle, Vector3.up) * this.physics.velocity;

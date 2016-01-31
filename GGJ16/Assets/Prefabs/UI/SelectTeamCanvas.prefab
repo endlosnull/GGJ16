@@ -120,7 +120,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!1 &173624
 GameObject:
   m_ObjectHideFlags: 0
@@ -225,6 +225,11 @@ MonoBehaviour:
   - {fileID: 22461708}
   - {fileID: 22414296}
   - {fileID: 22481386}
+  lastTime:
+  - 0
+  - 0
+  - 0
+  - 0
   CatsTeamLabel: {fileID: 22404740}
   BirdsTeamLabel: {fileID: 22433380}
 --- !u!114 &11460076

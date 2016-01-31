@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class ActorController : MonoBehaviour
 {
-
+	public bool locked = false;
 	bool inputLastAlpha = false;
 	bool inputAlpha = false;
 	public bool InputAlpha { 
@@ -21,11 +21,6 @@ public class ActorController : MonoBehaviour
 		actor = gameObject.GetComponent<Actor>();	
 	}
 
-	public void Update()
-	{
-
-	}
-
 	public void InputClear()
 	{
 		actor.inputForce.x = 0f;
@@ -36,12 +31,20 @@ public class ActorController : MonoBehaviour
 
 	public void InputMove(float x, float y)
 	{
+		if (locked)
+		{
+			return;
+		}
         actor.inputForce.x += x;
         actor.inputForce.y += y;
 	}
 
 	public void InputTick(float deltaTime)
 	{
+		if (locked)
+		{
+			return;
+		}
 		if( inputAlpha && !inputLastAlpha )
 		{
 			actor.DoActionAlpha();

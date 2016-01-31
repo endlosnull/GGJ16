@@ -4,7 +4,6 @@ using System.Collections.Generic;
 
 public class InputMan : Singleton<InputMan>
 {
-	public Canvas splashCanvas;
 
 	private System.Text.StringBuilder sb = new System.Text.StringBuilder();
 
@@ -104,9 +103,6 @@ public class InputMan : Singleton<InputMan>
 
 	void MenuInput(int idx, float hAxis, float vAxis, bool btnAlpha, bool btnBravo, bool btnStart, float deltaTime)
 	{
-		Boss.Instance.MoveUserCursor(idx, hAxis, vAxis);
-		if (btnStart) {
-			Boss.Instance.GotoInGame();
-		}
+		Boss.Instance.MoveUserCursor(idx, hAxis, vAxis, btnAlpha, btnBravo, btnStart);
 	}
 }

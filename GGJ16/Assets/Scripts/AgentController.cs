@@ -17,6 +17,7 @@ public class AgentController : ActorController
 
 	public void Update()
 	{
+        return; // PRECHECKIN: remove
 		float deltaTime = Time.deltaTime;
 		InputClear();
 

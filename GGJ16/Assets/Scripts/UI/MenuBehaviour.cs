@@ -7,15 +7,7 @@ public class MenuBehaviour : MonoBehaviour
 	protected virtual string MenuName { get { return ""; } }
 
 	public Transform[] Cursors;
-	private List<float> lastTime = new List<float>();
-
-	protected void InitializeTimes()
-	{
-		for(int i = 0; i< Cursors.Length; ++i)
-		{
-			lastTime.Add(0.0f);
-		}
-	}
+	public float[] lastTime;
 
 	public void ChangeScreenEvent(string screen)
     {
@@ -33,6 +25,7 @@ public class MenuBehaviour : MonoBehaviour
 
 	protected bool CanMoveCursor(int idx)
 	{
+		Debug.Log("idx " + idx);
 		if (Time.realtimeSinceStartup - lastTime[idx] < 0.25)
 		{
 			return false;
