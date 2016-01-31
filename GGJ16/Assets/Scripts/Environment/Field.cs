@@ -12,13 +12,23 @@ public class Field : Singleton<Field>
 	public Ball ball;
 	public List<Actor> allActors;
 
+    private bool roundActive = false;
+
 	public FloorEntity[,] tiles;
 	float floorHalfX = 0;
 	float floorHalfZ = 0;
 	int floorLengthX = 23;
 	int floorLengthZ = 13;
 
-	public void BeginRound()
+    public bool RoundActive
+    {
+        get
+        {
+            return this.roundActive;
+        }
+    }
+
+    public void BeginRound()
 	{
 			
 		GameObject goalObject = GameObjectFactory.Instance.Spawn("p-Goal", null, Vector3.zero, Quaternion.identity) ;
@@ -51,7 +61,14 @@ public class Field : Singleton<Field>
         }
 		
 		CamControl.Instance.target = ball.transform;
-	}
+
+        this.roundActive = true;
+    }
+
+    private void RoundEnd()
+    {
+        this.roundActive = false;
+    }
 
 	public FloorEntity GetTile(Vector3 pos)
 	{
@@ -72,4 +89,10 @@ public class Field : Singleton<Field>
 		return pos;
 	}
 
+    public void OnScore(int teamIndex)
+    {
+        CamControl.Instance.AddShake(0.2f);
+        Debug.LogWarning("SCORE BY TEAM " + teamIndex.ToString());
+        RoundEnd();
+    }
 }
