@@ -86,6 +86,7 @@ public class ActionBricks
     static public void AddTurnAround(GameObject gameObject, ActionSequence sequence)
     {
         Turn action = new Turn();
+        action.name = "turn around";
         action.source = gameObject;
         action.angleDegrees = 180;
         action.actionTime = 0.1f;
@@ -95,6 +96,7 @@ public class ActionBricks
     static public void AddTurnRight(GameObject gameObject, ActionSequence sequence)
     {
         Turn action = new Turn();
+        action.name = "turn right";
         action.source = gameObject;
         action.angleDegrees = 90;
         action.actionTime = 0.1f;
@@ -104,6 +106,7 @@ public class ActionBricks
     static public void AddTurnLeft(GameObject gameObject, ActionSequence sequence)
     {
         Turn action = new Turn();
+        action.name = "turn left";
         action.source = gameObject;
         action.angleDegrees = 90;
         action.actionTime = 0.1f;
