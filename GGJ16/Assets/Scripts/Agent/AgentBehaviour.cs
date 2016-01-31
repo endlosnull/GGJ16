@@ -1,25 +1,27 @@
 using UnityEngine;
 using System.Collections.Generic;
 
+[System.Serializable]
 public struct BehaviourContext
 {
-	public Vector2 goalPos;
+	public Transform goal;
 	public float distToGoal;
-	public Vector2 ballPos;
+	public Transform ball;
 	public float distToBall;
 	public bool isDefense;
+	public bool isOffense;
 	public bool hasBall;
 }
 
 public class AgentBehaviour : MonoBehaviour
 {
-	public Vector2 homePos = Vector2.zero;
-	public int sourceTeamIndex;
+	public Actor actor;
 	public Transform source;
-	public Vector2 sourcePos = Vector2.zero;
+	protected Vector2 sourcePos = Vector2.zero;
 	public Transform target;
-	public Vector2 targetPos = Vector2.zero;
-	public Vector2 targetOffset = Vector2.zero;
+	protected Vector2 targetPos = Vector2.zero;
+	protected Vector2 targetOffset = Vector2.zero;
+	public BehaviourContext context;
 
 	public void Dispose()
 	{
@@ -55,53 +57,29 @@ public class AgentBehaviour : MonoBehaviour
 		return false;
 	}
 
-	public virtual int GetGoodness(BehaviourContext context)
+	public virtual int GetGoodness()
 	{
 		return 0;
 	}
 }
 
-public class BehavDefendGoal : AgentBehaviour
-{
-	
-
-	public override void Scan()
-	{
-		target = Field.Instance.goal.transform;
-	}
-
-
-	public override bool GetAlpha()
-	{
-		return false;
-	}
-	public override bool GetBravo()
-	{
-		return false;
-	}
-	public override int GetGoodness(BehaviourContext context)
-	{
-		if( !context.isDefense )
-		{
-			return -10;
-		}
-		if( context.distToBall > 20 )
-		{
-			return 10;
-		}
-		else
-		{
-			return -10;
-		}
-	}
-}
-
-public class BehavDefendSpace : AgentBehaviour
+public class BehavSpace : AgentBehaviour
 {
 	public override void Scan()
 	{
 		target = null;
-		targetPos = homePos;
+		if(context.isDefense)
+		{
+			targetPos = actor.team.GetDefendPos(actor.positionIndex);
+		}
+		else if(context.isOffense)
+		{
+			targetPos = actor.team.GetAttackPos(actor.positionIndex);
+		}
+		else
+		{
+			targetPos = actor.team.GetHomePos(actor.positionIndex);
+		}
 	}
 
 	public virtual bool GetAlpha()
@@ -112,19 +90,15 @@ public class BehavDefendSpace : AgentBehaviour
 	{
 		return false;
 	}
-	public override int GetGoodness(BehaviourContext context)
+	public override int GetGoodness()
 	{
-		if( !context.isDefense )
-		{
-			return -10;
-		}
-		if( context.distToBall > 20 && context.distToGoal > 20 )
+		if( context.distToBall > 4 )
 		{
 			return 20;
 		}
 		else
 		{
-			return -10;
+			return 1;
 		}
 	}
 }
@@ -137,12 +111,13 @@ public class BehavDefendActor : AgentBehaviour
 		float bestDiff = 99999f*99999f;
 		for(int i=0; i<allActors.Count; ++i)
 		{
-			if(allActors[i].team.teamIndex != sourceTeamIndex )
+			Actor other = allActors[i];
+			if( other != actor && other.team.teamIndex != actor.team.teamIndex )
 			{
-				float sqrDiff = (allActors[i].transform.position - source.position).sqrMagnitude;
+				float sqrDiff = (other.transform.position - source.position).sqrMagnitude;
 				if( sqrDiff < bestDiff )
 				{
-					target = allActors[i].transform;
+					target = other.transform;
 				}
 			}
 		}
@@ -157,28 +132,28 @@ public class BehavDefendActor : AgentBehaviour
 		return false;
 	}
 
-	public override int GetGoodness(BehaviourContext context)
+	public override int GetGoodness()
 	{
-		if( context.isDefense )
+		if( context.isOffense || context.hasBall )
 		{
-			return -10;
+			return -30;
 		}
-		if( context.distToBall > 20 )
+		if( context.distToBall < 4 )
 		{
 			return 20;
 		}
 		else
 		{
-			return 2;
+			return 0;
 		}
 	}
 }
 
-public class BehavDefendBall : AgentBehaviour
+public class BehavBallHawk : AgentBehaviour
 {
 	public override void Scan()
 	{
-		target = Field.Instance.ball.transform;
+		target = context.ball;
 	}
 
 	public virtual bool GetAlpha()
@@ -189,23 +164,49 @@ public class BehavDefendBall : AgentBehaviour
 	{
 		return false;
 	}
-	public override int GetGoodness(BehaviourContext context)
+	public override int GetGoodness()
 	{
-		if( context.isDefense )
+		if( context.isOffense || context.hasBall )
 		{
-			return -10;
-		}
-		if( context.distToBall < 20 )
-		{
-			return 20;
+			return -20;
 		}
 		else
 		{
-			return 2;
+			return 10;
 		}
 	}
 }
 
+
+public class BehavOffenseScore : AgentBehaviour
+{
+	public override void Scan()
+	{
+		target = context.goal;
+	}
+
+	public virtual bool GetAlpha()
+	{
+		return false;
+	}
+	public virtual bool GetBravo()
+	{
+		return false;
+	}
+	public override int GetGoodness()
+	{
+		if( context.hasBall )
+		{
+			return 200;
+		}
+		else
+		{
+			return -10;
+		}
+	}
+}
+
+/*
 public class BehavOffenseHelp : AgentBehaviour
 {
 	Vector2 targetOffset = Vector2.zero;
@@ -233,7 +234,7 @@ public class BehavOffenseHelp : AgentBehaviour
 	{
 		return false;
 	}
-	public override int GetGoodness(BehaviourContext context)
+	public override int GetGoodness()
 	{
 		if( context.isDefense )
 		{
@@ -278,7 +279,7 @@ public class BehavOffenseAdvance : AgentBehaviour
 	{
 		return false;
 	}
-	public override int GetGoodness(BehaviourContext context)
+	public override int GetGoodness()
 	{
 		if( context.isDefense )
 		{
@@ -295,35 +296,4 @@ public class BehavOffenseAdvance : AgentBehaviour
 	}
 }
 
-
-public class BehavOffenseScore : AgentBehaviour
-{
-	public override void Scan()
-	{
-		target = Field.Instance.goal.transform;
-	}
-
-	public virtual bool GetAlpha()
-	{
-		return false;
-	}
-	public virtual bool GetBravo()
-	{
-		return false;
-	}
-	public override int GetGoodness(BehaviourContext context)
-	{
-		if( context.isDefense )
-		{
-			return -10;
-		}
-		if( context.hasBall && context.distToGoal < 20 )
-		{
-			return 20;
-		}
-		else
-		{
-			return -10;
-		}
-	}
-}
+*/

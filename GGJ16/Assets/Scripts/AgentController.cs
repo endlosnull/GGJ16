@@ -1,5 +1,6 @@
 using UnityEngine;
 using System;
+using System.Collections.Generic;
 
 public class AgentController : ActorController
 {
@@ -7,12 +8,24 @@ public class AgentController : ActorController
 	Timer reevaluateTimer = new Timer(2f, true);
 	Timer scanTimer = new Timer(2f, true);
 	Vector3 homePosition = Vector3.zero;
-
+	List<AgentBehaviour> behavList = new List<AgentBehaviour>();
+	BehaviourContext context = new BehaviourContext();
 
 	public override void OnSpawn()
 	{
 		base.OnSpawn();
 		homePosition = this.transform.position;
+		AddBehaviour(gameObject.AddComponent<BehavSpace>());
+		//AddBehaviour(gameObject.AddComponent<BehavBallHawk>());
+		//AddBehaviour(gameObject.AddComponent<BehavDefendActor>());
+		//AddBehaviour(gameObject.AddComponent<BehavOffenseScore>());
+	}
+
+	void AddBehaviour(AgentBehaviour beh)
+	{
+		behavList.Add(beh);
+		beh.actor = actor;
+		beh.source = actor.transform;
 	}
 
 	public void Update()
@@ -48,28 +61,29 @@ public class AgentController : ActorController
 
 		if( reevaluateTimer.Tick(deltaTime) )
 		{
-			Destroy(behav);
 			behav = null;
 		}
 		if( behav == null )
 		{
 			float randomVal = UnityEngine.Random.value;
-			if( randomVal < 0.5f )
+			int bestGoodness = -100;
+			context.goal = Field.Instance.goal.transform;
+			context.distToGoal = Vector3.Distance(context.goal.position, actor.transform.position);
+			context.ball = Field.Instance.ball.transform;
+			context.distToBall = Vector3.Distance(context.ball.position, actor.transform.position);
+			context.isDefense = actor.team.isDefense;
+			context.isOffense = actor.team.isOffense;
+			context.hasBall = actor.ownedBall != null;
+			for(int i=0; i<behavList.Count; ++i)
 			{
-				behav = gameObject.AddComponent<BehavDefendSpace>();
+				behavList[i].context = context;
+				int goodness = behavList[i].GetGoodness();
+				if( goodness > bestGoodness )
+				{
+					behav = behavList[i];
+					bestGoodness = goodness;
+				}
 			}
-			else if( randomVal < 0.75f )
-			{
-				behav = gameObject.AddComponent<BehavDefendActor>();
-			}
-			else
-			{
-				behav = gameObject.AddComponent<BehavDefendBall>();
-			}
-			behav.sourceTeamIndex = actor.team.teamIndex;
-			behav.source = this.transform;
-			behav.target = this.transform;
-			behav.homePos = new Vector2(homePosition.x, homePosition.z);
 			behav.Scan();
 
 		}

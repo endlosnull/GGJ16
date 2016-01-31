@@ -25,7 +25,6 @@ public class MenuBehaviour : MonoBehaviour
 
 	protected bool CanMoveCursor(int idx)
 	{
-		Debug.Log("idx " + idx);
 		if (Time.realtimeSinceStartup - lastTime[idx] < 0.25)
 		{
 			return false;

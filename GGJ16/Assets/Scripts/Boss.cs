@@ -171,10 +171,11 @@ public class Boss : Singleton<Boss>
 			//fix this to get the team
 			Team team = teams[0];
 
-			Vector3 startPos = team.GetHomePos(team.actors.Count);
+			Vector2 startPos = team.GetHomePos(team.actors.Count);
+			Vector3 startVec = new Vector3(startPos.x, 0, startPos.y);
 
 
-			GameObject go = GameObjectFactory.Instance.Spawn("p-Actor", null, startPos, Quaternion.identity);
+			GameObject go = GameObjectFactory.Instance.Spawn("p-Actor", null, startVec, Quaternion.identity);
 			go.name = "hero" + i;
 			Actor actor = go.GetComponent<Actor>();
 			GameObject bodyObject = GameObjectFactory.Instance.Spawn("p-ActorBody", null, Vector3.zero, Quaternion.identity);
@@ -208,6 +209,30 @@ public class Boss : Singleton<Boss>
 		field.allActors.Add(actor);
 	}
 
+	public void SetOffenseTeam(Team team)
+	{
+		bool freeBall = team == null;
+		for(int i=0; i<teams.Count; ++i)
+		{
+			if(freeBall)
+			{
+				teams[i].isOffense = false;
+				teams[i].isDefense = false;
+			}
+			else if( teams[i] == team )
+			{
+				teams[i].isOffense = true;
+				teams[i].isDefense = false;
+			}
+			else if( teams[i] != team )
+			{
+				teams[i].isOffense = false;
+				teams[i].isDefense = true;
+			}
+			
+		}
+	}
+
 	
 	void StartAgentActors()
 	{
@@ -216,8 +241,10 @@ public class Boss : Singleton<Boss>
 			Team team = teams[i];
 			for(int j=team.actors.Count;j<4;++j)
 			{
-				Vector3 startPos = team.GetHomePos(team.actors.Count);
-				GameObject go = GameObjectFactory.Instance.Spawn("p-Actor", null, startPos, Quaternion.identity) ;
+
+				Vector2 startPos = team.GetHomePos(team.actors.Count);
+				Vector3 startVec = new Vector3(startPos.x, 0, startPos.y);
+				GameObject go = GameObjectFactory.Instance.Spawn("p-Actor", null, startVec, Quaternion.identity) ;
 				go.name = "agent["+i+"]"+j;
 				Actor actor = go.GetComponent<Actor>();
 
