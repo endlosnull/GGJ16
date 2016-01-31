@@ -12,12 +12,22 @@ public class SelectTeamMenu : MenuBehaviour {
 		}
 	}
 
-	const float LeftTeamX = -50f;
+	const float LeftTeamX = -200f;
 	const float CenterX = 0f;
-	const float RightTeamX = 50f;
+	const float RightTeamX = 200f;
+
+	public Transform CatsTeamLabel;
+	public Transform BirdsTeamLabel;
 
 	// Use this for initialization
 	void Start () {
+		var pos = CatsTeamLabel.localPosition;
+		pos.x = LeftTeamX;
+		CatsTeamLabel.localPosition = pos;
+
+		pos = BirdsTeamLabel.localPosition;
+		pos.x = RightTeamX;
+		BirdsTeamLabel.localPosition = pos;
 	}
 	
 	// Update is called once per frame
