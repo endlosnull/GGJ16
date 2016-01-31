@@ -35,7 +35,7 @@ public class ActionSequencer : MonoBehaviour
 
         sequences[1].actions.Clear();
 
-		SideDash sideDash = new SideDash();
+        SideDash sideDash = new SideDash();
         sideDash.source = gameObject;
         sideDash.force = 3f;
         sideDash.duration = 0.2f;

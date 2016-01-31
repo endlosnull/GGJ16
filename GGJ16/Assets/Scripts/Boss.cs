@@ -256,7 +256,7 @@ public class Boss : Singleton<Boss>
 	
 	void StartAgentActors()
 	{
-		for(int i=0; i<teams.Count;++i)
+        for (int i=0; i<teams.Count;++i)
 		{
 			Team team = teams[i];
 			for(int j=team.actors.Count;j<4;++j)
