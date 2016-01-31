@@ -107,7 +107,7 @@ public class InputMan : Singleton<InputMan>
 	{
 		Boss.Instance.MoveUserCursor(idx, hAxis, vAxis);
 		if (btnStart) {
-			Boss.Instance.ChangeStateInt(3);
+			Boss.Instance.GotoInGame();
 		}
 	}
 }

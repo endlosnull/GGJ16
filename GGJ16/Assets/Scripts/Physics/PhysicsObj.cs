@@ -14,12 +14,13 @@ public class PhysicsObj
     public Vector3 position = Vector3.zero;
     public Vector3 velocity = Vector3.zero;
 
+    public float bounce = 0;
     public float drag = 1.7f;
     public float fullStop = 2.0f;
 
     public float inputPower = 2;
 
-    private float halfObjSize = 1;
+    private float halfObjSize = 0.5f;
 
     public float HalfSize
     {
@@ -64,12 +65,12 @@ public class PhysicsObj
         {
             if (this.position[dim] < this.arenaMin[dim])
             {
-                this.velocity[dim] = 0; // no bounce currently
+                this.velocity[dim] = -this.velocity[dim] * this.bounce;
                 this.position[dim] = this.arenaMin[dim];
             }
             else if (this.position[dim] > this.arenaMax[dim])
             {
-                this.velocity[dim] = 0; // no bounce currently
+                this.velocity[dim] = -this.velocity[dim] * this.bounce;
                 this.position[dim] = this.arenaMax[dim];
             }
             else

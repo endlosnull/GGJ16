@@ -5,6 +5,7 @@ public class Actor : MonoBehaviour
 	public ActorController controller;
 	public ActorBody body;
     public Ball ownedBall;
+    public Boss boss;
 	public MecanimAnimator animator;
 
     public Team team;
@@ -15,6 +16,12 @@ public class Actor : MonoBehaviour
 
     private const float possessionDelayTime = 0.5f;
     private float possessionDelay = 0;
+
+    public virtual void OnSpawn()
+    {
+        physics.position = this.transform.position;
+    }
+
     
     public void Update()
 	{
@@ -87,14 +94,48 @@ public class Actor : MonoBehaviour
 
     public void BallHandling(Ball ball)
     {
-        if (ball.owner == null && this.possessionDelay < 0)
+        TryKickBall(ball);
+    }
+
+    public void TryTakePossession(Ball ball, float range)
+    {
+        if (ball.owner != null && this.possessionDelay > 0)
+            return;
+
+        float distance = (ball.transform.position - this.transform.position).magnitude;
+        if (distance < range)
         {
-            float distance = (ball.transform.position - this.transform.position).magnitude;
-            if (distance < this.physics.HalfSize + ball.physics.HalfSize)
-            {
-                TakePossession(ball);
-            }
+            TakePossession(ball);
         }
+    }
+
+    public void TryKickBall(Ball ball)
+    {
+        if (ball.owner != null)
+            return;
+
+        Vector3 diff = ball.transform.position - this.transform.position;
+        diff.y = 0;
+        Vector3 normal = diff.normalized;
+        if (diff.sqrMagnitude == 0)
+            return;
+
+        float distance = diff.magnitude;
+        float penetration = this.physics.HalfSize + ball.physics.HalfSize - distance;
+        if (penetration > 0)
+        {
+            ball.physics.position += normal * penetration;
+            //ball.physics.velocity += normal * penetration;
+        }
+        //else
+        //{
+        //    float penetration2 = penetration + 5;
+        //    if (penetration2 > 0)
+        //    {
+        //        //ball.physics.position += normal * penetration2;
+        //        ball.physics.velocity += this.physics.velocity * penetration2 * 20.5f;
+        //    }
+        //}
     }
 
     public void TakePossession(Ball ball)

@@ -11,6 +11,7 @@ public class Ball : MonoBehaviour
     {
         this.physics.SetSize(1);
         this.physics.fullStop = 1.0f;
+        this.physics.bounce = 0.5f;
     }
 
     public void FixedUpdate()

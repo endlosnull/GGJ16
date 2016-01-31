@@ -16,7 +16,7 @@ public class ActorController : MonoBehaviour
 
 	public Actor actor;
 
-	public void OnSpawn()
+	public virtual void OnSpawn()
 	{
 		actor = gameObject.GetComponent<Actor>();	
 	}

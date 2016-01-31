@@ -6,6 +6,14 @@ public class AgentController : ActorController
 	AgentBehaviour behav;
 	Timer reevaluateTimer = new Timer(2f, true);
 	Timer scanTimer = new Timer(2f, true);
+	Vector3 homePosition = Vector3.zero;
+
+
+	public override void OnSpawn()
+	{
+		base.OnSpawn();
+		homePosition = this.transform.position;
+	}
 
 	public void Update()
 	{
@@ -53,6 +61,10 @@ public class AgentController : ActorController
 			{
 				behav = new BehavOffenseAdvance();
 			}
+			behav.source = this.transform;
+			behav.target = this.transform;
+			behav.homePos = new Vector2(homePosition.x, homePosition.z);
+
 		}
 	}
 }
