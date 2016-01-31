@@ -13,6 +13,15 @@ public class ActionBricks
         sequence.actions.Add(action);
     }
 
+    static public void AddBackDash(GameObject gameObject, ActionSequence sequence)
+    {
+        BackDash action = new BackDash();
+        action.source = gameObject;
+        action.force = 6f;
+        action.duration = 0.4f;
+        sequence.actions.Add(action);
+    }
+
     static public void AddRightDash(GameObject gameObject, ActionSequence sequence)
     {
         SideDash action = new SideDash();
@@ -67,6 +76,33 @@ public class ActionBricks
         action.forceForward = 3f;
         action.forceUp = 3f;
         action.duration = 0.2f;
+        action.actionTime = 0.1f;
+        sequence.actions.Add(action);
+    }
+
+    static public void AddTurnAround(GameObject gameObject, ActionSequence sequence)
+    {
+        Turn action = new Turn();
+        action.source = gameObject;
+        action.angleDegrees = 180;
+        action.actionTime = 0.1f;
+        sequence.actions.Add(action);
+    }
+
+    static public void AddTurnRight(GameObject gameObject, ActionSequence sequence)
+    {
+        Turn action = new Turn();
+        action.source = gameObject;
+        action.angleDegrees = 90;
+        action.actionTime = 0.1f;
+        sequence.actions.Add(action);
+    }
+
+    static public void AddTurnLeft(GameObject gameObject, ActionSequence sequence)
+    {
+        Turn action = new Turn();
+        action.source = gameObject;
+        action.angleDegrees = 90;
         action.actionTime = 0.1f;
         sequence.actions.Add(action);
     }
