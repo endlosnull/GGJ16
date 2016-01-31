@@ -13,7 +13,7 @@ public class SelectActionsMenu : MenuBehaviour
 {
 	List<Transform> actions = new List<Transform>();
 	public Transform ActionBrick;
-	CursorPosition[] cursorPositions = new CursorPosition[] { new CursorPosition(), new CursorPosition(), new CursorPosition(), new CursorPosition() };
+	List<CursorPosition> cursorPositions = new List<CursorPosition>();
 
 	protected override string MenuName
 	{
@@ -26,6 +26,11 @@ public class SelectActionsMenu : MenuBehaviour
 	// Use this for initialization
 	void Start()
 	{
+		for(int i = 0; i < Cursors.Length; ++i)
+		{
+			cursorPositions.Add(new CursorPosition());
+		}
+
 		Transform canvasTransform = GetComponent<Canvas>().transform;
 		for (int i = 0; i < 5; ++i)
 		{
@@ -68,6 +73,7 @@ public class SelectActionsMenu : MenuBehaviour
 				cp.j--;
 				break;
 		}
+		Debug.Log("cp" + cp);
 		this.Cursors[idx].localPosition = new Vector3(cp.i * 120 - 240, cp.j * 120 - 240, 0);
 	}
 }
