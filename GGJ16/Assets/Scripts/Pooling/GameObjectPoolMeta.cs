@@ -1,18 +1,15 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-namespace GGJ16
+namespace Pooling
 {
-	namespace Pooling
+	public class GameObjectPoolMeta : MonoBehaviour
 	{
-		public class GameObjectPoolMeta : MonoBehaviour
-		{
-			public GameObject prefab;
+		public GameObject prefab;
 
-			void OnDestroy()
-			{
-				gameObject.Despawn();
-			}
+		void OnDestroy()
+		{
+			gameObject.Despawn();
 		}
 	}
 }

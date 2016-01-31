@@ -2,8 +2,7 @@ using UnityEngine;
 using UnityEngine.Events;
 using System.Collections;
 using System.Collections.Generic;
-using GGJ16;
-using GGJ16.Pooling;
+using Pooling;
 
 [System.Serializable]
 public class ScoreUpdateEvent : UnityEvent<string, string> { }
@@ -145,16 +144,22 @@ public class Boss : Singleton<Boss>
 			GameObject go = GameObjectFactory.Instance.Spawn("p-Actor", null, Vector3.zero, Quaternion.identity) ;
 			go.name = "hero"+i;
 			Actor actor = go.GetComponent<Actor>();
-			actor.engine = go.GetComponent<Engine>();
-			actor.controller = go.AddComponent<ActorController>();
 			GameObject bodyObject = GameObjectFactory.Instance.Spawn("p-ActorBodyOne", null, Vector3.zero, Quaternion.identity) ;
-			bodyObject.transform.parent = actor.transform;
-			actor.body = bodyObject.AddComponent<Body>();
+			bodyObject.name = "herobody"+i;
+			bodyObject.transform.SetParent(actor.transform);
+			bodyObject.transform.localRotation = Quaternion.AngleAxis(-90f,Vector3.up);
+			actor.body = bodyObject.GetComponent<Body>();
 			GameObject attachObject = GameObjectFactory.Instance.Spawn("p-AttachHeaddressBird", null, Vector3.zero, Quaternion.identity) ;
-			attachObject.transform.parent = bodyObject.transform;
+			attachObject.name = "attachment"+i;
+			attachObject.transform.SetParent(bodyObject.transform);
 			attachObject.transform.localPosition = Vector3.up*0.65f;
+			attachObject.transform.localRotation = Quaternion.identity;
 			actor.body.attachments.Add(attachObject);
 			users[i].controlledActor = actor;
+
+			//if it is local
+			actor.controller = go.AddComponent<ActorController>();
+
 			go.AddComponent<ActionSequencer>();
 			go.BroadcastMessage("OnSpawn", SendMessageOptions.DontRequireReceiver);
 		}

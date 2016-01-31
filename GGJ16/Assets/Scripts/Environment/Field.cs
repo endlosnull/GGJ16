@@ -1,7 +1,7 @@
 using UnityEngine;
-using GGJ16.Pooling;
+using Pooling;
 
-public class Field : GGJ16.Singleton<Field>
+public class Field : Singleton<Field>
 {
 
 

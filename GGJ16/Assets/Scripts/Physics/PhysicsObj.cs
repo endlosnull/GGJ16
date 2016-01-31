@@ -5,8 +5,8 @@ public class PhysicsObj
 {
     private const float gravity = 8;
 
-    private const float arenaWidth = 8;
-    private const float arenaDepth = 8;
+    private const float arenaWidth = 22;
+    private const float arenaDepth = 12;
     private const float arenaHeight = 8;
     private Vector3 arenaMin = new Vector3(-arenaWidth / 2, 0, -arenaDepth / 2);
     private Vector3 arenaMax = new Vector3(arenaWidth / 2, arenaHeight, arenaDepth / 2);

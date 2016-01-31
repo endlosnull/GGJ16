@@ -15,12 +15,10 @@ public class ActorController : MonoBehaviour
 	}
 
 	public Actor actor;
-	public Engine engine;
 
 	public void OnSpawn()
 	{
 		actor = gameObject.GetComponent<Actor>();	
-		engine = gameObject.GetComponent<Engine>();	
 	}
 
 	public void Update()
@@ -30,21 +28,20 @@ public class ActorController : MonoBehaviour
 
 	public void InputClear()
 	{
-		engine.inputForce.x = 0f;
-		engine.inputForce.y = 0f;
+		actor.inputForce.x = 0f;
+        actor.inputForce.y = 0f;
 		inputLastAlpha = inputAlpha;
 		inputLastBravo = inputBravo;
 	}
 
 	public void InputMove(float x, float y)
 	{
-		engine.inputForce.x += x;
-		engine.inputForce.y += y;
+        actor.inputForce.x += x;
+        actor.inputForce.y += y;
 	}
 
 	public void InputTick(float deltaTime)
 	{
-		engine.Tick(deltaTime);
 		if( inputAlpha && !inputLastAlpha )
 		{
 			actor.DoActionAlpha();
