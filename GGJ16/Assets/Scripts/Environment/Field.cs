@@ -14,7 +14,9 @@ public class Field : Singleton<Field>
 
 	public void BeginRound()
 	{
+			
 		GameObject goalObject = GameObjectFactory.Instance.Spawn("p-Goal", null, Vector3.right*7f, Quaternion.identity) ;
+		goalObject.transform.localRotation = Quaternion.AngleAxis(-90f,Vector3.up);
 		goalObject.name = "Goal";
 		goal = goalObject.GetComponent<Goal>();
 
