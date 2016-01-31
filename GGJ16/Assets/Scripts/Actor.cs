@@ -47,11 +47,11 @@ public class Actor : GameEntity
 
     public override void FixedUpdate()
     {
-		base.FixedUpdate();
+        base.FixedUpdate();
 
         this.possessionDelay -= Time.deltaTime;
 
-		Vector3 moveDelta = ((new Vector3(inputForce.normalized.x, 0, inputForce.normalized.y) * this.physics.inputPower) + this.physics.velocity).normalized;
+		Vector3 moveDelta = ((new Vector3(inputAdj.normalized.x, 0, inputAdj.normalized.y) * this.physics.inputPower) + this.physics.velocity).normalized;
 		float forward = Vector3.Dot(this.transform.forward, moveDelta);
 		float strafe = Vector3.Dot(this.transform.right, moveDelta);
 		body.SetAnimatorMoveSpeed(Mathf.Max(forward, strafe));

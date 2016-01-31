@@ -37,9 +37,9 @@ public class ActorController : MonoBehaviour
 		}
         actor.inputForce.x += x;
         actor.inputForce.y += y;
-	}
+    }
 
-	public void InputTick(float deltaTime)
+    public void InputTick(float deltaTime)
 	{
 		if (locked)
 		{
