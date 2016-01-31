@@ -27,6 +27,7 @@ public class ActionSequencer : MonoBehaviour
 
         seqInd++;
         sequences[1].actions.Clear();
+        ActionBricks.AddSwat(gameObject, sequences[seqInd]);
         ActionBricks.AddJump(gameObject, sequences[seqInd]);
         ActionBricks.AddThrow(gameObject, sequences[seqInd]);
     }

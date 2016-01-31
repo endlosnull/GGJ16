@@ -88,6 +88,18 @@ public class Actor : GameEntity
         }
     }
 
+    public void TrySwatBall(Ball ball, float range)
+    {
+        if (ball.owner == this)
+            return; // don't swat self!
+
+        float distance = (ball.transform.position - this.transform.position).magnitude;
+        if (distance < range)
+        {
+            SwatBall(ball);
+        }
+    }
+
     public void OnThrowBall()
     {
         this.ballCheckCooldown = 0.2f;
@@ -106,6 +118,22 @@ public class Actor : GameEntity
 
             ball.Bounce(normal);
         }
+    }
+
+    public void BeSwatted()
+    {
+        Ball ball = this.ownedBall;
+        LosePossession();
+
+        ball.physics.velocity += Vector3.down * 2;
+    }
+
+    public void SwatBall(Ball ball)
+    {
+        if (ball.owner == null)
+            return;
+
+        ball.owner.BeSwatted();
     }
 
     public void TakePossession(Ball ball)
