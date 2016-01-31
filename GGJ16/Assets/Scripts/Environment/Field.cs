@@ -90,7 +90,7 @@ public class Field : HardSingleton<Field>
     	{
     		return;
     	}
-    	Debug.Log("Field State"+nextState);
+    	//Debug.Log("Field "+nextState);
     	state = nextState;
     	switch(state)
     	{
@@ -148,12 +148,11 @@ public class Field : HardSingleton<Field>
 	        hasFirstSetup = true;
 	    }
 			
-		CamControl.Instance.target = ball.transform;
-
 		foreach(Team team in Boss.Instance.Teams)
 		{
-			team.SetScore(0);
-        }
+			team.GlobalLock(true);
+		}
+		CamControl.Instance.target = ball.transform;
 
 		Boss.Instance.RefreshScore();
 
@@ -163,11 +162,24 @@ public class Field : HardSingleton<Field>
     void Enter_InGame()
     {
     	gameTime = 5f * 60f;
+    	foreach(Team team in Boss.Instance.Teams)
+		{
+			team.GlobalLock(false);
+		}
     	AudioManager.Instance.PlayOneShot(CamControl.Instance.audioSource, AudioManager.Instance.goal);
         Boss.Instance.ChangeState(Boss.State.InGame);
     }
     void Enter_AfterScore()
     {
+    	foreach(Team team in Boss.Instance.Teams)
+		{
+			
+			if( team.score >= 3 )
+			{
+				SetState(State.EndGame);
+				return;
+			}
+		}
     	advanceTimer.SetDuration(3f);
     }
     void Enter_Respawn()
@@ -175,7 +187,7 @@ public class Field : HardSingleton<Field>
     	RespawnObjects();
     	foreach(Team team in Boss.Instance.Teams)
 		{
-			team.RespawnActor();
+			team.RespawnActors();
 		}
 		SetState(State.SettingUp);
     }

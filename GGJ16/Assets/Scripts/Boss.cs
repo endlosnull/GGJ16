@@ -140,8 +140,21 @@ public class Boss : HardSingleton<Boss>
 				ChangeScreen.Invoke("Play");
 				StartGame();
 				break;
+			case State.EndingGame:
+				ChangeScreen.Invoke("SelectActions");
+				ClearActors();
+				StartLoadout();
+				break;
 			default:
 				break;
+		}
+	}
+
+	void ClearActors()
+	{
+		foreach(Team team in teams)
+		{
+			team.WipeActors();
 		}
 	}
 
@@ -156,9 +169,12 @@ public class Boss : HardSingleton<Boss>
 	void StartGame()
 	{
         StartField();
-        
         StartUserActors();
         StartAgentActors();
+        foreach(Team team in Boss.Instance.Teams)
+		{
+			team.SetScore(0);
+        }
         field.SetState(Field.State.SettingUp);
         
 

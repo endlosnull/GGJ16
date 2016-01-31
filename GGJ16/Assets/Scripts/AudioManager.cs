@@ -12,12 +12,12 @@ public class AudioManager : Singleton<AudioManager>
 
 	public void PlayOneShot(AudioSource source, AudioClip clip)
 	{
-		source.PlayOneShot(clip);
+		//source.PlayOneShot(clip);
 	}
 
 	public void Play(AudioSource source, AudioClip clip)
 	{
 		source.clip = clip;
-		source.Play();
+		//source.Play();
 	}
 }
