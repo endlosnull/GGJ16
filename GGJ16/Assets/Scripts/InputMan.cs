@@ -82,6 +82,11 @@ public class InputMan : Singleton<InputMan>
 				}
 			}
 		}
+
+		if (Input.GetKeyDown(KeyCode.Escape))
+		{
+			Application.Quit();
+		}
 	}
 
     void ThrowBallAtAngle(float angle)
