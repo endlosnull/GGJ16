@@ -5,6 +5,7 @@ public class Actor : MonoBehaviour
 	public ActorController controller;
 	public ActorBody body;
     public Ball ownedBall;
+    public Boss boss;
 	public MecanimAnimator animator;
 
     public PhysicsObj physics = new PhysicsObj();
@@ -82,13 +83,13 @@ public class Actor : MonoBehaviour
         TryKickBall(ball);
     }
 
-    public void TryTakePossession(Ball ball)
+    public void TryTakePossession(Ball ball, float range)
     {
         if (ball.owner != null && this.possessionDelay > 0)
             return;
 
         float distance = (ball.transform.position - this.transform.position).magnitude;
-        if (distance < this.physics.HalfSize + ball.physics.HalfSize)
+        if (distance < range)
         {
             TakePossession(ball);
         }
@@ -106,7 +107,10 @@ public class Actor : MonoBehaviour
         Vector3 normal = diff.normalized;
 
         if (penetration > 0)
-            ball.physics.velocity += normal * penetration;
+        {
+            ball.physics.position += normal * penetration;
+            //ball.physics.velocity += normal * penetration;
+        }
     }
 
     public void TakePossession(Ball ball)

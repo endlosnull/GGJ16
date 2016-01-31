@@ -13,7 +13,6 @@ public class SelectActionsMenu : MenuBehaviour {
 	}
 
 	List<string> players = new List<string>();
-	public Transform playerUi;
 
 	// Use this for initialization
 	void Start () {

@@ -12,8 +12,9 @@ public class SelectTeamMenu : MenuBehaviour {
 		}
 	}
 
-	List<string> players = new List<string>();
-	public Transform playerUi;
+	const float LeftTeamX = -50f;
+	const float CenterX = 0f;
+	const float RightTeamX = 50f;
 
 	// Use this for initialization
 	void Start () {
@@ -23,17 +24,20 @@ public class SelectTeamMenu : MenuBehaviour {
 	void Update () {
 	}
 
-	public void SetPlayerState(string playerName, string teamName, SetPlayerStateAction action)
+	public void MoveCursor(int idx, MoveCursorAction action)
 	{
+		Vector3 newPosition;
 		switch (action)
 		{
-			case SetPlayerStateAction.Add:
-				players.Add(playerName);
-
-				var go = Instantiate(playerUi);
-				go.SetParent(GetComponent<Canvas>().gameObject.transform);
-				go.localPosition = Vector3.zero;
-				go.GetComponent<Text>().text = playerName;
+			case MoveCursorAction.Left:
+				newPosition = this.Cursors[idx].localPosition;
+				newPosition.x = LeftTeamX;
+				this.Cursors[idx].localPosition = newPosition;
+				break;
+			case MoveCursorAction.Right:
+				newPosition = this.Cursors[idx].localPosition;
+				newPosition.x = RightTeamX;
+				this.Cursors[idx].localPosition = newPosition;
 				break;
 		}
 	}

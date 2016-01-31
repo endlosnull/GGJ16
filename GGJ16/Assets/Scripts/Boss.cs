@@ -4,31 +4,15 @@ using System.Collections;
 using System.Collections.Generic;
 using Pooling;
 
-[System.Serializable]
-public class ScoreUpdateEvent : UnityEvent<string, string> { }
-[System.Serializable]
-public class ChangeScreenEvent : UnityEvent<string> { }
-[System.Serializable]
-public class UpdateTimeEvent : UnityEvent<float> { }
-[System.Serializable]
-public class SetPlayerStateEvent : UnityEvent<string, string, SetPlayerStateAction> { }
-
-public enum SetPlayerStateAction
-{
-	Add,
-	Remove,
-	ChangeTeam
-}
-
 public class Boss : Singleton<Boss>
 {
-    public ScoreUpdateEvent ScoreUpdate = new ScoreUpdateEvent();
-	public List<User> users  = new List<User>();
-    public Field field;
+	public ScoreUpdateEvent ScoreUpdate = new ScoreUpdateEvent();
+	public List<User> users = new List<User>();
+	public Field field;
 	public List<User> Users { get { return users; } }
-    public int[] Scores = new int[] {0, 0};
+	public int[] Scores = new int[] { 0, 0 };
 
-    [System.Serializable]
+	[System.Serializable]
 	public enum State
 	{
 		SettingUp,
@@ -38,16 +22,16 @@ public class Boss : Singleton<Boss>
 	}
 
 	public State state = State.SettingUp;
-	public bool IsSettingUp{ get { return state == State.SettingUp; } }
-	public bool IsInGame{ get { return state == State.InGame; } }
+	public bool IsSettingUp { get { return state == State.SettingUp; } }
+	public bool IsInGame { get { return state == State.InGame; } }
 
 	public Canvas startGameCanvas;
 	public UnityEngine.UI.Button startGameButton;
-    public UpdateTimeEvent UpdateTime = new UpdateTimeEvent();
+	public UpdateTimeEvent UpdateTime = new UpdateTimeEvent();
 	public ChangeScreenEvent ChangeScreen = new ChangeScreenEvent();
-	public SetPlayerStateEvent SetPlayerState = new SetPlayerStateEvent();
+	public MoveCursorEvent MoveCursor = new MoveCursorEvent();
 
-    private float time;
+	private float time;
 
 	void Awake()
 	{
@@ -56,49 +40,47 @@ public class Boss : Singleton<Boss>
 
 	public void Update()
 	{
-        startGameButton.enabled = ( IsSettingUp && users.Count > 0 );
-        time += Time.deltaTime;
-        UpdateTime.Invoke(time);
+		startGameButton.enabled = (IsSettingUp && users.Count > 0);
+		time += Time.deltaTime;
+		UpdateTime.Invoke(time);
 	}
 
 	public void AddKeyboardPlayer()
 	{
 		string prefix = "Key";
-		User existingUser = users.Find(x=>x.inputPrefix==prefix);
-		if( existingUser == null )
+		User existingUser = users.Find(x => x.inputPrefix == prefix);
+		if (existingUser == null)
 		{
 			GameObject go = new GameObject();
-			go.name = "user"+users.Count;
+			go.name = "user" + users.Count;
 			User user = go.AddComponent<User>();
 			user.inputPrefix = prefix;
 			users.Add(user);
-			SetPlayerState.Invoke(go.name, "", SetPlayerStateAction.Add);
 		}
 	}
-    
+
 	public void AddJoystickPlayer(int index)
 	{
-		string prefix = "Joy"+index;
-		User existingUser = users.Find(x=>x.inputPrefix==prefix);
-		if( existingUser == null )
+		string prefix = "Joy" + index;
+		User existingUser = users.Find(x => x.inputPrefix == prefix);
+		if (existingUser == null)
 		{
 			GameObject go = new GameObject();
-			go.name = "user"+users.Count;
+			go.name = "user" + users.Count;
 			User user = go.AddComponent<User>();
 			user.inputPrefix = prefix;
 			users.Add(user);
-			SetPlayerState.Invoke(go.name, "", SetPlayerStateAction.Add);
 		}
 	}
 
 	public void AddRemote(int index)
 	{
-		string prefix = "Rmt"+index;
-		User existingUser = users.Find(x=>x.inputPrefix==prefix);
-		if( existingUser == null )
+		string prefix = "Rmt" + index;
+		User existingUser = users.Find(x => x.inputPrefix == prefix);
+		if (existingUser == null)
 		{
 			GameObject go = new GameObject();
-			go.name = "user"+users.Count;
+			go.name = "user" + users.Count;
 			User user = go.AddComponent<User>();
 			user.inputPrefix = prefix;
 			users.Add(user);
@@ -112,12 +94,12 @@ public class Boss : Singleton<Boss>
 
 	void ChangeState(State nextState)
 	{
-		if( state == nextState )
+		if (state == nextState)
 		{
 			return;
 		}
 		state = nextState;
-		switch(state)
+		switch (state)
 		{
 			case State.SettingUp:
 				ChangeScreen.Invoke("SelectTeam");
@@ -140,23 +122,24 @@ public class Boss : Singleton<Boss>
 
 	void StartGame()
 	{
-        time = 0f;
-		for(int i=0; i<users.Count; ++i)
+		time = 0f;
+		for (int i = 0; i < users.Count; ++i)
 		{
-			GameObject go = GameObjectFactory.Instance.Spawn("p-Actor", null, Vector3.zero, Quaternion.identity) ;
-			go.name = "hero"+i;
+			GameObject go = GameObjectFactory.Instance.Spawn("p-Actor", null, Vector3.zero, Quaternion.identity);
+			go.name = "hero" + i;
 			Actor actor = go.GetComponent<Actor>();
-			GameObject bodyObject = GameObjectFactory.Instance.Spawn("p-ActorBodyOne", null, Vector3.zero, Quaternion.identity) ;
-			bodyObject.name = "herobody"+i;
+			GameObject bodyObject = GameObjectFactory.Instance.Spawn("p-ActorBodyOne", null, Vector3.zero, Quaternion.identity);
+			bodyObject.name = "herobody" + i;
 			bodyObject.transform.SetParent(actor.transform);
-			bodyObject.transform.localRotation = Quaternion.AngleAxis(-90f,Vector3.up);
+			bodyObject.transform.localRotation = Quaternion.AngleAxis(-90f, Vector3.up);
 			actor.body = bodyObject.GetComponent<ActorBody>();
-			GameObject attachObject = GameObjectFactory.Instance.Spawn("p-AttachHeaddressBird", null, Vector3.zero, Quaternion.identity) ;
-			attachObject.name = "attachment"+i;
+            actor.boss = this;
+			GameObject attachObject = GameObjectFactory.Instance.Spawn("p-AttachHeaddressBird", null, Vector3.zero, Quaternion.identity);
+			attachObject.name = "attachment" + i;
 			actor.body.AttachToBone(attachObject, "model/Armature/Root/Body/Head");
-			if( attachObject )
+			if (attachObject)
 			{
-				attachObject.transform.localRotation = Quaternion.AngleAxis(-90f,Vector3.up);
+				attachObject.transform.localRotation = Quaternion.AngleAxis(-90f, Vector3.up);
 				actor.body.attachments.Add(attachObject);
 			}
 			users[i].controlledActor = actor;
@@ -168,22 +151,28 @@ public class Boss : Singleton<Boss>
 			go.BroadcastMessage("OnSpawn", SendMessageOptions.DontRequireReceiver);
 		}
 
-		GameObject fieldObject = GameObjectFactory.Instance.Spawn("p-Field", null, Vector3.zero, Quaternion.identity) ;
+		GameObject fieldObject = GameObjectFactory.Instance.Spawn("p-Field", null, Vector3.zero, Quaternion.identity);
 		field = fieldObject.GetComponent<Field>();
 		field.BeginRound();
-		
 	}
 
-    public void FixedUpdate()
-    {
-        if (field == null)
-            return;
+	public void FixedUpdate()
+	{
+		if (field == null)
+			return;
 
-        Ball ball = field.ball;
-        for (int i = 0; i < users.Count; ++i)
-        {
-            Actor actor = users[i].controlledActor;
-            actor.BallHandling(ball);
-        }
-    }
+		Ball ball = field.ball;
+		for (int i = 0; i < users.Count; ++i)
+		{
+			Actor actor = users[i].controlledActor;
+			actor.BallHandling(ball);
+		}
+	}
+	public void MoveUserCursor(int idx, float hAxis, float vAxis)
+	{
+		if (Mathf.Abs(hAxis) > 0.5f)
+		{
+			MoveCursor.Invoke(idx, hAxis > 0f ? MoveCursorAction.Right : MoveCursorAction.Left);
+		}
+	}
 }

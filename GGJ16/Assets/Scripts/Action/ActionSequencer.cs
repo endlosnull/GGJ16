@@ -17,6 +17,12 @@ public class ActionSequencer : MonoBehaviour
 		// TEST SEQUENCE
 		ActionSequence sequence = new ActionSequence();
 
+        Grab grabAction = new Grab();
+        grabAction.source = gameObject;
+        grabAction.range = 3f;
+        grabAction.duration = 0.2f;
+        sequence.actions.Add(grabAction);
+
         ForwardDash forwardDash = new ForwardDash();
         forwardDash.source = gameObject;
         forwardDash.force = 3f;

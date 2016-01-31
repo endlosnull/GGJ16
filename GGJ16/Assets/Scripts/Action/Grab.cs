@@ -1,10 +1,9 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class Throw : GameAction
+public class Grab : GameAction
 {
-	public float forceForward;
-    public float forceUp;
+	public float range;
 
     ActorController controller;
 
@@ -30,13 +29,8 @@ public class Throw : GameAction
 		base.OnInvokeStart();
 
 		controller = source.GetComponent<ActorController>();
-        Ball ball = controller.actor.ownedBall;
-        if (ball != null)
-        {
-            controller.actor.LosePossession();
-            ball.physics.velocity += controller.actor.Forward * forceForward;
-            ball.physics.velocity += Vector3.up * forceUp;
-        }
+        Ball ball = controller.actor.boss.field.ball;
+        controller.actor.TryTakePossession(ball, this.range);
     }
 
     protected override void OnInvokeEnd()
