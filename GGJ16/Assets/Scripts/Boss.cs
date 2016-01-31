@@ -220,5 +220,9 @@ public class Boss : Singleton<Boss>
 		{
 			MoveCursor.Invoke(idx, hAxis > 0f ? MoveCursorAction.Right : MoveCursorAction.Left);
 		}
+		if (Mathf.Abs(vAxis) > 0.05f)
+		{
+			MoveCursor.Invoke(idx, vAxis > 0f ? MoveCursorAction.Up : MoveCursorAction.Down);
+		}
 	}
 }

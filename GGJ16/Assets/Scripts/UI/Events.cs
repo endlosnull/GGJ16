@@ -13,4 +13,6 @@ public enum MoveCursorAction
 {
 	Left,
 	Right,
+	Up,
+	Down
 }
