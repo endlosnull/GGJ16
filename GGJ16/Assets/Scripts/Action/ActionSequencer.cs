@@ -13,6 +13,7 @@ public class ActionSequencer : MonoBehaviour
 	public int ActionIndex;
 	public int SequenceIndex;
 
+	
 	public GameAction CurrentAction {
 		get
 		{
@@ -24,30 +25,23 @@ public class ActionSequencer : MonoBehaviour
 		}
 	}
 
-	void OnSpawn()
-	{
-		for(int i=0;i<2;++i)
+    public void LoadSequence(List<ActionSequence> other)
+    {
+    	sequences.Clear();
+    	for(int i=0;i<other.Count;++i)
 		{
-			sequences.Add(new ActionSequence());
+			foreach(GameAction action in other[i].actions)
+			{
+				Debug.Log("action src"+action);
+			}
+			ActionSequence seq = other[i].Clone() as ActionSequence;
+			foreach(GameAction action in seq.actions)
+			{
+				action.source = gameObject;
+				Debug.Log("action dst"+action);
+			}
+			sequences.Add(seq);
 		}
-        // TEST SEQUENCE
-        int seqInd = 0;
-		sequences[seqInd].actions.Clear();
-        //ActionBricks.AddSwat(gameObject, sequences[seqInd]);
-        //ActionBricks.AddGrab(gameObject, sequences[seqInd]);
-        //ActionBricks.AddBackDash(gameObject, sequences[seqInd]);
-        //ActionBricks.AddJump(gameObject, sequences[seqInd]);
-        //ActionBricks.AddTurnRight(gameObject, sequences[seqInd]);
-        //ActionBricks.AddThrow(gameObject, sequences[seqInd]);
-        ActionBricks.AddForwardDash(gameObject, sequences[seqInd]);
-        ActionBricks.AddGrab(gameObject, sequences[seqInd]);
-
-        seqInd++;
-        sequences[1].actions.Clear();
-        ActionBricks.AddSwat(gameObject, sequences[seqInd]);
-        //ActionBricks.AddTurnRight(gameObject, sequences[seqInd]);
-        ActionBricks.AddJump(gameObject, sequences[seqInd]);
-        ActionBricks.AddThrow(gameObject, sequences[seqInd]);
     }
 
     public void AddSequence(ActionSequence sequence)

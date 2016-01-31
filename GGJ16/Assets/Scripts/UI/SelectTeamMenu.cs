@@ -38,7 +38,7 @@ public class SelectTeamMenu : MenuBehaviour {
 		List<User> users = Boss.Instance.users;
 		for(int i=0; i < users.Count; ++i)
 		{
-			if(users[i].isLocal && j<this.Cursors.Count)
+			if(users[i].isLocalHuman && j<this.Cursors.Count)
 			{
 				this.Cursors[j].gameObject.SetActive(true);
 				++j;

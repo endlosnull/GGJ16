@@ -7,7 +7,6 @@ public class Actor : GameEntity
 	public ActorController controller;
 	public ActorBody body;
     public Ball ownedBall;
-    public Boss boss;
     public AudioSource audioSource;
 
     public Team team;
@@ -59,11 +58,10 @@ public class Actor : GameEntity
 
     public override void TestObjectCollisions()
     {
-        Field field = this.boss.field;
-        if (field == null)
+        if (!Field.HasInstance)
             return;
 
-        Goal goal = field.goal;
+        Goal goal = Field.Instance.goal;
 
         Vector3 normal;
         float penetration;
