@@ -53,7 +53,7 @@ public class SelectActionsMenu : MenuBehaviour
 
 			var cube = Instantiate(ActionBrick);
 			cube.SetParent(actionBricksTransform);
-			cube.localPosition = new Vector3((i - MaxI / 2) * BrickSize, -j * BrickSize + BrickSize * 3, 0);
+			cube.localPosition = new Vector3((i - MaxI / 2) * BrickSize, -j * BrickSize + BrickSize, 0);
 			cube.Find("BrickText").GetComponent<Text>().text = ActionBricksDictionary.Dictionary[k].name;
 
 			var sprite = Resources.Load<Sprite>(ActionBricksDictionary.Dictionary[k].image);
@@ -144,6 +144,6 @@ public class SelectActionsMenu : MenuBehaviour
 
 	private void SetCursorPosition(int idx, CursorPosition cp)
 	{
-		this.Cursors[idx].localPosition = new Vector3((cp.i - MaxI / 2) * BrickSize, -cp.j * BrickSize + BrickSize * 3, 0);
+		this.Cursors[idx].localPosition = new Vector3((cp.i - MaxI / 2) * BrickSize, -cp.j * BrickSize + BrickSize, 0);
 	}
 }
