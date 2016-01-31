@@ -19,7 +19,7 @@ public class SequenceHud : MonoBehaviour
 		{
 			//sequencer.ActionIndex
 			string name = string.Format("Ritual_{0}/ButtonLabel_{1}", 0, sequencer.SequenceIndex);
-			GameObject.Find(name).GetComponent<Text>().text = "sequence " + sequencer.ActionIndex;
+			GameObject.Find(name).GetComponent<Text>().text = "seq " + sequencer.ActionIndex;
 		}
 	}
 }
