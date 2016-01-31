@@ -20,6 +20,8 @@ public class ForwardDash : GameAction
 		vfx = vfxGO.GetComponent<FXGroup>();
 		vfx.transform.parent = controller.transform.FindTransformInChildren("Body");
 		vfx.transform.localPosition = Vector3.zero;
+
+		AudioManager.Instance.PlayOneShot(controller.actor.audioSource, AudioManager.Instance.dash);
     }
 
     protected override void OnInvokeEnd()

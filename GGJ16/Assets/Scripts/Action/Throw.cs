@@ -29,6 +29,7 @@ public class Throw : GameAction
 			controller.actor.LosePossession();
 			ball.physics.velocity += controller.actor.Forward * forceForward;
 			ball.physics.velocity += Vector3.up * forceUp;
+			AudioManager.Instance.PlayOneShot(controller.actor.audioSource, AudioManager.Instance.throwBall);
 		}
 	}
 }

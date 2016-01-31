@@ -8,6 +8,7 @@ public class Actor : GameEntity
 	public ActorBody body;
     public Ball ownedBall;
     public Boss boss;
+    public AudioSource audioSource;
 
     public Team team;
     public int positionIndex; // position 0 is forward, 3 is defense, or whatever
@@ -16,9 +17,14 @@ public class Actor : GameEntity
     private const float possessionDelayTime = 0.5f;
     private float possessionDelay = 0;
 
+    void Reset()
+	{
+		audioSource = GetComponent<AudioSource>();
+	}
+
 	public void DoActionAlpha()
 	{
-		sequencer.RunSequence(sequencer.sequences[0]);
+		sequencer.RunSequence(0);
 		LockInput effect = new LockInput();
 		effect.duration = sequencer.sequences[0].TotalDuration;
 		effect.target = gameObject;
@@ -29,7 +35,7 @@ public class Actor : GameEntity
 
 	public void DoActionBravo()
 	{
-		sequencer.RunSequence(sequencer.sequences[1]);
+		sequencer.RunSequence(1);
         LockInput effect = new LockInput();
         effect.duration = sequencer.sequences[1].TotalDuration;
         effect.target = gameObject;
