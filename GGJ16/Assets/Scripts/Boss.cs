@@ -117,7 +117,6 @@ public class Boss : Singleton<Boss>
 		users.Clear();
 	}
 
-
 	void StartGame()
 	{
 		time = 5f * 60f;

@@ -11,13 +11,14 @@ GameObject:
   - 223: {fileID: 22349360}
   - 114: {fileID: 11401098}
   - 114: {fileID: 11451116}
+  - 114: {fileID: 11486668}
   m_Layer: 5
   m_Name: HudCanvas
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!1 &139358
 GameObject:
   m_ObjectHideFlags: 0
@@ -308,6 +309,18 @@ MonoBehaviour:
     m_VerticalOverflow: 0
     m_LineSpacing: 1
   m_Text: 0
+--- !u!114 &11486668
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 119720}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4485e428464fd5647b5cedf94a442f08, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Cursors: []
 --- !u!114 &11493108
 MonoBehaviour:
   m_ObjectHideFlags: 1
