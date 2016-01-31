@@ -54,6 +54,11 @@ public class InputMan : Singleton<InputMan>
 			CamControl.Instance.AddShake(0.4f);
 		}
 
+		if (Input.GetKeyDown(KeyCode.F2))
+		{
+			AudioManager.Instance.Play(CamControl.Instance.audioSource, AudioManager.Instance.airhorn);
+		}
+
 		if (Input.GetKeyDown(KeyCode.F3))
 		{
             ThrowBallAtAngle(0);

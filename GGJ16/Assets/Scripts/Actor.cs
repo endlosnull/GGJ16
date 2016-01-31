@@ -8,6 +8,7 @@ public class Actor : GameEntity
 	public ActorBody body;
     public Ball ownedBall;
     public Boss boss;
+    public AudioSource audioSource;
 
     public Team team;
     public int positionIndex; // position 0 is forward, 3 is defense, or whatever
@@ -15,6 +16,11 @@ public class Actor : GameEntity
 
     private const float possessionDelayTime = 0.5f;
     private float possessionDelay = 0;
+
+    void Reset()
+	{
+		audioSource = GetComponent<AudioSource>();
+	}
 
 	public void DoActionAlpha()
 	{
