@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class GameAction
+public class GameAction : System.ICloneable
 {
 	public GameObject source;
 	public GameObject target;
@@ -78,5 +78,10 @@ public class GameAction
 
 		time += deltaTime;
 		return false;
+	}
+
+	public object Clone()
+	{
+		return this.MemberwiseClone();
 	}
 }

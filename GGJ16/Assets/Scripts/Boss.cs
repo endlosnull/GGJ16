@@ -14,6 +14,8 @@ public class Boss : HardSingleton<Boss>
 	public List<Team> Teams { get { return teams; } }
 	public SequenceUpdatedEvent SequenceUpdated = new SequenceUpdatedEvent();
 
+	User aiuser; 
+
 	[System.Serializable]
 	public enum State
 	{
@@ -70,6 +72,7 @@ public class Boss : HardSingleton<Boss>
 			go.name = "user" + users.Count;
 			User user = go.AddComponent<User>();
 			user.inputPrefix = prefix;
+			user.isLocalHuman = true;
 			users.Add(user);
 		}
 	}
@@ -84,6 +87,7 @@ public class Boss : HardSingleton<Boss>
 			go.name = "user" + users.Count;
 			User user = go.AddComponent<User>();
 			user.inputPrefix = prefix;
+			user.isLocalHuman = true;
 			users.Add(user);
 		}
 	}
@@ -161,13 +165,18 @@ public class Boss : HardSingleton<Boss>
 	public void StartSetup()
 	{
 		users.Clear();
-
-        StartTeams();
+		StartTeams();
         GameObjectFactory.Instance.Precache("p-Field",2);
 	}
 
 	void StartGame()
 	{
+		GameObject go = new GameObject();
+		go.name = "aiuser";
+		aiuser = go.AddComponent<User>();
+		aiuser.isLocalHuman = false;
+		users.Add(aiuser);
+
         StartField();
         StartUserActors();
         StartAgentActors();
@@ -237,6 +246,10 @@ public class Boss : HardSingleton<Boss>
     {
 		for (int i = 0; i < users.Count; ++i)
 		{
+			if( !users[i].isLocalHuman )
+			{
+				continue;
+			}
 			//fix this to get the team
 			Team team = teams[0];
 
@@ -265,10 +278,10 @@ public class Boss : HardSingleton<Boss>
 			attachObject.transform.localPosition = Vector3.zero;
 			attachObject.transform.localRotation = Quaternion.AngleAxis(-90f, Vector3.up);
 			actor.body.attachments.Add(attachObject);
-            actor.boss = this;
 			users[i].controlledActor = actor;
 			
 			actor.sequencer = go.AddComponent<ActionSequencer>();
+			actor.sequencer.LoadSequence(users[i].sequences);
 			GameObject.Find("Ritual_" + i).GetComponent<SequenceHud>().sequencer = actor.sequencer;
 
 			actor.controller = go.AddComponent<ActorController>();
@@ -307,9 +320,9 @@ public class Boss : HardSingleton<Boss>
 				{
 					actor.body.SetTexture(masterPaletteAlt);
 				}
-                actor.boss = this;
 
 				actor.sequencer = go.AddComponent<ActionSequencer>();
+				actor.sequencer.LoadSequence(aiuser.sequences);
 				actor.controller = go.AddComponent<AgentController>();
 				actor.isHuman = false;
 				RegisterActor(actor,team);
