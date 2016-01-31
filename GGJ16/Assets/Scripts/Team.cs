@@ -42,7 +42,25 @@ public class Team : MonoBehaviour
 		Boss.Instance.RefreshScore();
 	}
 
-	public void RespawnActor()
+	public void GlobalLock(bool val)
+	{
+		foreach(Actor actor in actors)
+		{
+			actor.controller.externalLocked = val;
+		}
+	}
+
+	public void WipeActors()
+	{
+		foreach(Actor actor in actors)
+		{
+			actor.gameObject.SetActive(false);
+			Destroy(actor);
+		}
+		actors.Clear();
+	}
+
+	public void RespawnActors()
 	{
 		foreach(Actor actor in actors)
 		{

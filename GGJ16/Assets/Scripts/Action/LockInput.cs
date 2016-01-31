@@ -10,12 +10,12 @@ public class LockInput : GameAction
 		base.OnInvokeStart();
 
 		controller = target.GetComponent<ActorController>();
-		controller.locked = true;
+		controller.actionLocked = true;
 	}
 
 	protected override void OnInvokeEnd()
 	{
 		base.OnInvokeEnd();
-		controller.locked = false;
+		controller.actionLocked = false;
 	}
 }
