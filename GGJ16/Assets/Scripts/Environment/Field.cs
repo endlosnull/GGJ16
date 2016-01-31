@@ -12,6 +12,12 @@ public class Field : Singleton<Field>
 	public Ball ball;
 	public List<Actor> allActors;
 
+	public FloorEntity[,] tiles;
+	float floorHalfX = 0;
+	float floorHalfZ = 0;
+	int floorLengthX = 23;
+	int floorLengthZ = 13;
+
 	public void BeginRound()
 	{
 			
@@ -26,8 +32,44 @@ public class Field : Singleton<Field>
         ball = ballObject.GetComponent<Ball>();
         ball.field = this;
         ballObject.BroadcastMessage("OnSpawn", SendMessageOptions.DontRequireReceiver);
+
+        floorHalfX = floorLengthX*0.5f;
+        floorHalfZ = floorLengthZ*0.5f;
+        tiles = new FloorEntity[floorLengthX+1,floorLengthZ+1];
+        for(int i=0; i<floorLengthX; ++i)
+        {
+        	for(int j=0; j<floorLengthZ; ++j)
+	        {
+	        	Vector3 startPos = GetTilePos(i,j);
+	        	GameObject tileObject = GameObjectFactory.Instance.Spawn("p-Tile", this.transform, startPos, Quaternion.identity);
+	        	tileObject.name = "Tile"+i+","+j;
+	        	FloorEntity tile = tileObject.GetComponent<FloorEntity>();
+	        	tiles[i,j] = tile;
+	        	tile.SetColor(new Color(0f,0f,0f,0f));
+        		tileObject.BroadcastMessage("OnSpawn", SendMessageOptions.DontRequireReceiver);
+	        }
+        }
 		
 		CamControl.Instance.target = ball.transform;
+	}
+
+	public FloorEntity GetTile(Vector3 pos)
+	{
+		int x = (int)Mathf.Round(pos.x + floorHalfX-0.5f);
+		int z = (int)Mathf.Round(pos.z + floorHalfZ-0.5f);
+		if( x < floorLengthX && x > 0 && z < floorLengthZ && z > 0 )
+		{
+			return tiles[x,z];
+		}
+		return null;	
+	}
+
+	public Vector3 GetTilePos(int x, int z)
+	{
+		Vector3 pos = Vector3.zero;
+		pos.x = x-floorHalfX+0.5f;
+		pos.z = z-floorHalfZ+0.5f;
+		return pos;
 	}
 
 }

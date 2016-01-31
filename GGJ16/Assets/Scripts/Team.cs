@@ -31,6 +31,17 @@ public class Team : MonoBehaviour
 		}
 	}
 
+	public void SetScore(int val)
+	{
+		score = val;
+	}
+
+	public void ModifyScore(int val)
+	{
+		score += val;
+		Boss.Instance.RefreshScore();
+	}
+
 	void Reposition()
 	{
 		List<float> leashDistances = new List<float>();

@@ -12,7 +12,6 @@ public class Boss : Singleton<Boss>
 	public List<User> Users { get { return users; } }
 	List<Team> teams  = new List<Team>();
 	public List<Team> Teams { get { return teams; } }
-	public int[] Scores = new int[] { 0, 0 };
 
 	[System.Serializable]
 	public enum State
@@ -94,6 +93,11 @@ public class Boss : Singleton<Boss>
 		}
 	}
 
+	public void RefreshScore()
+	{
+		ScoreUpdate.Invoke("Team1:"+teams[0].score, "Team2:"+teams[1].score);
+	}
+
 
 	public void GotoStartGame()
 	{
@@ -145,6 +149,8 @@ public class Boss : Singleton<Boss>
         StartUserActors();
         StartAgentActors();
         field.BeginRound();
+        teams[0].SetScore(0);
+        teams[1].SetScore(0);
         ChangeState(State.InGame);
 
     }

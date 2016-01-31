@@ -1,29 +1,30 @@
 using UnityEngine;
 
-public class Ball : MonoBehaviour
+public class Ball : GameEntity
 {
-    public PhysicsObj physics = new PhysicsObj();
     public Actor owner;
     public Field field;
 
     public Renderer[] currentRenderers;
 
-    void Awake()
+    public override void OnSpawn()
     {
         this.physics.SetSize(1);
         this.physics.fullStop = 1.0f;
         this.physics.bounce = 0.5f;
+        base.OnSpawn();
     }
 
-    public virtual void OnSpawn()
-    {
-        this.physics.position = this.transform.position;
-    }
-
-    public void FixedUpdate()
+   
+    public override void FixedUpdate()
     {
         if (this.field == null)
             return;
+
+        if (!physics.enabled)
+        {
+            return;
+        }
 
         if (owner == null)
         {

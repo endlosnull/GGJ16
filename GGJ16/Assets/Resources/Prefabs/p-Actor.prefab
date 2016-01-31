@@ -56,6 +56,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 32bfd9fcc265d674e9cb9f1d37b06dac, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  inputForce: {x: 0, y: 0}
+  gameCollider: {fileID: 13536626}
+  gameRigidbody: {fileID: 5414178}
   sequencer: {fileID: 0}
   controller: {fileID: 0}
   body: {fileID: 0}
@@ -64,9 +67,6 @@ MonoBehaviour:
   team: {fileID: 0}
   positionIndex: 0
   isHuman: 0
-  inputForce: {x: 0, y: 0}
-  actorCollider: {fileID: 13536626}
-  actorRigidbody: {fileID: 5414178}
 --- !u!135 &13536626
 SphereCollider:
   m_ObjectHideFlags: 1

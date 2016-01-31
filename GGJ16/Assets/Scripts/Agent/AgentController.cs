@@ -11,17 +11,20 @@ public class AgentController : ActorController
 	List<AgentStrategy> strategyList = new List<AgentStrategy>();
 	StrategyContext context = new StrategyContext();
 
-	float energyLevel = 12f;
-	float maxEnergyLevel = 12f;
-	Timer recoverEnergyTimer = new Timer(1f,true);
+	float energyLevel;
+	float maxEnergyLevel;
+	Timer recoverEnergyTimer;
 
 	public override void OnSpawn()
 	{
 		base.OnSpawn();
 		AddStrategy(gameObject.AddComponent<StrategySpace>());
 		AddStrategy(gameObject.AddComponent<StrategyBallHawk>());
-		//AddStrategy(gameObject.AddComponent<StrategyOffenseScore>());
-	}
+        //AddStrategy(gameObject.AddComponent<StrategyOffenseScore>());
+        energyLevel = 12f;
+        maxEnergyLevel = 12f;
+        recoverEnergyTimer = new Timer(1f, true);
+    }
 
 	void AddStrategy(AgentStrategy strategy)
 	{

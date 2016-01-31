@@ -47,7 +47,37 @@ public class InputMan : Singleton<InputMan>
 				actor.SetUnityPhysics(true);
 				actor.AddUnityExplosionForce(150f, Vector3.down * 10f, 150f);
 			}
+			Field.Instance.ball.SetUnityPhysics(true);
+			Field.Instance.ball.AddUnityExplosionForce(150f, Vector3.down * 10f, 150f);
+			Field.Instance.goal.SetUnityPhysics(true);
+			Field.Instance.goal.AddUnityExplosionForce(150f, Vector3.down * 10f + Vector3.right*3f, 150f);
 			CamControl.Instance.AddShake(0.4f);
+		}
+
+		if (Input.GetKeyDown(KeyCode.F3))
+		{
+			Goal goal = Field.Instance.goal;
+			Ball ball = Field.Instance.ball;
+			ball.transform.position = goal.transform.position + Vector3.left*3f;
+			ball.SyncPhysics();
+			ball.physics.velocity = Vector3.zero;
+			float forceForward = 3f;
+			float forceUp = 3f;
+			ball.physics.velocity += Vector3.right * forceForward;
+			ball.physics.velocity += Vector3.up * forceUp;
+		}
+
+		if (Input.GetKeyDown(KeyCode.F4))
+		{
+			Goal goal = Field.Instance.goal;
+			Ball ball = Field.Instance.ball;
+			ball.transform.position = goal.transform.position + Vector3.right*3f;
+			ball.SyncPhysics();
+			ball.physics.velocity = Vector3.zero;
+			float forceForward = 3f;
+			float forceUp = 3f;
+			ball.physics.velocity += Vector3.left * forceForward;
+			ball.physics.velocity += Vector3.up * forceUp;
 		}
 	}
 
