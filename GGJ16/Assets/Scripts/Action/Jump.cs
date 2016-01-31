@@ -13,6 +13,7 @@ public class Jump : GameAction
 
 		controller = source.GetComponent<ActorController>();
         controller.actor.physics.velocity += Vector3.up * force;
+		AudioManager.Instance.PlayOneShot(controller.actor.audioSource, AudioManager.Instance.jump);
     }
 
     protected override void OnInvokeEnd()

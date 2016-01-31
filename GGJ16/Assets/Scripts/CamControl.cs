@@ -6,6 +6,7 @@ using System.Collections.Generic;
 public class CamControl : Singleton<CamControl>
 {
 	public Transform target;
+	public AudioSource audioSource;
 	Vector3 targetPosition = Vector3.zero;
 	Vector3 currentPosition;
 	Vector3 desiredPosition;
