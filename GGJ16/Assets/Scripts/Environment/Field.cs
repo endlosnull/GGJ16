@@ -19,10 +19,12 @@ public class Field : Singleton<Field>
 		goalObject.transform.localRotation = Quaternion.AngleAxis(-90f,Vector3.up);
 		goalObject.name = "Goal";
 		goal = goalObject.GetComponent<Goal>();
+		goalObject.BroadcastMessage("OnSpawn", SendMessageOptions.DontRequireReceiver);
 
 		GameObject ballObject = GameObjectFactory.Instance.Spawn("p-Ball", null, Vector3.forward*3f, Quaternion.identity) ;
 		ballObject.name = "Ball";
 		ball = ballObject.GetComponent<Ball>();
+		ballObject.BroadcastMessage("OnSpawn", SendMessageOptions.DontRequireReceiver);
 	}
 
 }

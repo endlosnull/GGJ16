@@ -131,9 +131,10 @@ public class Boss : Singleton<Boss>
 	void StartGame()
 	{
         time = 5f * 60f;
+        StartField();
         StartUserActors();
         StartAgentActors();
-        StartField();
+        field.BeginRound();
 
     }
 
@@ -170,7 +171,7 @@ public class Boss : Singleton<Boss>
 			GameObject go = GameObjectFactory.Instance.Spawn("p-Actor", null, startPos, Quaternion.identity);
 			go.name = "hero" + i;
 			Actor actor = go.GetComponent<Actor>();
-			GameObject bodyObject = GameObjectFactory.Instance.Spawn("p-ActorBodyOne", null, Vector3.zero, Quaternion.identity);
+			GameObject bodyObject = GameObjectFactory.Instance.Spawn("p-ActorBody", null, Vector3.zero, Quaternion.identity);
 			bodyObject.name = "herobody" + i;
 			bodyObject.transform.SetParent(actor.transform, false);
 			actor.body = bodyObject.GetComponent<ActorBody>();
@@ -183,12 +184,20 @@ public class Boss : Singleton<Boss>
 			actor.body.attachments.Add(attachObject);
 			users[i].controlledActor = actor;
 			actor.controller = go.AddComponent<ActorController>();
-			team.actors.Add(actor);
+			
+			RegisterActor(actor, team);
 
 			go.AddComponent<ActionSequencer>();
 			go.BroadcastMessage("OnSpawn", SendMessageOptions.DontRequireReceiver);
 		}
 		
+	}
+
+	void RegisterActor(Actor actor, Team team)
+	{
+		actor.team = team;
+		team.actors.Add(actor);
+		field.allActors.Add(actor);
 	}
 
 	Vector3 GetHomePos(int teamIndex, int slot)
@@ -228,14 +237,13 @@ public class Boss : Singleton<Boss>
 				GameObject go = GameObjectFactory.Instance.Spawn("p-Actor", null, startPos, Quaternion.identity) ;
 				go.name = "agent["+i+"]"+j;
 				Actor actor = go.GetComponent<Actor>();
-				GameObject bodyObject = GameObjectFactory.Instance.Spawn("p-ActorBodyOne", null, Vector3.zero, Quaternion.identity) ;
+				GameObject bodyObject = GameObjectFactory.Instance.Spawn("p-ActorBody", null, Vector3.zero, Quaternion.identity) ;
 				bodyObject.name = "herobody"+i;
 				bodyObject.transform.SetParent(actor.transform, false);
-				bodyObject.transform.localRotation = Quaternion.AngleAxis(-90f,Vector3.up);
 				actor.body = bodyObject.GetComponent<ActorBody>();
 
 				actor.controller = go.AddComponent<AgentController>();
-				team.actors.Add(actor);
+				RegisterActor(actor,team);
 
 				go.AddComponent<ActionSequencer>();
 				go.BroadcastMessage("OnSpawn", SendMessageOptions.DontRequireReceiver);
@@ -247,7 +255,7 @@ public class Boss : Singleton<Boss>
 	{
 		GameObject fieldObject = GameObjectFactory.Instance.Spawn("p-Field", null, Vector3.zero, Quaternion.identity) ;
 		field = fieldObject.GetComponent<Field>();
-		field.BeginRound();
+		
 	}
 
 	public void FixedUpdate()
@@ -256,9 +264,9 @@ public class Boss : Singleton<Boss>
 			return;
 
 		Ball ball = field.ball;
-		for (int i = 0; i < users.Count; ++i)
+		for (int i = 0; i < field.allActors.Count; ++i)
 		{
-			Actor actor = users[i].controlledActor;
+			Actor actor = field.allActors[i];
 			actor.BallHandling(ball);
 		}
 	}

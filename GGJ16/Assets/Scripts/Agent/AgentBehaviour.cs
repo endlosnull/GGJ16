@@ -11,14 +11,15 @@ public struct BehaviourContext
 	public bool hasBall;
 }
 
-public class AgentBehaviour : System.IDisposable
+public class AgentBehaviour : MonoBehaviour
 {
-	public Vector2 homePos;
+	public Vector2 homePos = Vector2.zero;
 	public int sourceTeamIndex;
 	public Transform source;
-	public Vector2 sourcePos;
+	public Vector2 sourcePos = Vector2.zero;
 	public Transform target;
-	public Vector2 targetPos;
+	public Vector2 targetPos = Vector2.zero;
+	public Vector2 targetOffset = Vector2.zero;
 
 	public void Dispose()
 	{
@@ -30,14 +31,20 @@ public class AgentBehaviour : System.IDisposable
 		
 	}
 
-	public virtual Vector2 GetMove()
+	public Vector2 GetMove()
 	{
 		if( target != null )
 		{
 			targetPos = new Vector2(target.position.x, target.position.z);
 		}
 		sourcePos = new Vector2(source.position.x, source.position.z);
-		return (targetPos-sourcePos).normalized;
+		Vector2 diff = (targetPos + targetOffset-sourcePos);
+		if( diff.magnitude < 0.5f )
+		{
+			return Vector2.zero;
+		}
+		return diff.normalized;
+
 	}
 	public virtual bool GetAlpha()
 	{
@@ -122,7 +129,7 @@ public class BehavDefendSpace : AgentBehaviour
 	}
 }
 
-public class BehavDefendNearbyActor : AgentBehaviour
+public class BehavDefendActor : AgentBehaviour
 {
 	public override void Scan()
 	{
@@ -167,7 +174,7 @@ public class BehavDefendNearbyActor : AgentBehaviour
 	}
 }
 
-public class BehavDefendNearbyBall : AgentBehaviour
+public class BehavDefendBall : AgentBehaviour
 {
 	public override void Scan()
 	{
@@ -203,15 +210,6 @@ public class BehavOffenseHelp : AgentBehaviour
 {
 	Vector2 targetOffset = Vector2.zero;
 
-	public override Vector2 GetMove()
-	{
-		if( target != null )
-		{
-			targetPos = new Vector2(target.position.x, target.position.z);
-		}
-		sourcePos = new Vector2(source.position.x, source.position.z);
-		return (targetPos + targetOffset-sourcePos).normalized;
-	}
 
 	public override void Scan()
 	{
