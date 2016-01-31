@@ -1,15 +1,54 @@
 fileFormatVersion: 2
 guid: cf7fff3f003855945a3469e87dc8a2ac
-timeCreated: 1454186516
+timeCreated: 1454201471
 licenseType: Free
 ModelImporter:
   serializedVersion: 19
   fileIDToRecycleName:
-    100000: //RootNode
-    400000: //RootNode
-    2300000: //RootNode
-    3300000: //RootNode
+    100000: Armature
+    100002: Body
+    100004: Head
+    100006: Head_end
+    100008: Left_Lower_Arm
+    100010: Left_Lower_Arm_end
+    100012: Left_Lower_Leg
+    100014: Left_Lower_Leg_end
+    100016: Left_Upper_Arm
+    100018: Left_Upper_Leg
+    100020: Player
+    100022: //RootNode
+    100024: Right_Lower_Arm
+    100026: Right_Lower_Arm_end
+    100028: Right_Lower_Leg
+    100030: Right_Lower_Leg_end
+    100032: Right_Upper_Arm
+    100034: Right_Upper_Leg
+    100036: Root
+    400000: Armature
+    400002: Body
+    400004: Head
+    400006: Head_end
+    400008: Left_Lower_Arm
+    400010: Left_Lower_Arm_end
+    400012: Left_Lower_Leg
+    400014: Left_Lower_Leg_end
+    400016: Left_Upper_Arm
+    400018: Left_Upper_Leg
+    400020: Player
+    400022: //RootNode
+    400024: Right_Lower_Arm
+    400026: Right_Lower_Arm_end
+    400028: Right_Lower_Leg
+    400030: Right_Lower_Leg_end
+    400032: Right_Upper_Arm
+    400034: Right_Upper_Leg
+    400036: Root
     4300000: Player
+    7400000: Armature|Idle
+    7400002: Armature|Run
+    7400004: Armature|Run.001
+    9500000: //RootNode
+    13700000: Player
   materials:
     importMaterials: 1
     materialName: 0
@@ -68,7 +107,7 @@ ModelImporter:
     rootMotionBoneName: 
     hasTranslationDoF: 0
   lastHumanDescriptionAvatarSource: {instanceID: 0}
-  animationType: 0
+  animationType: 2
   humanoidOversampling: 1
   additionalBone: 0
   userData: 

@@ -5,17 +5,27 @@ using System.Collections.Generic;
 using Pooling;
 
 [System.Serializable]
-public class ScoreUpdateEvent : UnityEvent<string, string> {}
+public class ScoreUpdateEvent : UnityEvent<string, string> { }
 [System.Serializable]
-public class ChangeScreenEvent : UnityEvent<string> {}
+public class ChangeScreenEvent : UnityEvent<string> { }
 [System.Serializable]
-public class UpdateTimeEvent : UnityEvent<float> {}
+public class UpdateTimeEvent : UnityEvent<float> { }
+[System.Serializable]
+public class SetPlayerStateEvent : UnityEvent<string, string, SetPlayerStateAction> { }
+
+public enum SetPlayerStateAction
+{
+	Add,
+	Remove,
+	ChangeTeam
+}
 
 public class Boss : Singleton<Boss>
 {
     public ScoreUpdateEvent ScoreUpdate = new ScoreUpdateEvent();
 	public List<User> users  = new List<User>();
     public Field field;
+	public List<User> Users { get { return users; } }
     public int[] Scores = new int[] {0, 0};
 
     [System.Serializable]
@@ -35,6 +45,7 @@ public class Boss : Singleton<Boss>
 	public UnityEngine.UI.Button startGameButton;
     public UpdateTimeEvent UpdateTime = new UpdateTimeEvent();
 	public ChangeScreenEvent ChangeScreen = new ChangeScreenEvent();
+	public SetPlayerStateEvent SetPlayerState = new SetPlayerStateEvent();
 
     private float time;
 
@@ -61,6 +72,7 @@ public class Boss : Singleton<Boss>
 			User user = go.AddComponent<User>();
 			user.inputPrefix = prefix;
 			users.Add(user);
+			SetPlayerState.Invoke(go.name, "", SetPlayerStateAction.Add);
 		}
 	}
     
@@ -75,6 +87,7 @@ public class Boss : Singleton<Boss>
 			User user = go.AddComponent<User>();
 			user.inputPrefix = prefix;
 			users.Add(user);
+			SetPlayerState.Invoke(go.name, "", SetPlayerStateAction.Add);
 		}
 	}
 
@@ -137,13 +150,15 @@ public class Boss : Singleton<Boss>
 			bodyObject.name = "herobody"+i;
 			bodyObject.transform.SetParent(actor.transform);
 			bodyObject.transform.localRotation = Quaternion.AngleAxis(-90f,Vector3.up);
-			actor.body = bodyObject.GetComponent<Body>();
+			actor.body = bodyObject.GetComponent<ActorBody>();
 			GameObject attachObject = GameObjectFactory.Instance.Spawn("p-AttachHeaddressBird", null, Vector3.zero, Quaternion.identity) ;
 			attachObject.name = "attachment"+i;
-			attachObject.transform.SetParent(bodyObject.transform);
-			attachObject.transform.localPosition = Vector3.up*0.65f;
-			attachObject.transform.localRotation = Quaternion.identity;
-			actor.body.attachments.Add(attachObject);
+			actor.body.AttachToBone(attachObject, "model/Armature/Root/Body/Head");
+			if( attachObject )
+			{
+				attachObject.transform.localRotation = Quaternion.AngleAxis(-90f,Vector3.up);
+				actor.body.attachments.Add(attachObject);
+			}
 			users[i].controlledActor = actor;
 
 			//if it is local

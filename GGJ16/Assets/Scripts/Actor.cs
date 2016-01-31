@@ -3,7 +3,7 @@ using UnityEngine;
 public class Actor : MonoBehaviour
 {
 	public ActorController controller;
-	public Body body;
+	public ActorBody body;
     public Ball ownedBall;
 	public MecanimAnimator animator;
 
@@ -23,12 +23,14 @@ public class Actor : MonoBehaviour
 	{
 		ActionSequencer sequencer = GetComponent<ActionSequencer>();
 		sequencer.RunSequence(sequencer.sequences[0]);
+
+		body.SetShadowColor(Color.blue, 1f);
 	}
 
 	public void DoActionBravo()
 	{
 		Debug.Log("Bravo!");
-		body.SetColor(Color.green, 1f);
+		body.SetShadowColor(Color.red, 1f);
 	}
 
     public Vector3 Forward

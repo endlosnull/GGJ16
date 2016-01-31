@@ -3,8 +3,7 @@ using UnityEngine.UI;
 
 public class MenuBehaviour : MonoBehaviour
 {
-
-    public string MenuName = "";
+	protected virtual string MenuName { get { return ""; } }
     
     public void ChangeScreenEvent(string screen)
     {
