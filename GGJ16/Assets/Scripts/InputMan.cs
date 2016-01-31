@@ -11,6 +11,7 @@ public class InputMan : Singleton<InputMan>
 
 	public void Update()
 	{
+		float deltaTime = Time.deltaTime;
 		if( Boss.Instance.IsSettingUp )
 		{
 			if( Input.GetButton("KeyBtn0") )
@@ -34,52 +35,64 @@ public class InputMan : Singleton<InputMan>
 				Boss.Instance.AddJoystickPlayer(4);
 			}
 		}
+		List<User> users = Boss.Instance.Users;
+		for(int i=0; i<users.Count; ++i)
+		{
+			ProcessUserInput(i, deltaTime);
+		}
+		
+	}
+
+	void ProcessUserInput(int idx, float deltaTime)
+	{
+		List<User> users = Boss.Instance.Users;
+		string inputPrefix = users[idx].inputPrefix;
+		sb.Length = 0;
+		sb.Append(inputPrefix);
+		sb.Append("Horizontal");
+		float hAxis = Input.GetAxis(sb.ToString());
+		sb.Length = 0;
+		sb.Append(inputPrefix);
+		sb.Append("Vertical");
+		float vAxis = Input.GetAxis(sb.ToString());
+		sb.Length = 0;
+
+		sb.Append(inputPrefix);
+		sb.Append("Btn0");
+		bool btnAlpha = Input.GetButton(sb.ToString());
+		sb.Length = 0;
+
+		sb.Append(inputPrefix);
+		sb.Append("Btn1");
+		bool btnBravo = Input.GetButton(sb.ToString());
+		sb.Length = 0;
 
 		if( Boss.Instance.IsInGame )
 		{
-			GameInput(Time.deltaTime);
+			GameInput(idx, hAxis, vAxis, btnAlpha, btnBravo, deltaTime);
 			
 		}
 	}
 
 
-	void GameInput(float deltaTime)
+	void GameInput(int idx, float hAxis, float vAxis, bool btnAlpha, bool btnBravo, float deltaTime)
 	{
-		List<User> users = Boss.Instance.users;
-		if( users.Count > 0 )
+		List<User> users = Boss.Instance.Users;
+		Actor actor = users[idx].controlledActor;
+		if( actor != null )
 		{
-			string inputPrefix = users[0].inputPrefix;
-			Actor actor = users[0].controlledActor;
-			if( actor != null )
-			{
-				ActorController controller = actor.controller;
-				controller.InputClear();
-				sb.Length = 0;
-				sb.Append(inputPrefix);
-				sb.Append("Horizontal");
-				float hAxis = Input.GetAxis(sb.ToString());
-				sb.Length = 0;
-				controller.InputMove(hAxis,0f);	
-		        sb.Append(inputPrefix);
-				sb.Append("Vertical");
-				float vAxis = Input.GetAxis(sb.ToString());
-				sb.Length = 0;
-				controller.InputMove(0f,vAxis);	
-		        
-		        sb.Append(inputPrefix);
-				sb.Append("Btn0");
-				bool btnAlpha = Input.GetButton(sb.ToString());
-				sb.Length = 0;
-				controller.InputAlpha = btnAlpha;
+			ActorController controller = actor.controller;
+			controller.InputClear();
+			
+			controller.InputMove(hAxis,0f);	
+	        
+			controller.InputMove(0f,vAxis);	
+	        
+			controller.InputAlpha = btnAlpha;
 
-				sb.Append(inputPrefix);
-				sb.Append("Btn1");
-				bool btnBravo = Input.GetButton(sb.ToString());
-				sb.Length = 0;
-				controller.InputBravo = btnBravo;
+			controller.InputBravo = btnBravo;
 
-		        controller.InputTick(deltaTime);
-		    }
+	        controller.InputTick(deltaTime);
 	    }
 	}
 }
