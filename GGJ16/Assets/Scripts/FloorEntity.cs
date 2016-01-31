@@ -23,9 +23,9 @@ public class FloorEntity : MonoBehaviour
         this.physics.position = this.transform.position;
     }
     
-    public void Update()
+    /*public void Update()
 	{
-    		float deltaTime = Time.deltaTime;
+    	float deltaTime = Time.deltaTime;
 		for (int i = statusEffects.Count - 1; i >= 0; --i)
 		{
 			if (statusEffects[i].OnTick(deltaTime))
@@ -44,7 +44,7 @@ public class FloorEntity : MonoBehaviour
         
         this.physics.FixedUpdate(Vector3.zero);
         this.transform.position = this.physics.position;
-    }
+    }*/
 
 	public void AddStatusEffect(GameAction effect)
 	{
