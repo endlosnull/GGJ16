@@ -13,12 +13,12 @@ public class MenuBehaviour : MonoBehaviour
     {
         if (screen == this.MenuName)
         {
-			Debug.Log(this.MenuName + " active");
+			//Debug.Log(this.MenuName + " active");
 			GetComponent<Canvas>().gameObject.SetActive(true);
         }
 		else
 		{
-			Debug.Log(this.MenuName + " inactive");
+			//Debug.Log(this.MenuName + " inactive");
 			GetComponent<Canvas>().gameObject.SetActive(false);
 		}
     }
