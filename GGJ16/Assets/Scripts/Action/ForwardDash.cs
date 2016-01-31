@@ -16,6 +16,12 @@ public class ForwardDash : GameAction
 		controller = source.GetComponent<ActorController>();
         controller.actor.physics.velocity += controller.actor.Forward * force;
 
+		if (vfx != null)
+		{
+			vfx.Stop();
+			vfx = null;
+		}
+
 		GameObject vfxGO = GameObjectFactory.Instance.Spawn("p-DashVFX");
 		vfx = vfxGO.GetComponent<FXGroup>();
 		vfx.transform.parent = controller.transform.FindTransformInChildren("Body");
@@ -29,5 +35,6 @@ public class ForwardDash : GameAction
 		base.OnInvokeEnd();
 
 		vfx.Stop();
+		vfx = null;
 	}
 }
