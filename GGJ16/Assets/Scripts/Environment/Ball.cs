@@ -53,14 +53,33 @@ public class Ball : MonoBehaviour
 
             float scoreArc = 90;
             normalAngle -= goalAngle;
+            normalAngle = PutAngleInRange(normalAngle);
+            float normalAngleOp = PutAngleInRange(normalAngle + 180);
 
+            bool inRange = false;
+            if (Mathf.Abs(normalAngle) < scoreArc / 2)
+                inRange = true;
+            else if (Mathf.Abs(normalAngleOp) < scoreArc / 2)
+                inRange = true;
 
-            this.physics.position += normal * penetration;
-            Bounce(normal);
+            if (!inRange)
+            {
+                this.physics.position += normal * penetration;
+                Bounce(normal);
+            }
         }
     }
 
-    //public float
+    public float PutAngleInRange(float angle)
+    {
+        while (angle > 180)
+            angle -= 360;
+
+        while (angle < -180)
+            angle += 360;
+
+        return angle;
+    }
 
     public void Bounce(Vector3 normal)
     {
