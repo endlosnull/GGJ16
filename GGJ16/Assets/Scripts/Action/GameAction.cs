@@ -6,9 +6,11 @@ public class GameAction
 	public GameObject source;
 	public GameObject target;
 	public float duration;
+	public float actionTime;
 
 	protected bool active;
 	protected float time;
+	protected bool usedAction;
 
 	public bool IsActive
 	{
@@ -45,10 +47,21 @@ public class GameAction
 	protected virtual void OnInvokeEnd()
 	{
 		active = false;
+		usedAction = false;
+	}
+
+	protected virtual void OnActionTime()
+	{
+		usedAction = true;
 	}
 
 	public virtual bool OnTick(float deltaTime)
 	{
+		if (time > actionTime && !usedAction)
+		{
+			OnActionTime();
+		}
+
 		time += deltaTime;
 		return time >= duration;
 	}

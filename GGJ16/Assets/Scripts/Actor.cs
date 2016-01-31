@@ -6,7 +6,6 @@ public class Actor : MonoBehaviour
 	public ActorBody body;
     public Ball ownedBall;
     public Boss boss;
-	public MecanimAnimator animator;
 
     public Team team;
     
@@ -90,7 +89,7 @@ public class Actor : MonoBehaviour
 		Vector3 moveDelta = ((new Vector3(inputForce.normalized.x, 0, inputForce.normalized.y) * this.physics.inputPower) + this.physics.velocity).normalized;
 		float forward = Vector3.Dot(this.transform.forward, moveDelta);
 		float strafe = Vector3.Dot(this.transform.right, moveDelta);
-		body.SetMoveSpeed(Mathf.Max(forward, strafe));
+		body.SetAnimatorMoveSpeed(Mathf.Max(forward, strafe));
     }
 
     public void TestObjectCollisions()
@@ -144,7 +143,7 @@ public class Actor : MonoBehaviour
         this.ownedBall = ball;
 		ball.transform.parent = transform.FindTransformInChildren("Hand_Target");
 		ball.transform.localPosition = Vector3.zero;
-		body.animator.SetLayerWeight(1, 1f);
+		body.SetAnimatorHold(true);
     }
 
     public void LosePossession()
@@ -156,7 +155,7 @@ public class Actor : MonoBehaviour
 		this.ownedBall.transform.parent = null;
         this.ownedBall = null;
         this.possessionDelay = Actor.possessionDelayTime;
-		body.animator.SetLayerWeight(1, 0f);
+		body.SetAnimatorHold(false);
     }
 
 
