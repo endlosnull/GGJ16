@@ -4,6 +4,7 @@ public class Ball : MonoBehaviour
 {
     public PhysicsObj physics = new PhysicsObj();
     public Actor owner;
+    public Field field;
 
     public Renderer[] currentRenderers;
 
@@ -19,6 +20,8 @@ public class Ball : MonoBehaviour
         if (owner == null)
         {
             this.physics.FixedUpdate(Vector3.zero);
+
+            CheckScore();
         }
         else
         {
@@ -27,5 +30,10 @@ public class Ball : MonoBehaviour
         }
 
         this.transform.position = this.physics.position;
+    }
+
+    public void CheckScore()
+    {
+        Goal goal = this.field.goal;
     }
 }

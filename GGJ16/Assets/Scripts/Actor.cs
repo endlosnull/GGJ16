@@ -74,6 +74,8 @@ public class Actor : MonoBehaviour
             this.directionVector = Vector3.forward; // hack to avoid 0 direction
         this.directionVector.Normalize();
 
+        TestObjectCollisions();
+
         this.physics.FixedUpdate(new Vector3(inputForce.normalized.x, 0, inputForce.normalized.y));
         this.transform.position = this.physics.position;
 
@@ -84,6 +86,16 @@ public class Actor : MonoBehaviour
 		float strafe = Vector3.Dot(this.transform.right, moveDelta);
 		body.SetMoveSpeedForward(forward);
 		body.SetMoveSpeedStrafe(strafe);
+    }
+
+    public void TestObjectCollisions()
+    {
+        Goal goal = this.boss.field.goal;
+
+        Vector3 normal;
+        float penetration;
+        if (PhysicsObj.TestCollision(this.physics, goal.physics, out normal, out penetration))
+            this.physics.position += normal * penetration;
     }
 
     public void BallHandling(Ball ball)
@@ -108,28 +120,10 @@ public class Actor : MonoBehaviour
         if (ball.owner != null)
             return;
 
-        Vector3 diff = ball.transform.position - this.transform.position;
-        diff.y = 0;
-        Vector3 normal = diff.normalized;
-        if (diff.sqrMagnitude == 0)
-            return;
-
-        float distance = diff.magnitude;
-        float penetration = this.physics.HalfSize + ball.physics.HalfSize - distance;
-        if (penetration > 0)
-        {
+        Vector3 normal;
+        float penetration;
+        if (PhysicsObj.TestCollision(ball.physics, this.physics, out normal, out penetration))
             ball.physics.position += normal * penetration;
-            //ball.physics.velocity += normal * penetration;
-        }
-        //else
-        //{
-        //    float penetration2 = penetration + 5;
-        //    if (penetration2 > 0)
-        //    {
-        //        //ball.physics.position += normal * penetration2;
-        //        ball.physics.velocity += this.physics.velocity * penetration2 * 20.5f;
-        //    }
-        //}
     }
 
     public void TakePossession(Ball ball)

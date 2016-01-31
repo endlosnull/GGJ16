@@ -23,6 +23,7 @@ public class Field : Singleton<Field>
 		GameObject ballObject = GameObjectFactory.Instance.Spawn("p-Ball", null, Vector3.up*3f, Quaternion.identity) ;
 		ballObject.name = "Ball";
 		ball = ballObject.GetComponent<Ball>();
+        ball.field = this;
 	}
 
 }
