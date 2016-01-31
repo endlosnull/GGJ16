@@ -4,6 +4,7 @@ using System.Collections;
 public class Swat : GameAction
 {
 	public float range;
+    public float yRange;
 
     ActorController controller;
 
@@ -19,7 +20,7 @@ public class Swat : GameAction
         controller = source.GetComponent<ActorController>();
         controller.actor.body.SetAnimatorThrow();
         Ball ball = Field.Instance.ball;
-        controller.actor.TrySwatBall(ball, this.range);
+        controller.actor.TrySwatBall(ball, this.range, this.yRange);
     }
 
     protected override void OnInvokeEnd()

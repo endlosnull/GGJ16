@@ -49,8 +49,9 @@ public class Actor : GameEntity
         base.FixedUpdate();
 
         this.possessionDelay -= Time.deltaTime;
+        this.ballCheckCooldown -= Time.deltaTime;
 
-		Vector3 moveDelta = ((new Vector3(inputAdj.normalized.x, 0, inputAdj.normalized.y) * this.physics.inputPower) + this.physics.velocity).normalized;
+        Vector3 moveDelta = ((new Vector3(inputAdj.normalized.x, 0, inputAdj.normalized.y) * this.physics.inputPower) + this.physics.velocity).normalized;
 		float forward = Vector3.Dot(this.transform.forward, moveDelta);
 		float strafe = Vector3.Dot(this.transform.right, moveDelta);
 		body.SetAnimatorMoveSpeed(Mathf.Max(forward, strafe));
@@ -86,13 +87,16 @@ public class Actor : GameEntity
         }
     }
 
-    public void TrySwatBall(Ball ball, float range)
+    public void TrySwatBall(Ball ball, float range, float yRange)
     {
         if (ball.owner == this)
             return; // don't swat self!
 
-        float distance = (ball.transform.position - this.transform.position).magnitude;
-        if (distance < range)
+        if (ball.owner == null)
+            return;
+
+        float distance = (ball.owner.transform.position - this.transform.position).magnitude;
+        if (distance < range && Mathf.Abs(ball.owner.transform.position.y - this.transform.position.y) < yRange)
         {
             SwatBall(ball);
         }

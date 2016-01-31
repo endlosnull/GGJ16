@@ -47,6 +47,7 @@ public class ActionBricks
         Swat action = new Swat();
         action.source = gameObject;
         action.range = 2.0f;
+        action.yRange = 1.0f;
         action.duration = 0.2f;
         sequence.actions.Add(action);
     }

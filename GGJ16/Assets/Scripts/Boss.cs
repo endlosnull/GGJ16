@@ -108,7 +108,6 @@ public class Boss : HardSingleton<Boss>
 
 	public void RefreshScore()
 	{
-		Debug.Log("RefreshScore");
 		ScoreUpdate.Invoke(teams[0].score.ToString(), teams[1].score.ToString());
 	}
 
@@ -145,9 +144,9 @@ public class Boss : HardSingleton<Boss>
 				StartGame();
 				break;
 			case State.EndingGame:
-				ChangeScreen.Invoke("SelectActions");
 				ClearActors();
-				StartLoadout();
+				ClearUsers();
+				ChangeState(State.SettingUp);
 				break;
 			default:
 				break;
@@ -160,6 +159,16 @@ public class Boss : HardSingleton<Boss>
 		{
 			team.WipeActors();
 		}
+	}
+
+	void ClearUsers()
+	{
+		foreach(User user in users)
+		{
+			Destroy(user);
+		}
+		users.Clear();
+		aiuser = null;
 	}
 
 	public void StartSetup()
@@ -327,6 +336,8 @@ public class Boss : HardSingleton<Boss>
 				actor.isHuman = false;
 				RegisterActor(actor,team);
 
+
+
 				go.AddComponent<ActionSequencer>();
 				go.BroadcastMessage("OnSpawn", SendMessageOptions.DontRequireReceiver);
 			}
@@ -335,10 +346,13 @@ public class Boss : HardSingleton<Boss>
 
 	void StartField()
 	{
-		GameObject fieldObject = GameObjectFactory.Instance.Spawn("p-Field", null, Vector3.zero, Quaternion.identity) ;
-		fieldObject.name = "Field";
-		field = fieldObject.GetComponent<Field>();
-		HardSingleton<Field>.SingletonInit(field);	
+		if(!Field.HasInstance)
+		{
+			GameObject fieldObject = GameObjectFactory.Instance.Spawn("p-Field", null, Vector3.zero, Quaternion.identity) ;
+			fieldObject.name = "Field";
+			field = fieldObject.GetComponent<Field>();
+			HardSingleton<Field>.SingletonInit(field);	
+		}
 		
 	}
 

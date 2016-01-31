@@ -30,15 +30,10 @@ public class ActionSequencer : MonoBehaviour
     	sequences.Clear();
     	for(int i=0;i<other.Count;++i)
 		{
-			foreach(GameAction action in other[i].actions)
-			{
-				Debug.Log("action src"+action);
-			}
 			ActionSequence seq = other[i].Clone() as ActionSequence;
 			foreach(GameAction action in seq.actions)
 			{
 				action.source = gameObject;
-				Debug.Log("action dst"+action);
 			}
 			sequences.Add(seq);
 		}
