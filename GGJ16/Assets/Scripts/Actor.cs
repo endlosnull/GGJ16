@@ -16,6 +16,12 @@ public class Actor : MonoBehaviour
 
     private const float possessionDelayTime = 0.5f;
     private float possessionDelay = 0;
+
+    public virtual void OnSpawn()
+    {
+        physics.position = this.transform.position;
+    }
+
     
     public void Update()
 	{
