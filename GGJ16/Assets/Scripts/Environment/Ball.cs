@@ -15,6 +15,11 @@ public class Ball : MonoBehaviour
         this.physics.bounce = 0.5f;
     }
 
+    public virtual void OnSpawn()
+    {
+        this.physics.position = this.transform.position;
+    }
+
     public void FixedUpdate()
     {
         if (owner == null)
@@ -34,5 +39,7 @@ public class Ball : MonoBehaviour
     public void CheckScore()
     {
         Goal goal = this.field.goal;
+
+
     }
 }

@@ -9,7 +9,7 @@ public class Goal : MonoBehaviour
 
     public virtual void OnSpawn()
     {
-        this.physics.SetSize(3);
+        this.physics.SetSize(1.5f);
         this.physics.fullStop = float.MaxValue;
 
         this.physics.position = this.transform.position;

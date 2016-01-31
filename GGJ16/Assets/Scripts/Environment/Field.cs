@@ -21,7 +21,7 @@ public class Field : Singleton<Field>
 		goal = goalObject.GetComponent<Goal>();
 		goalObject.BroadcastMessage("OnSpawn", SendMessageOptions.DontRequireReceiver);
 
-		GameObject ballObject = GameObjectFactory.Instance.Spawn("p-Ball", null, Vector3.forward*3f, Quaternion.identity) ;
+		GameObject ballObject = GameObjectFactory.Instance.Spawn("p-Ball", null, Vector3.forward*2f, Quaternion.identity) ;
 		ballObject.name = "Ball";
 		ball = ballObject.GetComponent<Ball>();
         ball.field = this;
