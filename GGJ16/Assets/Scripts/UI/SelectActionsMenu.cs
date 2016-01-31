@@ -11,7 +11,7 @@ class CursorPosition
 
 public class SelectActionsMenu : MenuBehaviour
 {
-	public int BrickSize = 200;
+	public int BrickSize = 25;
 
 	List<Transform> actions = new List<Transform>();
 	public Transform ActionBrick;

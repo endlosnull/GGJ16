@@ -229,6 +229,10 @@ Prefab:
       propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 11409130, guid: 46c7f32152adab24284ad331adb624d7, type: 2}
+      propertyPath: m_UiScaleMode
+      value: 2
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 46c7f32152adab24284ad331adb624d7, type: 2}
   m_IsPrefabParent: 0
@@ -398,6 +402,11 @@ MonoBehaviour:
         m_CallState: 2
     m_TypeName: MoveCursorEvent, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
       PublicKeyToken=null
+  AddAction:
+    m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: AddActionEvent, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+      PublicKeyToken=null
   masterPaletteMain: {fileID: 2800000, guid: 62ee838b6bb44cd41997ce832f4374fd, type: 3}
   masterPaletteAlt: {fileID: 2800000, guid: 30a47b1492e4d0746bb76a4f9eac5ed2, type: 3}
 --- !u!4 &437234816
@@ -502,6 +511,46 @@ Prefab:
     - target: {fileID: 22469836, guid: 89794133de2b0c84e9ddd2aba2cc1ec7, type: 2}
       propertyPath: m_Pivot.y
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 22458706, guid: 89794133de2b0c84e9ddd2aba2cc1ec7, type: 2}
+      propertyPath: m_AnchorMin.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 22458706, guid: 89794133de2b0c84e9ddd2aba2cc1ec7, type: 2}
+      propertyPath: m_AnchorMin.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 22458706, guid: 89794133de2b0c84e9ddd2aba2cc1ec7, type: 2}
+      propertyPath: m_AnchorMax.x
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 22458706, guid: 89794133de2b0c84e9ddd2aba2cc1ec7, type: 2}
+      propertyPath: m_AnchorMax.y
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 22458706, guid: 89794133de2b0c84e9ddd2aba2cc1ec7, type: 2}
+      propertyPath: m_SizeDelta.x
+      value: -100
+      objectReference: {fileID: 0}
+    - target: {fileID: 22458706, guid: 89794133de2b0c84e9ddd2aba2cc1ec7, type: 2}
+      propertyPath: m_SizeDelta.y
+      value: -200
+      objectReference: {fileID: 0}
+    - target: {fileID: 22458706, guid: 89794133de2b0c84e9ddd2aba2cc1ec7, type: 2}
+      propertyPath: m_AnchoredPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 22458706, guid: 89794133de2b0c84e9ddd2aba2cc1ec7, type: 2}
+      propertyPath: m_AnchoredPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 11415820, guid: 89794133de2b0c84e9ddd2aba2cc1ec7, type: 2}
+      propertyPath: m_UiScaleMode
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 11415820, guid: 89794133de2b0c84e9ddd2aba2cc1ec7, type: 2}
+      propertyPath: m_Enabled
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 89794133de2b0c84e9ddd2aba2cc1ec7, type: 2}
@@ -651,6 +700,14 @@ Prefab:
     - target: {fileID: 188874, guid: ed61395261b3d2d45b7d62b966bf26cf, type: 2}
       propertyPath: m_Name
       value: Score_1
+      objectReference: {fileID: 0}
+    - target: {fileID: 119720, guid: ed61395261b3d2d45b7d62b966bf26cf, type: 2}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 11401098, guid: ed61395261b3d2d45b7d62b966bf26cf, type: 2}
+      propertyPath: m_UiScaleMode
+      value: 2
       objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 11434664, guid: ed61395261b3d2d45b7d62b966bf26cf, type: 2}
