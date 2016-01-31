@@ -17,7 +17,12 @@ public class SequenceHud : MonoBehaviour
 	{
 		if(sequencer)
 		{
-			// attachedActor.sequencer.SequenceIndex
+			// Which sequence
+			//sequencer.SequenceIndex;
+			// Which index
+			//sequencer.ActionIndex
+			string name = string.Format("Ritual_{0}/ButtonLabel_{1}", 0, 0);
+			GameObject.Find(name).GetComponent<Text>().text = "AA";
 		}
 	}
 }
