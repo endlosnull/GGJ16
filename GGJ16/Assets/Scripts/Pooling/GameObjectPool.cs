@@ -19,7 +19,7 @@ namespace Pooling
 				GameObjectPoolMeta meta = go.AddComponent<GameObjectPoolMeta>();
 				meta.prefab = prefab;
 				go.SetActive(false);
-				go.transform.parent = GameObjectFactory.Instance.thisTransform;
+				go.transform.SetParent(GameObjectFactory.Instance.thisTransform);
 				pool.Add(go);
 			}
 		}

@@ -20,7 +20,9 @@ public class SelectTeamMenu : MenuBehaviour {
 	public Transform BirdsTeamLabel;
 
 	// Use this for initialization
-	void Start () {
+	public override void Start()
+	{
+		base.Start();
 		var pos = CatsTeamLabel.localPosition;
 		pos.x = LeftTeamX;
 		CatsTeamLabel.localPosition = pos;
@@ -36,13 +38,13 @@ public class SelectTeamMenu : MenuBehaviour {
 		List<User> users = Boss.Instance.users;
 		for(int i=0; i < users.Count; ++i)
 		{
-			if(users[i].isLocal && j<this.Cursors.Length)
+			if(users[i].isLocal && j<this.Cursors.Count)
 			{
 				this.Cursors[j].gameObject.SetActive(true);
 				++j;
 			}
 		}
-		for(; j<this.Cursors.Length; ++j)
+		for(; j<this.Cursors.Count; ++j)
 		{
 			this.Cursors[j].gameObject.SetActive(false);
 		}

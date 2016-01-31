@@ -52,6 +52,27 @@ namespace Pooling
 			return go;
 		}
 
+		public GameObject SpawnUI(string prefabName, Transform parent)
+		{
+			GameObject prefab = Resources.Load(RESOURCES_PREFIX + prefabName) as GameObject;
+			if (prefab == null)
+			{
+				return null;
+			}
+			GameObjectPool pool;
+			if (!pools.TryGetValue(prefab, out pool))
+			{
+				pool = new GameObjectPool();
+				pools.Add(prefab, pool);
+			}
+			GameObject go = pool.Spawn(prefab);
+			go.SetActive(true);
+			RectTransform t = go.transform as RectTransform;
+			t.SetParent(parent, false);
+			go.BroadcastMessage("OnObjectFactorySpawn", SendMessageOptions.DontRequireReceiver);
+			return go;
+		}
+
 		public GameObject Spawn(string prefabName)
 		{
 			return Spawn(prefabName, null, VECTOR3_ZERO, QUATERNION_IDENTITY);
@@ -77,7 +98,7 @@ namespace Pooling
 				if (pools.TryGetValue(meta.prefab, out pool))
 				{
 					go.BroadcastMessage("OnObjectFactoryDespawn", SendMessageOptions.DontRequireReceiver);
-					go.transform.parent = thisTransform;
+					go.transform.SetParent(thisTransform);
 					go.SetActive(false);
 					pool.Despawn(go);
 				}

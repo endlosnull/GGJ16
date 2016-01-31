@@ -23,9 +23,10 @@ public class SelectActionsMenu : MenuBehaviour
 	}
 
 	// Use this for initialization
-	void Start()
+	public override void Start()
 	{
-		for(int i = 0; i < Cursors.Length; ++i)
+		base.Start();
+		for(int i = 0; i < Cursors.Count; ++i)
 		{
 			cursorPositions.Add(new CursorPosition());
 		}
@@ -50,7 +51,7 @@ public class SelectActionsMenu : MenuBehaviour
 
 	public void MoveCursor(int idx, MoveCursorAction action)
 	{
-		if (!CanMoveCursor(idx))
+		if (!CanMoveCursor(idx) || this.cursorPositions.Count == 0)
 		{
 			return;
 		}

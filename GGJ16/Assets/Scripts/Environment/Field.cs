@@ -61,12 +61,14 @@ public class Field : Singleton<Field>
         }
 		
 		CamControl.Instance.target = ball.transform;
+		CamControl.Instance.ambientAudioSource.Play();
 
         this.roundActive = true;
     }
 
     private void RoundEnd()
     {
+		CamControl.Instance.ambientAudioSource.Stop();
         this.roundActive = false;
     }
 

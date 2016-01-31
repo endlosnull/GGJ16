@@ -11,7 +11,8 @@ public class HudMenu : MenuBehaviour
 		}
 	}
 
-	void Start()
+	public override void Start()
 	{
+		base.Start();
 	}
 }

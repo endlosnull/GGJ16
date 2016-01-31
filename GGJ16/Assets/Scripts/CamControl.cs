@@ -7,6 +7,7 @@ public class CamControl : Singleton<CamControl>
 {
 	public Transform target;
 	public AudioSource audioSource;
+	public AudioSource ambientAudioSource;
 	Vector3 targetPosition = Vector3.zero;
 	Vector3 currentPosition;
 	Vector3 desiredPosition;
