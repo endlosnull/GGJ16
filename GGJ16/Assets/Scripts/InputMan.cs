@@ -79,6 +79,18 @@ public class InputMan : Singleton<InputMan>
 			ball.physics.velocity += Vector3.left * forceForward;
 			ball.physics.velocity += Vector3.up * forceUp;
 		}
+
+		if (Input.GetKeyDown(KeyCode.F10))
+		{
+			foreach(Actor actor in Field.Instance.allActors)
+			{
+				if( !actor.isHuman )
+				{
+					actor.controller.enabled = !actor.controller.enabled;
+					actor.physics.velocity = Vector3.zero;
+				}
+			}
+		}
 	}
 
 	void ProcessUserInput(int idx, float deltaTime)
