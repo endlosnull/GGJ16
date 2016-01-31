@@ -125,7 +125,8 @@ public class Actor : GameEntity
         Ball ball = this.ownedBall;
         LosePossession();
 
-        ball.physics.velocity += Vector3.down * 2;
+        ball.physics.velocity += Vector3.down * 8;
+        AudioManager.Instance.PlayOneShot(controller.actor.audioSource, AudioManager.Instance.swat);
     }
 
     public void SwatBall(Ball ball)

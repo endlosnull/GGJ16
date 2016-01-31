@@ -16,6 +16,7 @@ public class PhysicsObj
     public Vector3 position = Vector3.zero;
     public Vector3 velocity = Vector3.zero;
 
+    public float airControlMult = 0.4f;
     public float bounce = 0;
     public float drag = 1.7f;
     public float fullStop = 2.0f;
@@ -62,10 +63,12 @@ public class PhysicsObj
 			return;
 		}
 
+        bool onGround = this.position.y == this.arenaMin.y;
+
         Vector3 moveDelta = Vector3.zero;
         
         // Build moveDelta
-        moveDelta += input * this.inputPower * Time.deltaTime;
+        moveDelta += input * this.inputPower * (onGround ? 1 : airControlMult) * Time.deltaTime;
         moveDelta += this.velocity * Time.deltaTime;
 
         this.position += moveDelta;
@@ -74,7 +77,7 @@ public class PhysicsObj
         DoMove(moveDelta);
 
         // Apply drag
-        if (this.position.y == this.arenaMin.y)
+        if (onGround)
         {
             this.velocity -= this.velocity * Time.deltaTime * drag;
             if (this.velocity.sqrMagnitude < fullStop * fullStop)

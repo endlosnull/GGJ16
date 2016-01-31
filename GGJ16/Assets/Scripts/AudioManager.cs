@@ -4,7 +4,8 @@ using System.Collections;
 public class AudioManager : Singleton<AudioManager>
 {
 	public AudioClip jump;
-	public AudioClip throwBall;
+    public AudioClip swat;
+    public AudioClip throwBall;
 	public AudioClip dash;
 	public AudioClip hitPlayer;
 	public AudioClip goal;
