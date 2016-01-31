@@ -1,6 +1,6 @@
 fileFormatVersion: 2
 guid: 03e0add3fe58fb949b5bba4449910f3e
-timeCreated: 1454209002
+timeCreated: 1454212491
 licenseType: Free
 ModelImporter:
   serializedVersion: 19
@@ -47,11 +47,13 @@ ModelImporter:
     400038: Root
     4300000: Mesh
     7400000: Idle
-    7400002: Rig|Hold
-    7400004: Rig|Idle
-    7400006: Rig|Jump
-    7400008: Rig|Land
-    7400010: Rig|Run
+    7400002: Hold
+    7400004: Rig|Hold
+    7400006: Rig|Idle
+    7400008: Rig|Jump
+    7400010: Rig|Land
+    7400012: Rig|Run
+    7400014: Rig|Throw
     9500000: //RootNode
     13700000: Mesh
   materials:
@@ -359,6 +361,74 @@ ModelImporter:
       loop: 0
       hasAdditiveReferencePose: 0
       loopTime: 1
+      loopBlend: 0
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask:
+      - path: 
+        weight: 1
+      - path: Mesh
+        weight: 1
+      - path: Rig
+        weight: 1
+      - path: Rig/Root
+        weight: 1
+      - path: Rig/Root/Body
+        weight: 1
+      - path: Rig/Root/Body/Head
+        weight: 1
+      - path: Rig/Root/Body/Head/Head_end
+        weight: 1
+      - path: Rig/Root/Body/Left_Upper_Arm
+        weight: 1
+      - path: Rig/Root/Body/Left_Upper_Arm/Left_Lower_Arm
+        weight: 1
+      - path: Rig/Root/Body/Left_Upper_Arm/Left_Lower_Arm/Left_Lower_Arm_end
+        weight: 1
+      - path: Rig/Root/Body/Left_Upper_Leg
+        weight: 1
+      - path: Rig/Root/Body/Left_Upper_Leg/Left_Lower_Leg
+        weight: 1
+      - path: Rig/Root/Body/Left_Upper_Leg/Left_Lower_Leg/Left_Lower_Leg_end
+        weight: 1
+      - path: Rig/Root/Body/Right_Upper_Arm
+        weight: 1
+      - path: Rig/Root/Body/Right_Upper_Arm/Right_Lower_Arm
+        weight: 1
+      - path: Rig/Root/Body/Right_Upper_Arm/Right_Lower_Arm/Hand_Target
+        weight: 1
+      - path: Rig/Root/Body/Right_Upper_Arm/Right_Lower_Arm/Hand_Target/Hand_Target_end
+        weight: 1
+      - path: Rig/Root/Body/Right_Upper_Leg
+        weight: 1
+      - path: Rig/Root/Body/Right_Upper_Leg/Right_Lower_Leg
+        weight: 1
+      - path: Rig/Root/Body/Right_Upper_Leg/Right_Lower_Leg/Right_Lower_Leg_end
+        weight: 1
+      maskType: 0
+      maskSource: {instanceID: 0}
+      additiveReferencePoseFrame: 0
+    - serializedVersion: 16
+      name: Rig|Throw
+      takeName: Rig|Throw
+      firstFrame: 0
+      lastFrame: 15
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      hasAdditiveReferencePose: 0
+      loopTime: 0
       loopBlend: 0
       loopBlendOrientation: 0
       loopBlendPositionY: 0

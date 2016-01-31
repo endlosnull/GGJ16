@@ -162,7 +162,7 @@ public class Boss : Singleton<Boss>
 			GameObject go = GameObjectFactory.Instance.Spawn("p-Actor", null, startPos, Quaternion.identity);
 			go.name = "hero" + i;
 			Actor actor = go.GetComponent<Actor>();
-			GameObject bodyObject = GameObjectFactory.Instance.Spawn("p-ActorBodyOne", null, Vector3.zero, Quaternion.identity);
+			GameObject bodyObject = GameObjectFactory.Instance.Spawn("p-ActorBody", null, Vector3.zero, Quaternion.identity);
 			bodyObject.name = "herobody" + i;
 			bodyObject.transform.SetParent(actor.transform, false);
 			actor.body = bodyObject.GetComponent<ActorBody>();
@@ -228,10 +228,9 @@ public class Boss : Singleton<Boss>
 				GameObject go = GameObjectFactory.Instance.Spawn("p-Actor", null, startPos, Quaternion.identity) ;
 				go.name = "agent["+i+"]"+j;
 				Actor actor = go.GetComponent<Actor>();
-				GameObject bodyObject = GameObjectFactory.Instance.Spawn("p-ActorBodyOne", null, Vector3.zero, Quaternion.identity) ;
+				GameObject bodyObject = GameObjectFactory.Instance.Spawn("p-ActorBody", null, Vector3.zero, Quaternion.identity) ;
 				bodyObject.name = "herobody"+i;
 				bodyObject.transform.SetParent(actor.transform, false);
-				bodyObject.transform.localRotation = Quaternion.AngleAxis(-90f,Vector3.up);
 				actor.body = bodyObject.GetComponent<ActorBody>();
 
 				actor.controller = go.AddComponent<AgentController>();
