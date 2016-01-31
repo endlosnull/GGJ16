@@ -96,7 +96,8 @@ public class Boss : Singleton<Boss>
 
 	public void RefreshScore()
 	{
-		ScoreUpdate.Invoke("Team1:"+teams[0].score, "Team2:"+teams[1].score);
+		Debug.Log("RefreshScore");
+		ScoreUpdate.Invoke("Team1: "+teams[0].score, "Team2: "+teams[1].score);
 	}
 
 

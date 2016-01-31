@@ -8,6 +8,11 @@ public class Throw : GameAction
 
     ActorController controller;
 
+	public Throw()
+	{
+		name = "throw";
+	}
+
 	protected override void OnInvokeStart()
 	{
 		base.OnInvokeStart();

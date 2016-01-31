@@ -238,6 +238,21 @@ MonoBehaviour:
     type: 2}
   m_PrefabInternal: {fileID: 181931142}
   m_Script: {fileID: 11500000, guid: dd696fac7dc6b7a4f8dab13bbab529ef, type: 3}
+--- !u!1 &216039397 stripped
+GameObject:
+  m_PrefabParentObject: {fileID: 139358, guid: ed61395261b3d2d45b7d62b966bf26cf, type: 2}
+  m_PrefabInternal: {fileID: 1691896933}
+--- !u!114 &216039400
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 216039397}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 692e7aaaa0e6d28478ff8c20d4f8a24e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &437234813
 GameObject:
   m_ObjectHideFlags: 0
@@ -279,7 +294,18 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ScoreUpdate:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 216039400}
+        m_MethodName: UpdateScore
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
     m_TypeName: ScoreUpdateEvent, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
       PublicKeyToken=null
   users: []
@@ -618,7 +644,17 @@ Prefab:
       propertyPath: m_AnchoredPosition.x
       value: -100
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    - target: {fileID: 170252, guid: ed61395261b3d2d45b7d62b966bf26cf, type: 2}
+      propertyPath: m_Name
+      value: Score_0
+      objectReference: {fileID: 0}
+    - target: {fileID: 188874, guid: ed61395261b3d2d45b7d62b966bf26cf, type: 2}
+      propertyPath: m_Name
+      value: Score_1
+      objectReference: {fileID: 0}
+    m_RemovedComponents:
+    - {fileID: 11434664, guid: ed61395261b3d2d45b7d62b966bf26cf, type: 2}
+    - {fileID: 11417138, guid: ed61395261b3d2d45b7d62b966bf26cf, type: 2}
   m_ParentPrefab: {fileID: 100100000, guid: ed61395261b3d2d45b7d62b966bf26cf, type: 2}
   m_IsPrefabParent: 0
 --- !u!1 &1703631037

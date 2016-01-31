@@ -18,10 +18,13 @@ public class SequenceHud : MonoBehaviour
 	{
 		if(sequencer)
 		{
-			GameObject.Find("Ritual_" + PlayerIndex).SetActive(true);
+			if (sequencer.CurrentAction != null)
+			{
+				GameObject.Find("Ritual_" + PlayerIndex).SetActive(true);
 
-			string name = string.Format("Ritual_{0}/ButtonLabel_{1}", 0, sequencer.SequenceIndex);
-			GameObject.Find(name).GetComponent<Text>().text = "seq " + sequencer.ActionIndex;
+				string name = string.Format("Ritual_{0}/ButtonLabel_{1}", 0, sequencer.SequenceIndex);
+				GameObject.Find(name).GetComponent<Text>().text = "seq " + sequencer.CurrentAction.name;
+			}
 		}
 		else
 		{

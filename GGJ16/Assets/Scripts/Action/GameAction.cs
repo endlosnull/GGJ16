@@ -8,6 +8,8 @@ public class GameAction
 	public float duration;
 	public float actionTime;
 
+	public string name = "";
+
 	protected bool active;
 	protected float time;
 	protected bool usedAction;

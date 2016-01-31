@@ -8,12 +8,6 @@ class CursorPosition
 	public int j;
 }
 
-class ActionBrickVisuals
-{
-	public string name;
-	public string image;
-}
-
 public class SelectActionsMenu : MenuBehaviour
 {
 	public int BrickSize = 200;
@@ -21,15 +15,6 @@ public class SelectActionsMenu : MenuBehaviour
 	List<Transform> actions = new List<Transform>();
 	public Transform ActionBrick;
 	List<CursorPosition> cursorPositions = new List<CursorPosition>();
-	ActionBrickVisuals[] actionBricks = new ActionBrickVisuals[]
-	{
-		new ActionBrickVisuals { name = "Forward dash", image = "Textures/cards/arrow_up" },
-		new ActionBrickVisuals { name = "Right dash", image = "Textures/cards/arrow_right" },
-		new ActionBrickVisuals { name = "Left dash", image = "Textures/cards/arrow_left" },
-		new ActionBrickVisuals { name = "Jump", image = "Textures/cards/foot" },
-		new ActionBrickVisuals { name = "Throw", image = "Textures/cards/throw" },
-		new ActionBrickVisuals { name = "Swat", image = "Textures/cards/hand" },
-	};
 
 	protected override string MenuName
 	{
@@ -43,7 +28,7 @@ public class SelectActionsMenu : MenuBehaviour
 	public override void Start()
 	{
 		base.Start();
-		for(int n = 0; n < Cursors.Count; ++n)
+		for (int c = 0; c < Cursors.Count; ++c)
 		{
 			cursorPositions.Add(new CursorPosition());
 		}
@@ -51,9 +36,10 @@ public class SelectActionsMenu : MenuBehaviour
 		Transform canvasTransform = GetComponent<Canvas>().transform;
 		int i = 0;
 		int j = 0;
-		for(int n = 0; n < actionBricks.Length; ++n)
+
+		foreach (string k in ActionBricksDictionary.Dictionary.Keys)
 		{
-			if(n % 3 == 0)
+			if (i % 3 == 0)
 			{
 				i = 0;
 				j++;
@@ -62,9 +48,9 @@ public class SelectActionsMenu : MenuBehaviour
 			var cube = Instantiate(ActionBrick);
 			cube.SetParent(canvasTransform);
 			cube.localPosition = new Vector3(i * BrickSize - BrickSize, j * BrickSize - BrickSize, 0);
-			cube.Find("BrickText").GetComponent<Text>().text = actionBricks[n].name;
+			cube.Find("BrickText").GetComponent<Text>().text = ActionBricksDictionary.Dictionary[k].name;
 
-			var sprite = Resources.Load<Sprite>(actionBricks[n].image);
+			var sprite = Resources.Load<Sprite>(ActionBricksDictionary.Dictionary[k].image);
 			cube.Find("BrickBg").GetComponent<Image>().sprite = sprite;
 			actions.Add(cube);
 			i++;
@@ -82,9 +68,9 @@ public class SelectActionsMenu : MenuBehaviour
 		{
 			return;
 		}
-		if( idx >= this.cursorPositions.Count )
+		if (idx >= this.cursorPositions.Count)
 		{
-			Debug.LogWarning("Invalid index "+idx+" of "+this.cursorPositions.Count);
+			Debug.LogWarning("Invalid index " + idx + " of " + this.cursorPositions.Count);
 			return;
 		}
 		CursorPosition cp = this.cursorPositions[idx];

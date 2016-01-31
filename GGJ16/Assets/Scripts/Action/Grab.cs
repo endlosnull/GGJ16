@@ -7,6 +7,11 @@ public class Grab : GameAction
 
     ActorController controller;
 
+	public Grab()
+	{
+		name = "grab";
+	}
+
 	protected override void OnInvokeStart()
 	{
 		base.OnInvokeStart();
