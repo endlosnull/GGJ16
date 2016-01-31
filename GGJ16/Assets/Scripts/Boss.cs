@@ -127,9 +127,10 @@ public class Boss : Singleton<Boss>
 	void StartGame()
 	{
         time = 5f * 60f;
+        StartField();
         StartUserActors();
         StartAgentActors();
-        StartField();
+        field.BeginRound();
 
     }
 
@@ -174,12 +175,20 @@ public class Boss : Singleton<Boss>
 			actor.body.attachments.Add(attachObject);
 			users[i].controlledActor = actor;
 			actor.controller = go.AddComponent<ActorController>();
-			team.actors.Add(actor);
+			
+			RegisterActor(actor, team);
 
 			go.AddComponent<ActionSequencer>();
 			go.BroadcastMessage("OnSpawn", SendMessageOptions.DontRequireReceiver);
 		}
 		
+	}
+
+	void RegisterActor(Actor actor, Team team)
+	{
+		actor.team = team;
+		team.actors.Add(actor);
+		field.allActors.Add(actor);
 	}
 
 	Vector3 GetHomePos(int teamIndex, int slot)
@@ -226,7 +235,7 @@ public class Boss : Singleton<Boss>
 				actor.body = bodyObject.GetComponent<ActorBody>();
 
 				actor.controller = go.AddComponent<AgentController>();
-				team.actors.Add(actor);
+				RegisterActor(actor,team);
 
 				go.AddComponent<ActionSequencer>();
 				go.BroadcastMessage("OnSpawn", SendMessageOptions.DontRequireReceiver);
@@ -238,7 +247,7 @@ public class Boss : Singleton<Boss>
 	{
 		GameObject fieldObject = GameObjectFactory.Instance.Spawn("p-Field", null, Vector3.zero, Quaternion.identity) ;
 		field = fieldObject.GetComponent<Field>();
-		field.BeginRound();
+		
 	}
 
 	public void FixedUpdate()

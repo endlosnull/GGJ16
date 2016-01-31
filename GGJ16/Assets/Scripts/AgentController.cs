@@ -48,22 +48,29 @@ public class AgentController : ActorController
 
 		if( reevaluateTimer.Tick(deltaTime) )
 		{
-			behav.Dispose();
+			Destroy(behav);
 			behav = null;
 		}
 		if( behav == null )
 		{
-			if( UnityEngine.Random.value < 0.5 )
+			float randomVal = UnityEngine.Random.value;
+			if( randomVal < 0.5f )
 			{
-				behav = new BehavDefendSpace();
+				behav = gameObject.AddComponent<BehavDefendSpace>();
+			}
+			else if( randomVal < 0.75f )
+			{
+				behav = gameObject.AddComponent<BehavDefendActor>();
 			}
 			else
 			{
-				behav = new BehavOffenseAdvance();
+				behav = gameObject.AddComponent<BehavDefendBall>();
 			}
+			behav.sourceTeamIndex = actor.team.teamIndex;
 			behav.source = this.transform;
 			behav.target = this.transform;
 			behav.homePos = new Vector2(homePosition.x, homePosition.z);
+			behav.Scan();
 
 		}
 	}
