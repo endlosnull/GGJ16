@@ -219,27 +219,28 @@ public class Boss : Singleton<Boss>
 
 	void StartAgentActors()
 	{
-		for(int i=0; i<teams.Count;++i)
-		{
-			Team team = teams[i];
-			for(int j=team.actors.Count;j<4;++j)
-			{
-				Vector3 startPos = GetHomePos(team.teamIndex,team.actors.Count);
-				GameObject go = GameObjectFactory.Instance.Spawn("p-Actor", null, startPos, Quaternion.identity) ;
-				go.name = "agent["+i+"]"+j;
-				Actor actor = go.GetComponent<Actor>();
-				GameObject bodyObject = GameObjectFactory.Instance.Spawn("p-ActorBody", null, Vector3.zero, Quaternion.identity) ;
-				bodyObject.name = "herobody"+i;
-				bodyObject.transform.SetParent(actor.transform, false);
-				actor.body = bodyObject.GetComponent<ActorBody>();
+		//for(int i=0; i<teams.Count;++i)
+		//{
+		//	Team team = teams[i];
+		//	for(int j=team.actors.Count;j<4;++j)
+		//	{
+		//		Vector3 startPos = GetHomePos(team.teamIndex,team.actors.Count);
+		//		GameObject go = GameObjectFactory.Instance.Spawn("p-Actor", null, startPos, Quaternion.identity) ;
+		//		go.name = "agent["+i+"]"+j;
+		//		Actor actor = go.GetComponent<Actor>();
+		//		GameObject bodyObject = GameObjectFactory.Instance.Spawn("p-ActorBody", null, Vector3.zero, Quaternion.identity) ;
+		//		bodyObject.name = "herobody"+i;
+		//		bodyObject.transform.SetParent(actor.transform, false);
+		//		actor.body = bodyObject.GetComponent<ActorBody>();
+  //              actor.boss = this;
 
-				actor.controller = go.AddComponent<AgentController>();
-				RegisterActor(actor,team);
+  //              actor.controller = go.AddComponent<AgentController>();
+		//		RegisterActor(actor,team);
 
-				go.AddComponent<ActionSequencer>();
-				go.BroadcastMessage("OnSpawn", SendMessageOptions.DontRequireReceiver);
-			}
-		}
+		//		go.AddComponent<ActionSequencer>();
+		//		go.BroadcastMessage("OnSpawn", SendMessageOptions.DontRequireReceiver);
+		//	}
+		//}
 	}
 
 	void StartField()

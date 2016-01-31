@@ -95,7 +95,11 @@ public class Actor : MonoBehaviour
 
     public void TestObjectCollisions()
     {
-        Goal goal = this.boss.field.goal;
+        Field field = this.boss.field;
+        if (field == null)
+            return;
+
+        Goal goal = field.goal;
 
         Vector3 normal;
         float penetration;
