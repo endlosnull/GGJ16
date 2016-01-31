@@ -53,6 +53,10 @@ public class AgentController : ActorController
 			{
 				behav = new BehavOffenseAdvance();
 			}
+			behav.source = this.transform;
+			behav.target = this.transform;
+			behav.homePos = new Vector2(this.transform.position.x, this.transform.position.z);
+
 		}
 	}
 }

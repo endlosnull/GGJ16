@@ -17,13 +17,14 @@ public class Boss : Singleton<Boss>
 	[System.Serializable]
 	public enum State
 	{
+		None,
 		SettingUp,
 		PreGame,
 		Loadout,
 		InGame
 	}
 
-	public State state = State.SettingUp;
+	public State state = State.None;
 	public bool IsSettingUp { get { return state == State.SettingUp; } }
 	public bool IsInGame { get { return state == State.InGame; } }
 
@@ -36,6 +37,7 @@ public class Boss : Singleton<Boss>
 
 	void Awake()
 	{
+		ChangeState(State.SettingUp);
 		ChangeScreen.Invoke("SelectTeam");
 	}
 
@@ -87,9 +89,10 @@ public class Boss : Singleton<Boss>
 		}
 	}
 
-	public void ChangeStateInt(int nextStateIdx)
+
+	public void GotoInGame()
 	{
-		ChangeState((State)nextStateIdx);
+		ChangeState(State.InGame);
 	}
 
 	void ChangeState(State nextState)
@@ -177,21 +180,26 @@ public class Boss : Singleton<Boss>
 
 	void StartAgentActors()
 	{
+		Debug.Log("teams.Count"+teams.Count);
 		for(int i=0; i<teams.Count;++i)
 		{
-			GameObject go = GameObjectFactory.Instance.Spawn("p-Actor", null, Vector3.zero, Quaternion.identity) ;
-			go.name = "hero"+i;
-			Actor actor = go.GetComponent<Actor>();
-			GameObject bodyObject = GameObjectFactory.Instance.Spawn("p-ActorBodyOne", null, Vector3.zero, Quaternion.identity) ;
-			bodyObject.name = "herobody"+i;
-			bodyObject.transform.SetParent(actor.transform);
-			bodyObject.transform.localRotation = Quaternion.AngleAxis(-90f,Vector3.up);
-			actor.body = bodyObject.GetComponent<ActorBody>();
+			for(int j=0;j<3;++j)
+			{
+				GameObject go = GameObjectFactory.Instance.Spawn("p-Actor", null, Vector3.zero, Quaternion.identity) ;
+				Debug.Log("Make"+go);
+				go.name = "agent["+i+"]"+j;
+				Actor actor = go.GetComponent<Actor>();
+				GameObject bodyObject = GameObjectFactory.Instance.Spawn("p-ActorBodyOne", null, Vector3.zero, Quaternion.identity) ;
+				bodyObject.name = "herobody"+i;
+				bodyObject.transform.SetParent(actor.transform);
+				bodyObject.transform.localRotation = Quaternion.AngleAxis(-90f,Vector3.up);
+				actor.body = bodyObject.GetComponent<ActorBody>();
 
-			actor.controller = go.AddComponent<AgentController>();
+				actor.controller = go.AddComponent<AgentController>();
 
-			go.AddComponent<ActionSequencer>();
-			go.BroadcastMessage("OnSpawn", SendMessageOptions.DontRequireReceiver);
+				go.AddComponent<ActionSequencer>();
+				go.BroadcastMessage("OnSpawn", SendMessageOptions.DontRequireReceiver);
+			}
 		}
 	}
 
