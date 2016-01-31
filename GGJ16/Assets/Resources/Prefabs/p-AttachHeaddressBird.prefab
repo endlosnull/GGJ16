@@ -10,6 +10,7 @@ GameObject:
   - 4: {fileID: 422508}
   - 33: {fileID: 3357358}
   - 23: {fileID: 2326374}
+  - 114: {fileID: 11426738}
   m_Layer: 0
   m_Name: p-AttachHeaddressBird
   m_TagString: Untagged
@@ -62,6 +63,18 @@ MeshFilter:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 138858}
   m_Mesh: {fileID: 4300000, guid: 022fbf8f82879f04a9651fb8d187d81c, type: 3}
+--- !u!114 &11426738
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 138858}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ecd7c9a2c625bd2479526779b08a2387, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  pinToGround: 0
 --- !u!1001 &100100000
 Prefab:
   m_ObjectHideFlags: 1

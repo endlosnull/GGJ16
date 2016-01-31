@@ -456,6 +456,11 @@ MonoBehaviour:
         m_CallState: 2
     m_TypeName: UpdateTimeEvent, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
       PublicKeyToken=null
+  ChangeScreen:
+    m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: ChangeScreenEvent, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+      PublicKeyToken=null
 --- !u!4 &437234816
 Transform:
   m_ObjectHideFlags: 0

@@ -24,6 +24,7 @@ public class Boss : Singleton<Boss>
 {
     public ScoreUpdateEvent ScoreUpdate = new ScoreUpdateEvent();
 	public List<User> users  = new List<User>();
+	public List<User> Users { get { return users; } }
     public int[] Scores = new int[] {0, 0};
 
     [System.Serializable]
@@ -148,13 +149,14 @@ public class Boss : Singleton<Boss>
 			bodyObject.name = "herobody"+i;
 			bodyObject.transform.SetParent(actor.transform);
 			bodyObject.transform.localRotation = Quaternion.AngleAxis(-90f,Vector3.up);
-			actor.body = bodyObject.GetComponent<Body>();
+			actor.body = bodyObject.GetComponent<ActorBody>();
 			GameObject attachObject = GameObjectFactory.Instance.Spawn("p-AttachHeaddressBird", null, Vector3.zero, Quaternion.identity) ;
 			attachObject.name = "attachment"+i;
-			attachObject.transform.SetParent(bodyObject.transform);
-			attachObject.transform.localPosition = Vector3.up*0.65f;
-			attachObject.transform.localRotation = Quaternion.identity;
-			actor.body.attachments.Add(attachObject);
+			actor.body.AttachToBone(attachObject, "Head");
+			if( attachObject )
+			{
+				actor.body.attachments.Add(attachObject);
+			}
 			users[i].controlledActor = actor;
 
 			//if it is local
