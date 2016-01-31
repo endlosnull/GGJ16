@@ -6,22 +6,22 @@ public class Body : MonoBehaviour
 
 	
 	public Transform root;
-	public Renderer primaryRenderer;
+	public GameObject modelRoot;
 	public List<GameObject> attachments = new List<GameObject>();
 
-	Quaternion defaultRendererRotation = Quaternion.identity;
+	Quaternion defaultModelRotation = Quaternion.identity;
 	float skew = 40f;
 
 	
 	public void OnSpawn()
 	{
 		root = this.transform.parent;
-		defaultRendererRotation = primaryRenderer.transform.rotation;
+		defaultModelRotation = modelRoot.transform.rotation;
 	}
 
 	public virtual void Update()
 	{
-		primaryRenderer.transform.rotation = Quaternion.AngleAxis(skew, Vector3.right)*defaultRendererRotation*root.rotation;
+		modelRoot.transform.rotation = Quaternion.AngleAxis(skew, Vector3.right)*defaultModelRotation*root.rotation;
 		
 	}
 
@@ -30,7 +30,7 @@ public class Body : MonoBehaviour
 		Transform foundBone = transform.Find(boneName);
 		if( foundBone != null )
 		{
-			go.transform.SetParent(foundBone);
+			go.transform.SetParent(foundBone, false);
 		}
 		else
 		{
