@@ -16,6 +16,8 @@ class ActionBrickVisuals
 
 public class SelectActionsMenu : MenuBehaviour
 {
+	public int BrickSize = 200;
+
 	List<Transform> actions = new List<Transform>();
 	public Transform ActionBrick;
 	List<CursorPosition> cursorPositions = new List<CursorPosition>();
@@ -59,7 +61,7 @@ public class SelectActionsMenu : MenuBehaviour
 
 			var cube = Instantiate(ActionBrick);
 			cube.SetParent(canvasTransform);
-			cube.localPosition = new Vector3(i * 200 - 200, j * 200 - 200, 0);
+			cube.localPosition = new Vector3(i * BrickSize - BrickSize, j * BrickSize - BrickSize, 0);
 			cube.Find("BrickText").GetComponent<Text>().text = actionBricks[n].name;
 
 			var sprite = Resources.Load<Sprite>(actionBricks[n].image);
@@ -101,7 +103,6 @@ public class SelectActionsMenu : MenuBehaviour
 				cp.j--;
 				break;
 		}
-		//Debug.Log("cp" + cp);
-		this.Cursors[idx].localPosition = new Vector3(cp.i * 200 - 200, cp.j * 200 - 400, 0);
+		this.Cursors[idx].localPosition = new Vector3(cp.i * BrickSize - BrickSize, cp.j * BrickSize - BrickSize, 0);
 	}
 }
