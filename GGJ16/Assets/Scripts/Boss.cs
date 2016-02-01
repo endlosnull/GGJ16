@@ -10,11 +10,11 @@ public class Boss : HardSingleton<Boss>
 	public List<User> users = new List<User>();
 	public Field field;
 	public List<User> Users { get { return users; } }
-	List<Team> teams  = new List<Team>();
+	List<Team> teams = new List<Team>();
 	public List<Team> Teams { get { return teams; } }
 	public SequenceUpdatedEvent SequenceUpdated = new SequenceUpdatedEvent();
 
-	User aiuser; 
+	User aiuser;
 
 	[System.Serializable]
 	public enum State
@@ -26,6 +26,7 @@ public class Boss : HardSingleton<Boss>
 		StartingGame,
 		InGame,
 		EndingGame,
+		Splash
 	}
 
 	public State state = State.None;
@@ -41,23 +42,26 @@ public class Boss : HardSingleton<Boss>
 	public Texture masterPaletteMain;
 	public Texture masterPaletteAlt;
 
-	float inputLock = -1f;
-
+	float inputLock = 3f;
 
 	void Awake()
 	{
-		ChangeState(State.SettingUp);
-		ChangeScreen.Invoke("SelectTeam");
+		ChangeState(State.Splash);
+		ChangeScreen.Invoke("Splash");
 	}
 
 	public void Update()
 	{
 		float deltaTime = Time.deltaTime;
-		if( inputLock > 0f)
+		if (inputLock > 0f)
 		{
 			inputLock -= deltaTime;
-	}
-		if( Field.HasInstance )
+		}
+		else if (state == State.Splash)
+		{
+			ChangeState(State.SettingUp);
+		}
+		if (Field.HasInstance)
 		{
 			UpdateTime.Invoke(Field.Instance.GameTime);
 		}
@@ -156,7 +160,7 @@ public class Boss : HardSingleton<Boss>
 
 	void ClearActors()
 	{
-		foreach(Team team in teams)
+		foreach (Team team in teams)
 		{
 			team.WipeActors();
 		}
@@ -164,7 +168,7 @@ public class Boss : HardSingleton<Boss>
 
 	void ClearUsers()
 	{
-		foreach(User user in users)
+		foreach (User user in users)
 		{
 			Destroy(user);
 		}
@@ -176,7 +180,7 @@ public class Boss : HardSingleton<Boss>
 	{
 		users.Clear();
 		StartTeams();
-        GameObjectFactory.Instance.Precache("p-Field",2);
+		GameObjectFactory.Instance.Precache("p-Field", 2);
 	}
 
 	void StartGame()
@@ -188,39 +192,39 @@ public class Boss : HardSingleton<Boss>
 		aiuser.DefaultAISequences();
 		users.Add(aiuser);
 
-        StartField();
-        StartUserActors();
-        StartAgentActors();
-        foreach(Team team in Boss.Instance.Teams)
+		StartField();
+		StartUserActors();
+		StartAgentActors();
+		foreach (Team team in Boss.Instance.Teams)
 		{
 			team.SetScore(0);
-        }
-        field.SetState(Field.State.SettingUp);
+		}
+		field.SetState(Field.State.SettingUp);
 
 
-    }
+	}
 
 	void StartLoadout()
 	{
 
 	}
 
-    void StartTeams()
-    {
-    	teams.Clear();
-    	GameObject goLeft = new GameObject();
+	void StartTeams()
+	{
+		teams.Clear();
+		GameObject goLeft = new GameObject();
 		goLeft.name = "TeamLeft";
 		Team teamLeft = goLeft.AddComponent<Team>();
 		teamLeft.teamIndex = 0;
 		teamLeft.teamColor = Color.blue;
 		teams.Add(teamLeft);
-    	GameObject goRight = new GameObject();
+		GameObject goRight = new GameObject();
 		goRight.name = "TeamRight";
 		Team teamRight = goRight.AddComponent<Team>();
 		teamRight.teamIndex = 1;
 		teamRight.teamColor = Color.red;
 		teams.Add(teamRight);
-    }
+	}
 
 
 	void RegisterActor(Actor actor, Team team)
@@ -234,32 +238,32 @@ public class Boss : HardSingleton<Boss>
 	public void SetOffenseTeam(Team team)
 	{
 		bool freeBall = team == null;
-		for(int i=0; i<teams.Count; ++i)
+		for (int i = 0; i < teams.Count; ++i)
 		{
-			if(freeBall)
+			if (freeBall)
 			{
 				teams[i].isOffense = false;
 				teams[i].isDefense = false;
 			}
-			else if( teams[i] == team )
+			else if (teams[i] == team)
 			{
 				teams[i].isOffense = true;
 				teams[i].isDefense = false;
 			}
-			else if( teams[i] != team )
+			else if (teams[i] != team)
 			{
 				teams[i].isOffense = false;
 				teams[i].isDefense = true;
 			}
-			
+
 		}
 	}
 
-    void StartUserActors()
-    {
+	void StartUserActors()
+	{
 		for (int i = 0; i < users.Count; ++i)
 		{
-			if( !users[i].isLocalHuman )
+			if (!users[i].isLocalHuman)
 			{
 				continue;
 			}
@@ -276,7 +280,7 @@ public class Boss : HardSingleton<Boss>
 			bodyObject.name = "herobody" + i;
 			bodyObject.transform.SetParent(actor.transform, false);
 			actor.body = bodyObject.GetComponent<ActorBody>();
-			if( i == 0 )
+			if (i == 0)
 			{
 				actor.body.SetTexture(masterPaletteMain);
 			}
@@ -287,14 +291,14 @@ public class Boss : HardSingleton<Boss>
 			GameObject attachObject = null;
 			switch (team.teamIndex)
 			{
-			case 0:
-				attachObject = GameObjectFactory.Instance.Spawn("p-AttachHeaddressCat", null, Vector3.zero, Quaternion.identity);
-				break;
-			case 1:
-				attachObject = GameObjectFactory.Instance.Spawn("p-AttachHeaddressBird", null, Vector3.zero, Quaternion.identity);
-				break;
-			default:
-				break;
+				case 0:
+					attachObject = GameObjectFactory.Instance.Spawn("p-AttachHeaddressCat", null, Vector3.zero, Quaternion.identity);
+					break;
+				case 1:
+					attachObject = GameObjectFactory.Instance.Spawn("p-AttachHeaddressBird", null, Vector3.zero, Quaternion.identity);
+					break;
+				default:
+					break;
 			}
 
 			if (attachObject != null)
@@ -307,40 +311,40 @@ public class Boss : HardSingleton<Boss>
 			}
 
 			users[i].controlledActor = actor;
-			
+
 			actor.sequencer = go.AddComponent<ActionSequencer>();
 			actor.sequencer.LoadSequence(users[i].sequences);
 			GameObject.Find("Ritual_" + i).GetComponent<SequenceHud>().sequencer = actor.sequencer;
 
 			actor.controller = go.AddComponent<ActorController>();
 			actor.isHuman = true;
-			
+
 			RegisterActor(actor, team);
 
 			go.BroadcastMessage("OnSpawn", SendMessageOptions.DontRequireReceiver);
 		}
-		
+
 	}
 
 	void StartAgentActors()
 	{
-        for (int i=0; i<teams.Count;++i)
+		for (int i = 0; i < teams.Count; ++i)
 		{
 			Team team = teams[i];
-			for(int j=team.actors.Count;j<4;++j)
+			for (int j = team.actors.Count; j < 4; ++j)
 			{
 
 				Vector2 startPos = team.GetSpawnPos(team.actors.Count);
 				Vector3 startVec = new Vector3(startPos.x, 0, startPos.y);
-				GameObject go = GameObjectFactory.Instance.Spawn("p-Actor", null, startVec, Quaternion.identity) ;
-				go.name = "agent["+i+"]"+team.GetName(j);
+				GameObject go = GameObjectFactory.Instance.Spawn("p-Actor", null, startVec, Quaternion.identity);
+				go.name = "agent[" + i + "]" + team.GetName(j);
 				Actor actor = go.GetComponent<Actor>();
 
-				GameObject bodyObject = GameObjectFactory.Instance.Spawn("p-ActorBody", null, Vector3.zero, Quaternion.identity) ;
-				bodyObject.name = "herobody"+i;
+				GameObject bodyObject = GameObjectFactory.Instance.Spawn("p-ActorBody", null, Vector3.zero, Quaternion.identity);
+				bodyObject.name = "herobody" + i;
 				bodyObject.transform.SetParent(actor.transform, false);
 				actor.body = bodyObject.GetComponent<ActorBody>();
-				if( i == 0 )
+				if (i == 0)
 				{
 					actor.body.SetTexture(masterPaletteMain);
 				}
@@ -353,7 +357,7 @@ public class Boss : HardSingleton<Boss>
 				actor.sequencer.LoadSequence(aiuser.sequences);
 				actor.controller = go.AddComponent<AgentController>();
 				actor.isHuman = false;
-				RegisterActor(actor,team);
+				RegisterActor(actor, team);
 
 
 
@@ -365,14 +369,14 @@ public class Boss : HardSingleton<Boss>
 
 	void StartField()
 	{
-		if(!Field.HasInstance)
+		if (!Field.HasInstance)
 		{
-			GameObject fieldObject = GameObjectFactory.Instance.Spawn("p-Field", null, Vector3.zero, Quaternion.identity) ;
+			GameObject fieldObject = GameObjectFactory.Instance.Spawn("p-Field", null, Vector3.zero, Quaternion.identity);
 			fieldObject.name = "Field";
 			field = fieldObject.GetComponent<Field>();
-			HardSingleton<Field>.SingletonInit(field);	
+			HardSingleton<Field>.SingletonInit(field);
 		}
-		
+
 	}
 
 	public void FixedUpdate()
@@ -400,12 +404,12 @@ public class Boss : HardSingleton<Boss>
 		}
 		if (btnStart && inputLock <= 0f)
 		{
-			if(state == State.SettingUp)
+			if (state == State.SettingUp)
 			{
 				GotoLoadout();
 				inputLock = 0.5f;
 			}
-			else if(state == State.Loadout)
+			else if (state == State.Loadout)
 			{
 				GotoStartGame();
 			}
