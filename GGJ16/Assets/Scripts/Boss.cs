@@ -212,13 +212,13 @@ public class Boss : HardSingleton<Boss>
 		goLeft.name = "TeamLeft";
 		Team teamLeft = goLeft.AddComponent<Team>();
 		teamLeft.teamIndex = 0;
-		teamLeft.teamColor = Color.red;
+		teamLeft.teamColor = Color.blue;
 		teams.Add(teamLeft);
     	GameObject goRight = new GameObject();
 		goRight.name = "TeamRight";
 		Team teamRight = goRight.AddComponent<Team>();
 		teamRight.teamIndex = 1;
-		teamRight.teamColor = Color.blue;
+		teamRight.teamColor = Color.red;
 		teams.Add(teamRight);
     }
 
