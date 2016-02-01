@@ -130,6 +130,11 @@ public class Actor : GameEntity
         Ball ball = this.ownedBall;
         LosePossession();
 
+		LockInput effect = new LockInput();
+		effect.duration = 0.5f;
+		effect.target = gameObject;
+		AddStatusEffect(effect);
+
         ball.physics.velocity += Vector3.down * 8;
         AudioManager.Instance.PlayOneShot(controller.actor.audioSource, AudioManager.Instance.swat);
     }
