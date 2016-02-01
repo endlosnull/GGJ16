@@ -12,6 +12,7 @@ public class UIPlaceholder : MonoBehaviour
 	{
 		RectTransform localTransform = this.transform as RectTransform;
 		GameObject realObject = GameObjectFactory.Instance.SpawnUI(realname, localTransform.parent);
+		realObject.name = realObject.name+" from "+this.name;
 		RectTransform realTransform = realObject.transform as RectTransform;
 		realTransform.sizeDelta = localTransform.sizeDelta;
 		realTransform.anchoredPosition = localTransform.anchoredPosition;

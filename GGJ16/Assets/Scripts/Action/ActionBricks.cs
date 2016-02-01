@@ -25,6 +25,7 @@ public class ActionBricks
     static public void AddRightDash(GameObject gameObject, ActionSequence sequence)
     {
         SideDash action = new SideDash();
+		action.name = "left dash";
         action.source = gameObject;
         action.force = 3f;
         action.left = false;
@@ -35,7 +36,8 @@ public class ActionBricks
     static public void AddLeftDash(GameObject gameObject, ActionSequence sequence)
     {
         SideDash action = new SideDash();
-        action.source = gameObject;
+		action.name = "right dash";
+		action.source = gameObject;
         action.force = 3f;
         action.left = true;
         action.duration = 0.4f;
@@ -84,6 +86,7 @@ public class ActionBricks
     static public void AddTurnAround(GameObject gameObject, ActionSequence sequence)
     {
         Turn action = new Turn();
+        action.name = "turn around";
         action.source = gameObject;
         action.angleDegrees = 180;
         action.actionTime = 0.1f;
@@ -93,6 +96,7 @@ public class ActionBricks
     static public void AddTurnRight(GameObject gameObject, ActionSequence sequence)
     {
         Turn action = new Turn();
+        action.name = "turn right";
         action.source = gameObject;
         action.angleDegrees = 90;
         action.actionTime = 0.1f;
@@ -102,6 +106,7 @@ public class ActionBricks
     static public void AddTurnLeft(GameObject gameObject, ActionSequence sequence)
     {
         Turn action = new Turn();
+        action.name = "turn left";
         action.source = gameObject;
         action.angleDegrees = 90;
         action.actionTime = 0.1f;

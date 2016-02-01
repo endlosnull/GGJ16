@@ -36,6 +36,7 @@ public class Boss : HardSingleton<Boss>
 	public UpdateTimeEvent UpdateTime = new UpdateTimeEvent();
 	public ChangeScreenEvent ChangeScreen = new ChangeScreenEvent();
 	public MoveCursorEvent MoveCursor = new MoveCursorEvent();
+	public AddActionEvent AddAction = new AddActionEvent();
 
 	public Texture masterPaletteMain;
 	public Texture masterPaletteAlt;
@@ -211,11 +212,13 @@ public class Boss : HardSingleton<Boss>
 		goLeft.name = "TeamLeft";
 		Team teamLeft = goLeft.AddComponent<Team>();
 		teamLeft.teamIndex = 0;
+		teamLeft.teamColor = Color.red;
 		teams.Add(teamLeft);
     	GameObject goRight = new GameObject();
 		goRight.name = "TeamRight";
 		Team teamRight = goRight.AddComponent<Team>();
 		teamRight.teamIndex = 1;
+		teamRight.teamColor = Color.blue;
 		teams.Add(teamRight);
     }
 
@@ -406,6 +409,10 @@ public class Boss : HardSingleton<Boss>
 			{
 				GotoStartGame();
 			}
+		}
+		if (btnAlpha || btnBravo)
+		{
+			AddAction.Invoke(idx, btnAlpha ? ActionMenuAction.Alpha : ActionMenuAction.Bravo);
 		}
 	}
 

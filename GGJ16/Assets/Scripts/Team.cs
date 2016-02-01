@@ -9,6 +9,7 @@ public class Team : MonoBehaviour
 	public int score;
 	public bool isDefense;
 	public bool isOffense;
+	public Color teamColor = Color.red;
 
 	public Actor bestBallHawk;
 	Timer repositionTimer = new Timer(10f,true);
