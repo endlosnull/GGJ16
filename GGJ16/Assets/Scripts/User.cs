@@ -17,24 +17,8 @@ public class User : MonoBehaviour
 		{
 			sequences.Add(new ActionSequence());
 		}
-		// TEST SEQUENCE
-        int seqInd = 0;
-		sequences[seqInd].actions.Clear();
-        //ActionBricks.AddSwat(null, sequences[seqInd]);
-        //ActionBricks.AddGrab(null, sequences[seqInd]);
-        //ActionBricks.AddBackDash(null, sequences[seqInd]);
-        //ActionBricks.AddJump(null, sequences[seqInd]);
-        //ActionBricks.AddTurnRight(null, sequences[seqInd]);
-        //ActionBricks.AddThrow(null, sequences[seqInd]);
-        ActionBricks.AddForwardDash(null, sequences[seqInd]);
-        ActionBricks.AddGrab(null, sequences[seqInd]);
-
-        seqInd++;
-        sequences[seqInd].actions.Clear();
-        ActionBricks.AddSwat(null, sequences[seqInd]);
-        //ActionBricks.AddTurnRight(null, sequences[seqInd]);
-        ActionBricks.AddJump(null, sequences[seqInd]);
-        ActionBricks.AddThrow(null, sequences[seqInd]);
+		sequences[0].actions.Clear();
+        sequences[1].actions.Clear();
 	}
 
 	public void DefaultAISequences()

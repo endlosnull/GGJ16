@@ -6,8 +6,11 @@ public class Ball : GameEntity
     public Field field;
 	public TrailRenderer trail;
     public AudioSource audioSource;
+	public Renderer vfxRenderer;
     private bool passedThroughGoal = false;
     private int scoringTeam = 0;
+
+	Color defaultColor =  new Color(0f,0f,0f,0.3f);
 
     public override void OnSpawn()
     {
@@ -15,6 +18,7 @@ public class Ball : GameEntity
         this.physics.fullStop = 1.0f;
         this.physics.bounce = 0.5f;
         this.physics.audioSource = audioSource;
+		this.vfxRenderer.material.color = defaultColor;
 
         base.OnSpawn();
     }
@@ -123,4 +127,17 @@ public class Ball : GameEntity
 
         this.physics.velocity = Quaternion.AngleAxis(angle, Vector3.up) * this.physics.velocity;
     }
+
+	public override void SetUnityPhysics(bool value)
+	{
+		base.SetUnityPhysics(value);
+		if (value)
+		{
+			vfxRenderer.enabled = false;
+		}
+		else
+		{
+			vfxRenderer.enabled = true;
+		}
+	}
 }
