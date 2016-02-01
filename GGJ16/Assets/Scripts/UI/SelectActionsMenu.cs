@@ -56,43 +56,47 @@ public class SelectActionsMenu : MenuBehaviour
 
 			RectTransform tr = cornerAnchor.transform as RectTransform;
 			tr.anchoredPosition = GetCornerPos(r);
-			Vector2 offsetMin = Vector2.zero;
-			bool bottomSide = tr.anchoredPosition.y < -100;
 			int padding = 20;
 
 			tr = cornerAnchors[r].cursor.transform as RectTransform;
-			tr.anchoredPosition = bottomSide ? new Vector2(32,41) : new Vector2(32,-41);
+			tr.anchoredPosition = new Vector2(34,-30);
 			tr = cornerAnchors[r].cursorText.transform as RectTransform;
-			tr.anchoredPosition = offsetMin;
-			offsetMin.y += padding*(bottomSide?1:-1);
+			tr.anchoredPosition = new Vector2(31,padding+5);
+			tr = cornerAnchors[r].btnAlphaText.transform as RectTransform;
+			tr.anchoredPosition = new Vector2(5,0);
+			tr = cornerAnchors[r].btnBravoText.transform as RectTransform;
+			tr.anchoredPosition = new Vector2(66,0);
+
+			Vector2 offsetMin = Vector2.zero;
+			offsetMin.y -= padding;
 			tr = cornerAnchors[r].brickAlpha0Text.transform as RectTransform;
 			tr.anchoredPosition = offsetMin;
-			offsetMin.y += padding*(bottomSide?1:-1);
+			offsetMin.y -= padding;
 			tr = cornerAnchors[r].brickAlpha1Text.transform as RectTransform;
 			tr.anchoredPosition = offsetMin;
-			offsetMin.y += padding*(bottomSide?1:-1);
+			offsetMin.y -= padding;
 			tr = cornerAnchors[r].brickAlpha2Text.transform as RectTransform;
 			tr.anchoredPosition = offsetMin;
-			offsetMin.y += padding*(bottomSide?1:-1);
+			offsetMin.y -= padding;
 			tr = cornerAnchors[r].brickAlpha3Text.transform as RectTransform;
 			tr.anchoredPosition = offsetMin;
-			offsetMin.y += padding*(bottomSide?1:-1);
+			offsetMin.y -= padding;
 
 			offsetMin = Vector2.zero;
-			offsetMin.x += padding*4;
-			offsetMin.y += padding*(bottomSide?1:-1);
+			offsetMin.x += 75;
+			offsetMin.y -= padding;
 			tr = cornerAnchors[r].brickBravo0Text.transform as RectTransform;
 			tr.anchoredPosition = offsetMin;
-			offsetMin.y += padding*(bottomSide?1:-1);
+			offsetMin.y -= padding;
 			tr = cornerAnchors[r].brickBravo1Text.transform as RectTransform;
 			tr.anchoredPosition = offsetMin;
-			offsetMin.y += padding*(bottomSide?1:-1);
+			offsetMin.y -= padding;
 			tr = cornerAnchors[r].brickBravo2Text.transform as RectTransform;
 			tr.anchoredPosition = offsetMin;
-			offsetMin.y += padding*(bottomSide?1:-1);
+			offsetMin.y -= padding;
 			tr = cornerAnchors[r].brickBravo3Text.transform as RectTransform;
 			tr.anchoredPosition = offsetMin;
-			offsetMin.y += padding*(bottomSide?1:-1);
+			offsetMin.y -= padding;
 
 			
 		}
@@ -182,9 +186,9 @@ public class SelectActionsMenu : MenuBehaviour
 		{
 			default:
 			case 0: return new Vector2(-300, -390); 
-			case 1: return new Vector2(300, -390); 
-			case 2: return new Vector2(300, -10);
-			case 3: return new Vector2(-300, -10);
+			case 1: return new Vector2(278, -390); 
+			case 2: return new Vector2(278, -30);
+			case 3: return new Vector2(-300, -30);
 		}
 	}
 

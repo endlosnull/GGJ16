@@ -18,6 +18,7 @@ public class SelectTeamMenu : MenuBehaviour {
 
 	public Transform CatsTeamLabel;
 	public Transform BirdsTeamLabel;
+	public Transform StartWhenReady;
 
 	// Use this for initialization
 	public override void Start()
@@ -36,6 +37,7 @@ public class SelectTeamMenu : MenuBehaviour {
 	void Update () {
 		int j = 0;
 		List<User> users = Boss.Instance.users;
+		StartWhenReady.gameObject.SetActive(users.Count > 0);
 		for(int i=0; i < users.Count; ++i)
 		{
 			if(users[i].isLocalHuman && j<this.Cursors.Count)

@@ -225,9 +225,9 @@ Prefab:
       propertyPath: m_Pivot.y
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 158326, guid: 46c7f32152adab24284ad331adb624d7, type: 2}
-      propertyPath: m_IsActive
-      value: 1
+    - target: {fileID: 11462914, guid: 46c7f32152adab24284ad331adb624d7, type: 2}
+      propertyPath: m_Text
+      value: PRESS ENTER/START WHEN READY
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 46c7f32152adab24284ad331adb624d7, type: 2}

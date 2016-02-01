@@ -189,8 +189,12 @@ public class Boss : HardSingleton<Boss>
 		go.name = "aiuser";
 		aiuser = go.AddComponent<User>();
 		aiuser.isLocalHuman = false;
-		aiuser.DefaultAISequences();
 		users.Add(aiuser);
+		foreach(User user in users)
+		{
+			user.FillInEmptySequences();
+		}
+		
 
 		StartField();
 		StartUserActors();

@@ -8,6 +8,8 @@ public class CornerAnchor : MonoBehaviour
 {
 	public RectTransform cursor;
 	public Text cursorText;
+	public Text btnAlphaText;
+	public Text btnBravoText;
 	public Text brickAlpha0Text;
 	public Text brickAlpha1Text;
 	public Text brickAlpha2Text;
