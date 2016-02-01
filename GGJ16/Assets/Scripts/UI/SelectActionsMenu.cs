@@ -181,8 +181,8 @@ public class SelectActionsMenu : MenuBehaviour
 		switch(idx)
 		{
 			default:
-			case 0: return new Vector2(-300, -190); 
-			case 1: return new Vector2(300, -190); 
+			case 0: return new Vector2(-300, -390); 
+			case 1: return new Vector2(300, -390); 
 			case 2: return new Vector2(300, -10);
 			case 3: return new Vector2(-300, -10);
 		}
