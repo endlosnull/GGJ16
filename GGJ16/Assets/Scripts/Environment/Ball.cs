@@ -60,7 +60,7 @@ public class Ball : GameEntity
             float normalAngle = Mathf.Atan2(normal.x, normal.z) / Mathf.PI * 180;
             float goalAngle = 90 + Mathf.Atan2(this.transform.forward.x, this.transform.forward.z) / Mathf.PI * 180;
 
-            float scoreArc = 125;
+            float scoreArc = 130;
             normalAngle -= goalAngle;
             normalAngle = PutAngleInRange(normalAngle);
             float normalAngleOp = PutAngleInRange(normalAngle + 180);
