@@ -61,7 +61,7 @@ public class SelectActionsMenu : MenuBehaviour
 			int padding = 20;
 
 			tr = cornerAnchors[r].cursor.transform as RectTransform;
-			tr.anchoredPosition = new Vector2(17,-25);
+			tr.anchoredPosition = bottomSide ? new Vector2(32,41) : new Vector2(32,-41);
 			tr = cornerAnchors[r].cursorText.transform as RectTransform;
 			tr.anchoredPosition = offsetMin;
 			offsetMin.y += padding*(bottomSide?1:-1);
