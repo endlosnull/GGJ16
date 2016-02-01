@@ -387,7 +387,18 @@ MonoBehaviour:
       PublicKeyToken=null
   AddAction:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1365326026}
+        m_MethodName: AddAction
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
     m_TypeName: AddActionEvent, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
       PublicKeyToken=null
   masterPaletteMain: {fileID: 2800000, guid: 62ee838b6bb44cd41997ce832f4374fd, type: 3}
