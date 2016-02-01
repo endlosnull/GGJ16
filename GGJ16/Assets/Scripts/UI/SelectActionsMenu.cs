@@ -142,7 +142,7 @@ public class SelectActionsMenu : MenuBehaviour
 		{
 			Type actionBricks = typeof(ActionBricks);
 			var method = actionBricks.GetMethod(actionMethods[actionIndex]);
-			object[] p = new object[] { null, Boss.Instance.Users[idx].sequences[0] };
+			object[] p = new object[] { null, Boss.Instance.Users[idx].sequences[1] };
 			method.Invoke(null, p);
 			Debug.Log("method" + actionMethods[actionIndex]);
 		}
