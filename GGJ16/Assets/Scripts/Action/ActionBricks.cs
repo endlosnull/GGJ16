@@ -4,12 +4,21 @@ using System.Collections.Generic;
 
 public class ActionBricks
 {
+    static public void QueuePop(ActionSequence sequence, int max)
+    {
+        while(sequence.actions.Count > max)
+        {
+            sequence.actions.RemoveAt(0);
+        }
+    }
+
     static public void AddForwardDash(GameObject gameObject, ActionSequence sequence)
     {
         ForwardDash action = new ForwardDash();
         action.source = gameObject;
         action.force = 6f;
         action.duration = 0.4f;
+        QueuePop(sequence,3);
         sequence.actions.Add(action);
     }
 
@@ -19,6 +28,7 @@ public class ActionBricks
         action.source = gameObject;
         action.force = 6f;
         action.duration = 0.4f;
+        QueuePop(sequence,3);
         sequence.actions.Add(action);
     }
 
@@ -30,6 +40,7 @@ public class ActionBricks
         action.force = 3f;
         action.left = false;
         action.duration = 0.4f;
+        QueuePop(sequence,3);
         sequence.actions.Add(action);
     }
 
@@ -41,6 +52,7 @@ public class ActionBricks
         action.force = 3f;
         action.left = true;
         action.duration = 0.4f;
+        QueuePop(sequence,3);
         sequence.actions.Add(action);
     }
 
@@ -51,6 +63,7 @@ public class ActionBricks
         action.range = 2.0f;
         action.yRange = 1.0f;
         action.duration = 0.2f;
+        QueuePop(sequence,3);
         sequence.actions.Add(action);
     }
 
@@ -60,6 +73,7 @@ public class ActionBricks
         action.source = gameObject;
         action.range = 2.0f;
         action.duration = 0.2f;
+        QueuePop(sequence,3);
         sequence.actions.Add(action);
     }
 
@@ -69,6 +83,7 @@ public class ActionBricks
         action.source = gameObject;
         action.force = 5f;
         action.duration = 0.5f;
+        QueuePop(sequence,3);
         sequence.actions.Add(action);
     }
 
@@ -80,6 +95,7 @@ public class ActionBricks
         action.forceUp = 3f;
         action.duration = 0.2f;
         action.actionTime = 0.1f;
+        QueuePop(sequence,3);
         sequence.actions.Add(action);
     }
 
@@ -90,6 +106,7 @@ public class ActionBricks
         action.source = gameObject;
         action.angleDegrees = 180;
         action.actionTime = 0.1f;
+        QueuePop(sequence,3);
         sequence.actions.Add(action);
     }
 
@@ -100,6 +117,7 @@ public class ActionBricks
         action.source = gameObject;
         action.angleDegrees = 90;
         action.actionTime = 0.1f;
+        QueuePop(sequence,3);
         sequence.actions.Add(action);
     }
 
@@ -110,6 +128,7 @@ public class ActionBricks
         action.source = gameObject;
         action.angleDegrees = 90;
         action.actionTime = 0.1f;
+        QueuePop(sequence,3);
         sequence.actions.Add(action);
     }
 }
