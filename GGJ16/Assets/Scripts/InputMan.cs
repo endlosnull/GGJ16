@@ -41,7 +41,10 @@ public class InputMan : Singleton<InputMan>
 
 		if (Input.GetKeyDown(KeyCode.F1))
 		{
-			Field.Instance.OnScore(Mathf.RoundToInt(Random.value));
+			if (Field.HasInstance)
+			{
+				Field.Instance.OnScore(Mathf.RoundToInt(Random.value));
+			}
 		}
 
 		if (Input.GetKeyDown(KeyCode.F2))
