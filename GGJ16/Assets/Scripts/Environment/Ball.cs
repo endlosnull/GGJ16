@@ -81,8 +81,8 @@ public class Ball : GameEntity
                 bool passedGoal = (this.physics.velocity.x > 0) == (posDiff.x > 0);
                 if (this.field.RoundActive)
                 {
-                    int angleScoringTeam = (Mathf.Abs(normalAngle) < 90) ? 1 : 0;
-                    int dirScoringTeam = (this.physics.velocity.x > 0) ? 1 : 0;
+                    int angleScoringTeam = (Mathf.Abs(normalAngle) < 90) ? 0 : 1;
+                    int dirScoringTeam = (this.physics.velocity.x > 0) ? 0 : 1;
                     if (passedGoal && !this.passedThroughGoal && dirScoringTeam == angleScoringTeam)
                     {
                         this.passedThroughGoal = true;

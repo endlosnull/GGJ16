@@ -273,6 +273,7 @@ MonoBehaviour:
   goal: {fileID: 0}
   ball: {fileID: 0}
   allActors: []
+  allSpectators: []
   arrows:
   - {fileID: 2362898}
   - {fileID: 2349186}
@@ -311,6 +312,14 @@ Prefab:
       propertyPath: m_UseGravity
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: arrows.Array.data[1]
+      value: 
+      objectReference: {fileID: 2349186}
+    - target: {fileID: 0}
+      propertyPath: arrows.Array.data[0]
+      value: 
+      objectReference: {fileID: 2362898}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}
   m_RootGameObject: {fileID: 120774}
